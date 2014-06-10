@@ -33,6 +33,7 @@ object DoctestPlugin extends Plugin {
             }.toSeq
       }
     },
-    sourceGenerators in Test += doctestGenTests.taskValue
+    sourceGenerators in Test += doctestGenTests.taskValue,
+    libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.0" % "test"
   )
 }
