@@ -17,7 +17,9 @@ A sample doctest.
 	/**
 	 * Sample function
 	 *
+	 * {{{
 	 * >>> f(10)
 	 * 20
+	 * }}}
 	 */
 	def f(x: Int) = x + x
