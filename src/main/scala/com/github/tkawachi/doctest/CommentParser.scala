@@ -11,7 +11,7 @@ object CommentParser extends RegexParsers {
   def anyLine = ".*".r <~ eol ^^ (_ => None)
   def lines = rep(example | anyLine) <~ ".*".r ^^ (_.flatten)
   def leadingChars = "[/\\* \t]".r
-  def exprPrompt = rep(leadingChars) <~ ">>> ".r ^^ { _.size }
+  def exprPrompt = rep(leadingChars) <~ ">>> " ^^ { _.size }
   def strRep1 = positioned(".+".r ^^ { PositionedString })
   def exprLine = exprPrompt ~ strRep1 <~ eol
   def exampleLine = rep(leadingChars) ~ ".+".r <~ eol
