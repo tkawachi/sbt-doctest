@@ -1,5 +1,7 @@
 package com.github.tkawachi.doctest
 
+import com.github.tkawachi.doctest.CommentParser.Extracted
+
 import scala.tools.nsc.doc.{ DocParser, Settings }
 import java.io.File
 
@@ -25,30 +27,17 @@ class Extractor {
       }
   }
 
-  private[this] def extract(parsed: DocParser.Parsed): Seq[Example] = {
-    val examples = Seq.newBuilder[Example]
+  private[this] def extract(parsed: DocParser.Parsed): Seq[Example] =
+    extractFromComment(extractPkg(parsed), parsed.docDef.comment.raw, parsed.docDef.comment.pos.line)
 
-    var expr: Option[(Int, Int, String)] = None
-
-    val pkg = extractPkg(parsed)
-
-    val comment = parsed.docDef.comment
-    parsed.docDef.comment.raw.lines.zip(Iterator.from(comment.pos.line)).foreach {
-      case (line, lineno) =>
-        expr match {
-          case None =>
-            line match {
-              case reExpr(indent, e) => expr = Some(lineno, indent.size, e)
-              case _ =>
-            }
-          case Some(e) =>
-            if (line.size >= e._2) {
-              examples += Example(pkg, e._3, line.substring(e._2), e._1)
-            }
-            expr = None
-        }
+  private[doctest] def extractFromComment(pkg: Option[String], comment: String, firstLine: Int): Seq[Example] = {
+    CommentParser(comment) match {
+      case Right(list) =>
+        list.map { case Extracted(expr, example, line) => Example(pkg, expr, example, firstLine + line - 1) }
+      case Left(msg) =>
+        println(msg)
+        Seq()
     }
 
-    examples.result()
   }
 }
