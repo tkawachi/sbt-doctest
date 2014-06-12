@@ -15,8 +15,6 @@ class Extractor {
 
   def extract(scalaSource: String): List[Example] = parser.docDefs(scalaSource).flatMap(extract)
 
-  private[this] val reExpr = "^([/\\*\\s]*)>>> (.+)$".r
-
   private[this] def extractPkg(parsed: DocParser.Parsed): Option[String] = {
     parsed.enclosing
       .filter(_.isInstanceOf[parser.PackageDef])
