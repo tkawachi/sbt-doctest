@@ -6,6 +6,9 @@ import sbt._, Keys._
  *
  * >>> 1 + 1
  * 2
+ *
+ * scala> 1 + 10
+ * res0: Int = 11
  */
 object DoctestPlugin extends Plugin {
   val doctestGenTests = taskKey[Seq[File]]("Generates test files.")

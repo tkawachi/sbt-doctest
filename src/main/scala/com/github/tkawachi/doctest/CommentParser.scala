@@ -13,15 +13,13 @@ object CommentParser extends RegexParsers {
 
   def eol = opt('\r') <~ '\n'
   def anyLine = ".*".r <~ eol ^^ (_ => None)
-  def lines = rep(importLine | example | propLine | anyLine) <~ ".*".r ^^ (_.flatten)
+  def lines = rep(importLine | example | replExample | propLine | anyLine) <~ ".*".r ^^ (_.flatten)
   def leadingChar = ('/': Parser[Char]) | '*' | ' ' | '\t'
   def leadingString = rep(leadingChar) ^^ (_.mkString)
   def strRep1 = positioned(".+".r ^^ { PositionedString })
-  def importLine = leadingString ~> "import\\s+\\S+".r <~ eol ^^ (s => Some(Import(s)))
+  def importLine = leadingString ~> "scala> " ~> "import\\s+\\S+".r <~ eol ^^ (s => Some(Import(s)))
   def exprPrompt = leadingString <~ ">>> "
   def exprLine = exprPrompt ~ strRep1 <~ eol
-  def propPrompt = leadingString <~ "prop> "
-  def propLine = propPrompt ~> strRep1 <~ eol ^^ (ps => Some(ExtractedProp(ps.s, ps.pos.line)))
   def exampleLine = leadingString ~ ".+".r <~ eol
   def example = exprLine ~ exampleLine ^^ {
     case (exprLeading ~ expr) ~ (exampleLeading ~ exampleRest) =>
@@ -32,6 +30,19 @@ object CommentParser extends RegexParsers {
         None
       }
   }
+
+  def replPrompt = leadingString <~ "scala> "
+  def replLine = replPrompt ~ strRep1 <~ eol
+  def replResultLine = (leadingString <~ "res\\d+: \\w+ = ".r) ~ ".+".r <~ eol
+  def replExample = replLine ~ replResultLine ^^ {
+    case (exprLeading ~ expr) ~ (resultLeading ~ result) =>
+      if (exprLeading == resultLeading) Some(Extracted(expr.s, result, expr.pos.line))
+      else None
+  }
+
+  def propPrompt = leadingString <~ "prop> "
+  def propLine = propPrompt ~> strRep1 <~ eol ^^ (ps => Some(ExtractedProp(ps.s, ps.pos.line)))
+
   def parse(input: String) = parseAll(lines, input)
 
   def apply(input: String): Either[String, List[DoctestComponent]] with Product with Serializable = parse(input) match {
