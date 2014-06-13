@@ -24,6 +24,25 @@ class Test {
 }
 
 object Test {
+
+  /**
+   * A sample function.
+   *
+   * {{{
+   * # Python style
+   * >>> Test.f(10)
+   * 20
+   *
+   * # Scala repl style
+   * scala> Test.f(20)
+   * res1: Int = 40
+   *
+   * # Property based test
+   * prop> (i: Int) => Test.f(i) should be === (i * 2)
+   * }}}
+   */
+  def f(x: Int) = x + x
+
   /* He- Fuu- */
   val x = 1
 
