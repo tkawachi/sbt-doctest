@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/tkawachi/sbt-doctest.png?label=ready&title=Ready)](https://waffle.io/tkawachi/sbt-doctest)
 This project is not yet published. Try with `publishLocal`.
 
 	sbt publishLocal
