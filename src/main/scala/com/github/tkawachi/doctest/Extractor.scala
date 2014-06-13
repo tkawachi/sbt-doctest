@@ -1,6 +1,6 @@
 package com.github.tkawachi.doctest
 
-import com.github.tkawachi.doctest.CommentParser.Extracted
+import com.github.tkawachi.doctest.CommentParser.{ ExtractedProp, Extracted }
 
 import scala.tools.nsc.doc.{ DocParser, Settings }
 import java.io.File
@@ -13,7 +13,7 @@ class Extractor {
   settings.bootclasspath.value = ScalaPath.pathList.mkString(File.pathSeparator)
   private val parser = new DocParser(settings)
 
-  def extract(scalaSource: String): List[Example] = parser.docDefs(scalaSource).flatMap(extract)
+  def extract(scalaSource: String): List[ParsedDoctest] = parser.docDefs(scalaSource).map(extract).flatten
 
   private[this] def extractPkg(parsed: DocParser.Parsed): Option[String] = {
     parsed.enclosing
@@ -25,17 +25,16 @@ class Extractor {
       }
   }
 
-  private[this] def extract(parsed: DocParser.Parsed): Seq[Example] =
+  private[this] def extract(parsed: DocParser.Parsed): Option[ParsedDoctest] =
     extractFromComment(extractPkg(parsed), parsed.docDef.comment.raw, parsed.docDef.comment.pos.line)
 
-  private[doctest] def extractFromComment(pkg: Option[String], comment: String, firstLine: Int): Seq[Example] = {
+  private[doctest] def extractFromComment(pkg: Option[String], comment: String, firstLine: Int): Option[ParsedDoctest] = {
     CommentParser(comment) match {
-      case Right(list) =>
-        list.map { case Extracted(expr, example, line) => Example(pkg, expr, example, firstLine + line - 1) }
+      case Right(Nil) => None
+      case Right(list) => Some(ParsedDoctest(pkg, list, firstLine))
       case Left(msg) =>
         println(msg)
-        Seq()
+        None
     }
-
   }
 }

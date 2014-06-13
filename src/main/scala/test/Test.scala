@@ -40,6 +40,9 @@ object Test {
    *
    * >>> "abc".substring(10)
    *
+   * x prop> (i: Int) => Math.abs(i) should be >= 0
+   * x prop> (i: Int) => i + i should be > i
+   *
    * @example 100 + 1
    *          101
    * @param args
@@ -49,31 +52,6 @@ object Test {
     /**
      * How about this?
      */
-    //    val code = Source.fromFile("src/main/scala/test/Test.scala")
-    //    val settings = new Settings(Console println _)
-    //    //    settings processArgumentString "-usejavacp"
-    //    val pathList = compilerPath ::: libPath
-    //    settings.bootclasspath.value = pathList.mkString(File.pathSeparator)
-    //    val parser = new DocParser(settings)
-    //
-    //    parser.docDefs(code.mkString).foreach { parsed =>
-    //      println(parsed.nameChain)
-    //      println(parsed.toString)
-    //      println(parsed.docDef.definition.pos)
-    //      println(parsed.docDef.definition.pos.line)
-    //      println(parsed.docDef.comment.pos.line)
-    //      println(parsed.raw)
-    //    }
-    //    val extractor = new Extractor
-    //    val r = extractor.extract(code.mkString)
-    //    r.groupBy(_.pkg).foreach {
-    //      case (pkg, examples) =>
-    //        val src = ScalaTestGen.generate("Test", pkg, examples)
-    //        println(src)
-    //    }
-
-    //    val file = new File("src/main/scala/test/Test.scala")
-    //    val file = new File("src/main/scala/com/github/tkawachi/doctest/Example.scala")
     val file = new File("src/main/scala/DoctestPlugin.scala")
     println(Gen.gen(file))
   }
