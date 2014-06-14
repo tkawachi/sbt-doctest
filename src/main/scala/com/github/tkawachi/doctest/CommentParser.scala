@@ -11,14 +11,18 @@ object CommentParser extends RegexParsers {
 
   case class PositionedString(s: String) extends Positional
 
+  val PYTHON_STYLE_PROMPT = ">>> "
+  val REPL_STYLE_PROMPT = "scala> "
+  val PROP_PROMPT = "prop> "
+
   def eol = opt('\r') <~ '\n'
   def anyLine = ".*".r <~ eol ^^ (_ => None)
   def lines = rep(importLine | example | replExample | propLine | anyLine) <~ ".*".r ^^ (_.flatten)
   def leadingChar = ('/': Parser[Char]) | '*' | ' ' | '\t'
   def leadingString = rep(leadingChar) ^^ (_.mkString)
   def strRep1 = positioned(".+".r ^^ { PositionedString })
-  def importLine = leadingString ~> "scala> " ~> "import\\s+\\S+".r <~ eol ^^ (s => Some(Import(s)))
-  def exprPrompt = leadingString <~ ">>> "
+  def importLine = leadingString ~> (REPL_STYLE_PROMPT | PYTHON_STYLE_PROMPT) ~> "import\\s+\\S+".r <~ eol ^^ (s => Some(Import(s)))
+  def exprPrompt = leadingString <~ PYTHON_STYLE_PROMPT
   def exprLine = exprPrompt ~ strRep1 <~ eol
   def exampleLine = leadingString ~ ".+".r <~ eol
   def example = exprLine ~ exampleLine ^^ {
@@ -31,7 +35,7 @@ object CommentParser extends RegexParsers {
       }
   }
 
-  def replPrompt = leadingString <~ "scala> "
+  def replPrompt = leadingString <~ REPL_STYLE_PROMPT
   def replLine = replPrompt ~ strRep1 <~ eol
   def replResultLine = (leadingString <~ "res\\d+: \\w+ = ".r) ~ ".+".r <~ eol
   def replExample = replLine ~ replResultLine ^^ {
@@ -40,7 +44,7 @@ object CommentParser extends RegexParsers {
       else None
   }
 
-  def propPrompt = leadingString <~ "prop> "
+  def propPrompt = leadingString <~ PROP_PROMPT
   def propLine = propPrompt ~> strRep1 <~ eol ^^ (ps => Some(ExtractedProp(ps.s, ps.pos.line)))
 
   def parse(input: String) = parseAll(lines, input)
