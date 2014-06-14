@@ -4,10 +4,6 @@ import scala.util.parsing.combinator.RegexParsers
 import scala.util.parsing.input.Positional
 
 object CommentParser extends RegexParsers {
-  sealed abstract class DoctestComponent
-  case class Example(expr: String, expected: String, line: Int) extends DoctestComponent
-  case class Prop(prop: String, line: Int) extends DoctestComponent
-  case class Import(importLine: String) extends DoctestComponent
 
   case class PositionedString(s: String) extends Positional
 

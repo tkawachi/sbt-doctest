@@ -1,6 +1,5 @@
 package com.github.tkawachi.doctest
 
-import com.github.tkawachi.doctest.CommentParser.Example
 import org.scalatest.{ BeforeAndAfter, Matchers, FunSpec }
 import scala.io.Source
 

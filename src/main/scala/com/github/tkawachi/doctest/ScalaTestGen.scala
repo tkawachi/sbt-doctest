@@ -1,7 +1,6 @@
 package com.github.tkawachi.doctest
 
 import StringUtil.{ escapeDoubleQuote => escapeDQ }
-import com.github.tkawachi.doctest.CommentParser.{ Import, Prop, Example, DoctestComponent }
 
 object ScalaTestGen extends TestGen {
 
