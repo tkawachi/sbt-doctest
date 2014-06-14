@@ -1,7 +1,7 @@
 package com.github.tkawachi.doctest
 
 import StringUtil.{ escapeDoubleQuote => escapeDQ }
-import com.github.tkawachi.doctest.CommentParser.{ Import, ExtractedProp, Extracted, DoctestComponent }
+import com.github.tkawachi.doctest.CommentParser.{ Import, Prop, Example, DoctestComponent }
 
 object ScalaTestGen extends TestGen {
 
@@ -29,12 +29,12 @@ object ScalaTestGen extends TestGen {
 
   def gen(basename: String, firstLine: Int, component: DoctestComponent): String = {
     component match {
-      case Extracted(expr, expected, lineno) =>
+      case Example(expr, expected, lineno) =>
         s"""  it("${escapeDQ(basename)}.scala:${firstLine + lineno - 1}") {
          |    ($expr).toString should equal("${escapeDQ(expected)}")
          |  }
          |""".stripMargin
-      case ExtractedProp(prop, lineno) =>
+      case Prop(prop, lineno) =>
         s"""  it("${escapeDQ(basename)}.scala:${firstLine + lineno - 1}") {
          |    forAll {
          |      $prop

@@ -5,8 +5,8 @@ import scala.util.parsing.input.Positional
 
 object CommentParser extends RegexParsers {
   sealed abstract class DoctestComponent
-  case class Extracted(expr: String, example: String, line: Int) extends DoctestComponent
-  case class ExtractedProp(prop: String, line: Int) extends DoctestComponent
+  case class Example(expr: String, expected: String, line: Int) extends DoctestComponent
+  case class Prop(prop: String, line: Int) extends DoctestComponent
   case class Import(importLine: String) extends DoctestComponent
 
   case class PositionedString(s: String) extends Positional
@@ -15,37 +15,48 @@ object CommentParser extends RegexParsers {
   val REPL_STYLE_PROMPT = "scala> "
   val PROP_PROMPT = "prop> "
 
-  def eol = opt('\r') <~ '\n'
-  def anyLine = ".*".r <~ eol ^^ (_ => None)
+  lazy val eol = opt('\r') <~ '\n'
+
+  lazy val anyLine = ".*".r <~ eol ^^ (_ => None)
+
   def lines = rep(importLine | example | replExample | propLine | anyLine) <~ ".*".r ^^ (_.flatten)
-  def leadingChar = ('/': Parser[Char]) | '*' | ' ' | '\t'
-  def leadingString = rep(leadingChar) ^^ (_.mkString)
-  def strRep1 = positioned(".+".r ^^ { PositionedString })
-  def importLine = leadingString ~> (REPL_STYLE_PROMPT | PYTHON_STYLE_PROMPT) ~> "import\\s+\\S+".r <~ eol ^^ (s => Some(Import(s)))
-  def exprPrompt = leadingString <~ PYTHON_STYLE_PROMPT
-  def exprLine = exprPrompt ~ strRep1 <~ eol
-  def exampleLine = leadingString ~ ".+".r <~ eol
-  def example = exprLine ~ exampleLine ^^ {
-    case (exprLeading ~ expr) ~ (exampleLeading ~ exampleRest) =>
-      if (exampleLeading.startsWith(exprLeading)) {
-        val ex = exampleLeading.drop(exprLeading.size) + exampleRest
-        Some(Extracted(expr.s, ex, expr.pos.line))
-      } else {
-        None
-      }
+
+  lazy val leadingChar = ('/': Parser[Char]) | '*' | ' ' | '\t'
+
+  lazy val leadingString = rep(leadingChar) ^^ (_.mkString)
+
+  lazy val strRep1 = positioned(".+".r ^^ { PositionedString })
+
+  lazy val importLine =
+    leadingString ~> (REPL_STYLE_PROMPT | PYTHON_STYLE_PROMPT) ~> "import\\s+\\S+".r <~ eol ^^ {
+      case imp => Some(Import(imp))
+    }
+
+  lazy val exprPrompt = leadingString <~ PYTHON_STYLE_PROMPT
+
+  lazy val exprLine = exprPrompt ~ strRep1 <~ eol
+
+  def expectedLine(leading: String) = leading ~> ".+".r <~ eol
+
+  lazy val example = exprLine >> {
+    case (leading ~ expr) =>
+      expectedLine(leading) ^^ { case ex => Some(Example(expr.s, ex, expr.pos.line)) }
   }
 
-  def replPrompt = leadingString <~ REPL_STYLE_PROMPT
-  def replLine = replPrompt ~ strRep1 <~ eol
-  def replResultLine = (leadingString <~ "res\\d+: \\w+ = ".r) ~ ".+".r <~ eol
-  def replExample = replLine ~ replResultLine ^^ {
-    case (exprLeading ~ expr) ~ (resultLeading ~ result) =>
-      if (exprLeading == resultLeading) Some(Extracted(expr.s, result, expr.pos.line))
-      else None
+  lazy val replPrompt = leadingString <~ REPL_STYLE_PROMPT
+
+  lazy val replLine = replPrompt ~ strRep1 <~ eol
+
+  def replExpectedLine(leading: String) = leading ~> "res\\d+: \\w+ = ".r ~> ".+".r <~ eol
+
+  lazy val replExample = replLine >> {
+    case (leading ~ expr) =>
+      replExpectedLine(leading) ^^ { case ex => Some(Example(expr.s, ex, expr.pos.line)) }
   }
 
-  def propPrompt = leadingString <~ PROP_PROMPT
-  def propLine = propPrompt ~> strRep1 <~ eol ^^ (ps => Some(ExtractedProp(ps.s, ps.pos.line)))
+  lazy val propPrompt = leadingString <~ PROP_PROMPT
+
+  lazy val propLine = propPrompt ~> strRep1 <~ eol ^^ (ps => Some(Prop(ps.s, ps.pos.line)))
 
   def parse(input: String) = parseAll(lines, input)
 

@@ -1,6 +1,6 @@
 package com.github.tkawachi.doctest
 
-import com.github.tkawachi.doctest.CommentParser.Extracted
+import com.github.tkawachi.doctest.CommentParser.Example
 import org.scalatest.{ BeforeAndAfter, Matchers, FunSpec }
 import scala.io.Source
 
@@ -14,8 +14,8 @@ class ExtractorSpec extends FunSpec with Matchers with BeforeAndAfter {
       List(
         ParsedDoctest(
           None,
-          List(Extracted("new Test().f(10)", "20", 4),
-            Extracted("\"hello, \" + \"world!\"", "hello, world!", 7)
+          List(Example("new Test().f(10)", "20", 4),
+            Example("\"hello, \" + \"world!\"", "hello, world!", 7)
           ),
           5)
       )
@@ -42,8 +42,8 @@ class ExtractorSpec extends FunSpec with Matchers with BeforeAndAfter {
           ParsedDoctest(
             Some("abc"),
             List(
-              Extracted("1 + 3", "4", 5),
-              Extracted("10 + 1", "11", 9)
+              Example("1 + 3", "4", 5),
+              Example("10 + 1", "11", 9)
             ),
             10
           )

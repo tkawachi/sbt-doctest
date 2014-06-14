@@ -1,6 +1,6 @@
 package com.github.tkawachi.doctest
 
-import com.github.tkawachi.doctest.CommentParser.{ ExtractedProp, Extracted }
+import com.github.tkawachi.doctest.CommentParser.{ Prop, Example }
 
 import scala.tools.nsc.doc.{ DocParser, Settings }
 import java.io.File
