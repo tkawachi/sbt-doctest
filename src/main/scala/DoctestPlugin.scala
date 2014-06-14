@@ -1,4 +1,4 @@
-import com.github.tkawachi.doctest.Gen
+import com.github.tkawachi.doctest.TestGenerator
 import sbt._, Keys._
 
 /**
@@ -21,7 +21,7 @@ object DoctestPlugin extends Plugin {
           Seq()
         case Some(testDir) =>
           (sources in Compile).value
-            .flatMap(Gen.gen)
+            .flatMap(TestGenerator.apply)
             .groupBy(r => r.pkg -> r.basename)
             .flatMap {
               case ((pkg, basename), results) =>
