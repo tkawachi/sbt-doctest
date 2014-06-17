@@ -4,6 +4,13 @@ name := "sbt-doctest"
 
 organization := "com.github.tkawachi"
 
+licenses := Seq("MIT" -> url("http://opensource.org/licenses/MIT"))
+
+scmInfo := Some(ScmInfo(
+  url("https://github.com/tkawachi/sbt-doctest/"),
+  "scm:git:github.com:tkawachi/sbt-doctest.git"
+))
+
 scalaVersion := "2.10.4"
 
 libraryDependencies ++= Seq(
