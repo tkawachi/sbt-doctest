@@ -1,13 +1,9 @@
 [![Build Status](https://travis-ci.org/tkawachi/sbt-doctest.svg?branch=master)](https://travis-ci.org/tkawachi/sbt-doctest)
 [![Stories in Ready](https://badge.waffle.io/tkawachi/sbt-doctest.png?label=ready&title=Ready)](https://waffle.io/tkawachi/sbt-doctest)
 
-This project is not yet published. Play with `publishLocal`.
-
-	sbt publishLocal
-
 In your `project/plugins.sbt`
 
-	addSbtPlugin("com.github.tkawachi" % "sbt-doctest" % "0.1-SNAPSHOT")
+	addSbtPlugin("com.github.tkawachi" % "sbt-doctest" % "0.0.2")
 
 and `build.sbt`
 
