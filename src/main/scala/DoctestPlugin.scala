@@ -21,6 +21,7 @@ object DoctestPlugin extends Plugin {
           Seq()
         case Some(testDir) =>
           (sources in Compile).value
+            .filter(_.ext == "scala")
             .flatMap(TestGenerator.apply)
             .groupBy(r => r.pkg -> r.basename)
             .flatMap {
