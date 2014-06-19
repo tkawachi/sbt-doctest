@@ -1,0 +1,18 @@
+ParsedDoctest
+	pkg: String
+	components: DoctestComponent*
+	lineno: Int
+
+DoctestComponent
+	Example
+		expr: String
+		expected: String
+		line: Int
+
+	Prop
+		prop: String
+		line: Int
+
+	Import
+		importLine: String
+
