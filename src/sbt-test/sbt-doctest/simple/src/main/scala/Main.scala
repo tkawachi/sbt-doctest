@@ -8,7 +8,9 @@ object Main {
    * >>> Main.f(10)
    * 20
    *
-   * prop> (i: Int) => Main.f(i) should === (i * 2)
+   * prop> (i: Int) =>
+   *     |   Main.f(i) should === (i *
+   *     | 2)
    * }}}
    */
   def f(x: Int) = x + x

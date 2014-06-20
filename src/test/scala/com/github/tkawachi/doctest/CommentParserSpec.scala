@@ -3,13 +3,17 @@ package com.github.tkawachi.doctest
 import org.scalatest.{ Matchers, FunSpec }
 
 class CommentParserSpec extends FunSpec with Matchers {
+  import CommentParser.parse
+
+  val LS = System.lineSeparator()
+
   describe("Python style") {
     it("parses a single example") {
       val comment =
         """ * >>> 1 + 2
           | * 3
         """.stripMargin
-      CommentParser.parse(comment).get should equal(List(Example("1 + 2", "3", 1)))
+      parse(comment).get should equal(List(Example("1 + 2", "3", 1)))
     }
 
     it("doesn't parse a single example for different leading string") {
@@ -17,7 +21,7 @@ class CommentParserSpec extends FunSpec with Matchers {
         """ * >>> 1 + 2
           |*  3
         """.stripMargin
-      CommentParser.parse(comment).get should equal(Nil)
+      parse(comment).get should equal(Nil)
     }
 
     it("parses multiple examples") {
@@ -28,7 +32,7 @@ class CommentParserSpec extends FunSpec with Matchers {
           | * >>> "Hello," + " world"
           | * Hello, world
         """.stripMargin
-      CommentParser.parse(comment).get should equal(
+      parse(comment).get should equal(
         List(Example("1 + 2", "3", 1), Example("\"Hello,\" + \" world\"", "Hello, world", 4))
       )
     }
@@ -37,7 +41,7 @@ class CommentParserSpec extends FunSpec with Matchers {
       val comment =
         """ * >>> import abc.def
         """.stripMargin
-      CommentParser.parse(comment).get should equal(List(Import("import abc.def")))
+      parse(comment).get should equal(List(Import("import abc.def")))
     }
   }
 
@@ -47,7 +51,17 @@ class CommentParserSpec extends FunSpec with Matchers {
         """ * scala> 1 + 2
           | * res0: Int = 3
         """.stripMargin
-      CommentParser.parse(comment).get should equal(List(Example("1 + 2", "3", 1)))
+      parse(comment).get should equal(List(Example("1 + 2", "3", 1)))
+    }
+
+    it("parses a multi-lines expr") {
+      val comment =
+        """ * scala> 1 + 2 +
+          | *      | 3 +
+          | *      | 4 + 5
+          | * res0: Int = 10
+        """.stripMargin
+      parse(comment).get should equal(List(Example(s"1 + 2 +${LS}3 +${LS}4 + 5", "10", 1)))
     }
 
     it("doesn't parse a single example for different leading string") {
@@ -55,7 +69,7 @@ class CommentParserSpec extends FunSpec with Matchers {
         """ * scala> 1 + 2
           |*  3
         """.stripMargin
-      CommentParser.parse(comment).get should equal(Nil)
+      parse(comment).get should equal(Nil)
     }
 
     it("parses multiple examples") {
@@ -66,7 +80,7 @@ class CommentParserSpec extends FunSpec with Matchers {
           | * scala> "Hello," + " world"
           | * res2: String = Hello, world
         """.stripMargin
-      CommentParser.parse(comment).get should equal(
+      parse(comment).get should equal(
         List(Example("1 + 2", "3", 1), Example("\"Hello,\" + \" world\"", "Hello, world", 4))
       )
     }
@@ -75,16 +89,27 @@ class CommentParserSpec extends FunSpec with Matchers {
       val comment =
         """ * scala> import abc.def
         """.stripMargin
-      CommentParser.parse(comment).get should equal(List(Import("import abc.def")))
+      parse(comment).get should equal(List(Import("import abc.def")))
     }
   }
 
   describe("Property based") {
-    it("parses a signle property") {
+    it("parses a single property") {
       val comment =
         """ * prop> (i: Int) => i + i should === i * 2
         """.stripMargin
-      CommentParser.parse(comment).get should equal(List(Prop("""(i: Int) => i + i should === i * 2""", 1)))
+      parse(comment).get should equal(List(Prop("""(i: Int) => i + i should === i * 2""", 1)))
+    }
+
+    it("parses a muti-lines property") {
+      val comment =
+        """ * prop> (i: Int) =>
+          | *     | i + i should === (i *
+          | *     | 2)
+          | *
+        """.stripMargin
+      parse(comment).get should equal(List(Prop(s"(i: Int) =>${LS}i + i should === (i *${LS}2)", 1)))
+
     }
   }
 }
