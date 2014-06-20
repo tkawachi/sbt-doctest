@@ -10,6 +10,7 @@ object CommentParser extends RegexParsers {
   val LS = System.lineSeparator()
 
   val PYTHON_STYLE_PROMPT = ">>> "
+  val PYTHON_CONT_PROMPT = "... "
   val REPL_STYLE_PROMPT = "scala> "
   val REPL_CONT_PROMPT = "     | "
   val PROP_PROMPT = "prop> "
@@ -28,19 +29,23 @@ object CommentParser extends RegexParsers {
   lazy val strRep1 = positioned(".+".r ^^ { PositionedString })
 
   lazy val importLine =
-    leadingString ~> (REPL_STYLE_PROMPT | PYTHON_STYLE_PROMPT) ~> "import\\s+\\S+".r <~ eol ^^ {
+    leadingString ~> (REPL_STYLE_PROMPT | PYTHON_STYLE_PROMPT | PROP_PROMPT) ~> "import\\s+\\S+".r <~ eol ^^ {
       case imp => Some(Import(imp))
     }
 
-  lazy val exprPrompt = leadingString <~ PYTHON_STYLE_PROMPT
+  lazy val pythonLine = (leadingString <~ PYTHON_STYLE_PROMPT) ~ strRep1 <~ eol
 
-  lazy val exprLine = exprPrompt ~ strRep1 <~ eol
+  def pythonContLines(leading: String) = leading ~> PYTHON_CONT_PROMPT ~> ".*".r <~ eol
 
-  def expectedLine(leading: String) = leading ~> ".+".r <~ eol
+  def pythonExpectedLine(leading: String) = leading ~> ".+".r <~ eol
 
-  lazy val example = exprLine >> {
-    case (leading ~ expr) =>
-      expectedLine(leading) ^^ { case ex => Some(Example(expr.s, ex, expr.pos.line)) }
+  lazy val example = pythonLine >> {
+    case leading ~ posFirstLine =>
+      pythonContLines(leading).* ~ pythonExpectedLine(leading) ^^ {
+        case contLines ~ ex =>
+          val exprLines = (List(posFirstLine.s) ++ contLines).mkString(LS)
+          Some(Example(exprLines, ex, posFirstLine.pos.line))
+      }
   }
 
   lazy val replLine = (leadingString <~ REPL_STYLE_PROMPT) ~ strRep1 <~ eol
@@ -50,11 +55,11 @@ object CommentParser extends RegexParsers {
   def replExpectedLine(leading: String) = leading ~> "res\\d+: \\w+ = ".r ~> ".+".r <~ eol
 
   lazy val replExample = replLine >> {
-    case (leading ~ expr) =>
+    case leading ~ posFirstLine =>
       replContLine(leading).* ~ replExpectedLine(leading) ^^ {
         case contLines ~ ex =>
-          val exprLines = (List(expr.s) ++ contLines).mkString(LS)
-          Some(Example(exprLines, ex, expr.pos.line))
+          val exprLines = (List(posFirstLine.s) ++ contLines).mkString(LS)
+          Some(Example(exprLines, ex, posFirstLine.pos.line))
       }
   }
 
