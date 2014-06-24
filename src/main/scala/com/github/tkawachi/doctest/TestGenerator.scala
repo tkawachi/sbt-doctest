@@ -12,7 +12,7 @@ object TestGenerator {
   def apply(srcFile: File): Seq[Result] = {
     val src = Source.fromFile(srcFile).mkString
     val basename = FilenameUtils.getBaseName(srcFile.getName)
-    extractor.extract(src).groupBy(_.pkg).map {
+    extractor.extract(src).flatMap(comment => CommentParser(comment).right.toOption).groupBy(_.pkg).map {
       case (pkg, examples) =>
         Result(pkg, basename, ScalaTestGen.generate(basename, pkg, examples))
     }.toSeq

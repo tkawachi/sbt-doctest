@@ -78,8 +78,8 @@ object CommentParser extends RegexParsers {
 
   def parse(input: String) = parseAll(lines, input)
 
-  def apply(input: String): Either[String, List[DoctestComponent]] with Product with Serializable = parse(input) match {
-    case Success(examples, _) => Right(examples)
+  def apply(comment: ScaladocComment): Either[String, ParsedDoctest] = parse(comment.text) match {
+    case Success(examples, _) => Right(ParsedDoctest(comment.pkg, examples, comment.lineno))
     case NoSuccess(msg, next) => Left(s"$msg on line ${next.pos.line}, column ${next.pos.column}")
   }
 

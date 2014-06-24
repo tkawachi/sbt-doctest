@@ -7,11 +7,12 @@ import java.io.File
  * Extract examples from scala source.
  */
 class Extractor {
+
   private val settings = new Settings(Console println _)
   settings.bootclasspath.value = ScalaPath.pathList.mkString(File.pathSeparator)
   private val parser = new DocParser(settings)
 
-  def extract(scalaSource: String): List[ParsedDoctest] = parser.docDefs(scalaSource).map(extract).flatten
+  def extract(scalaSource: String): List[ScaladocComment] = parser.docDefs(scalaSource).map(toComment)
 
   private[this] def extractPkg(parsed: DocParser.Parsed): Option[String] = {
     parsed.enclosing
@@ -23,16 +24,7 @@ class Extractor {
       }
   }
 
-  private[this] def extract(parsed: DocParser.Parsed): Option[ParsedDoctest] =
-    extractFromComment(extractPkg(parsed), parsed.docDef.comment.raw, parsed.docDef.comment.pos.line)
+  private[this] def toComment(parsed: DocParser.Parsed) =
+    ScaladocComment(extractPkg(parsed), parsed.docDef.comment.raw, parsed.docDef.comment.pos.line)
 
-  private[doctest] def extractFromComment(pkg: Option[String], comment: String, firstLine: Int): Option[ParsedDoctest] = {
-    CommentParser(comment) match {
-      case Right(Nil) => None
-      case Right(list) => Some(ParsedDoctest(pkg, list, firstLine))
-      case Left(msg) =>
-        println(msg)
-        None
-    }
-  }
 }

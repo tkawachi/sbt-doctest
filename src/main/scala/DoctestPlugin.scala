@@ -4,11 +4,17 @@ import sbt._, Keys._
 /**
  * Sbt plugin for doctest.
  *
+ * It enables doctest like following.
+ *
+ * {{{
+ * # In Python style
  * >>> 1 + 1
  * 2
  *
+ * # In scala repl style
  * scala> 1 + 10
  * res0: Int = 11
+ * }}}
  */
 object DoctestPlugin extends Plugin {
   val doctestGenTests = taskKey[Seq[File]]("Generates test files.")
