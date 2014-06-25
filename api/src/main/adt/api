@@ -1,0 +1,4 @@
+ScaladocComment
+	pkg: String
+	text: String
+	lineno: Int
