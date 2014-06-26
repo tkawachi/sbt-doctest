@@ -128,4 +128,15 @@ class CommentParserSpec extends FunSpec with Matchers {
       parse(comment).get should equal(List(Import("import abc.def")))
     }
   }
+
+  describe("No examples") {
+    it("returns None") {
+      val comment =
+        """/**
+        | * Test comment.
+        | */
+      """.stripMargin
+      parse(comment).get should equal(List.empty)
+    }
+  }
 }
