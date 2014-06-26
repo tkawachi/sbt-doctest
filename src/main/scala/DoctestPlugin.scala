@@ -44,6 +44,9 @@ object DoctestPlugin extends Plugin {
       }
     },
     sourceGenerators in Test += doctestGenTests.taskValue,
-    libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.0" % "test"
+    libraryDependencies ++= Seq(
+      "org.scalatest" %% "scalatest" % "2.2.0" % "test",
+      "org.scalacheck" %% "scalacheck" % "1.11.4" % "test"
+    )
   )
 }
