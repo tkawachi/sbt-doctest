@@ -3,7 +3,7 @@
 
 In your `project/plugins.sbt`
 
-	addSbtPlugin("com.github.tkawachi" % "sbt-doctest" % "0.0.3")
+	addSbtPlugin("com.github.tkawachi" % "sbt-doctest" % "0.0.4")
 
 and `build.sbt`
 
