@@ -16,8 +16,9 @@ object StringUtil {
    * >>> escapeDoubleQuote("""aaa"bbb\cc"""")
    * aaa\"bbb\\cc\"
    *
-   * // Property check
-   * prop> (s: String) => escapeDoubleQuote(s).size should be >= s.size
+   * // Number of double quotes will be not changed.
+   * prop> (s: String) =>
+   *     |   escapeDoubleQuote(s).filter(_ == '"').size should be >= s.filter(_ == '"').size
    * }}}
    *
    * @param s An original string.
