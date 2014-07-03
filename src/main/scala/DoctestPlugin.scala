@@ -26,7 +26,7 @@ object DoctestPlugin extends Plugin {
           streams.value.log.warn("managedSourceDirectories in Test is empty. Failed to generate tests")
           Seq()
         case Some(testDir) =>
-          (sources in Compile).value
+          (unmanagedSources in Compile).value
             .filter(_.ext == "scala")
             .flatMap(TestGenerator.apply)
             .groupBy(r => r.pkg -> r.basename)
