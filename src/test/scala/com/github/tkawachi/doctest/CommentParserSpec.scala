@@ -101,6 +101,14 @@ class CommentParserSpec extends FunSpec with Matchers {
         """.stripMargin
       parse(comment).get should equal(List(Import("import abc.def")))
     }
+
+    it("parses a result with a parametric type") {
+      val comment =
+        """ * scala> List(1)
+          | * res1: List[Int] = List(1)
+        """.stripMargin
+      parse(comment).get should equal(List(Example("List(1)", "List(1)", 1)))
+    }
   }
 
   describe("Property based") {
