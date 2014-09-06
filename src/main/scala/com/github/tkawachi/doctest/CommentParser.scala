@@ -44,7 +44,7 @@ object CommentParser extends RegexParsers {
       pythonContLines(leading).* ~ pythonExpectedLine(leading) ^^ {
         case contLines ~ ex =>
           val exprLines = (List(posFirstLine.s) ++ contLines).mkString(LS)
-          Some(Example(exprLines, ex, posFirstLine.pos.line))
+          Some(Example(exprLines, TestResult(ex), posFirstLine.pos.line))
       }
   }
 
@@ -52,7 +52,9 @@ object CommentParser extends RegexParsers {
 
   def replContLine(leading: String) = leading ~> REPL_CONT_PROMPT ~> ".*".r <~ eol
 
-  def replExpectedLine(leading: String) = leading ~> "res\\d+: [^=\\n\\r]+ = ".r ~> ".+".r <~ eol
+  def replExpectedLine(leading: String) = (leading ~> "res\\d+: ".r ~> "[^=\\n\\r]+".r <~ "= ".r) ~ ".+".r <~ eol ^^ {
+    case tpe ~ value => TestResult(value, Some(tpe.trim))
+  }
 
   lazy val replExample = replLine >> {
     case leading ~ posFirstLine =>

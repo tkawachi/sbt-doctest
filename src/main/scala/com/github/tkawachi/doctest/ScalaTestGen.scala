@@ -30,7 +30,7 @@ object ScalaTestGen extends TestGen {
     component match {
       case Example(expr, expected, lineno) =>
         s"""  it("${escapeDQ(basename)}.scala:${firstLine + lineno - 1}") {
-         |    ($expr).toString should equal("${escapeDQ(expected)}")
+         |    ($expr).toString should equal("${escapeDQ(expected.value)}")
          |  }
          |""".stripMargin
       case Prop(prop, lineno) =>

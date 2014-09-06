@@ -13,7 +13,7 @@ class CommentParserSpec extends FunSpec with Matchers {
         """ * >>> 1 + 2
           | * 3
         """.stripMargin
-      parse(comment).get should equal(List(Example("1 + 2", "3", 1)))
+      parse(comment).get should equal(List(Example("1 + 2", TestResult("3"), 1)))
     }
 
     it("parses a multi-lines expr") {
@@ -23,7 +23,7 @@ class CommentParserSpec extends FunSpec with Matchers {
           | * ... 4 + 5
           | * 15
         """.stripMargin
-      parse(comment).get should equal(List(Example(s"1 + 2 +${LS}3 +${LS}4 + 5", "15", 1)))
+      parse(comment).get should equal(List(Example(s"1 + 2 +${LS}3 +${LS}4 + 5", TestResult("15"), 1)))
     }
 
     it("doesn't parse a single example for different leading string") {
@@ -43,7 +43,7 @@ class CommentParserSpec extends FunSpec with Matchers {
           | * Hello, world
         """.stripMargin
       parse(comment).get should equal(
-        List(Example("1 + 2", "3", 1), Example("\"Hello,\" + \" world\"", "Hello, world", 4))
+        List(Example("1 + 2", TestResult("3"), 1), Example("\"Hello,\" + \" world\"", TestResult("Hello, world"), 4))
       )
     }
 
@@ -61,7 +61,7 @@ class CommentParserSpec extends FunSpec with Matchers {
         """ * scala> 1 + 2
           | * res0: Int = 3
         """.stripMargin
-      parse(comment).get should equal(List(Example("1 + 2", "3", 1)))
+      parse(comment).get should equal(List(Example("1 + 2", TestResult("3", Some("Int")), 1)))
     }
 
     it("parses a multi-lines expr") {
@@ -71,7 +71,7 @@ class CommentParserSpec extends FunSpec with Matchers {
           | *      | 4 + 5
           | * res0: Int = 15
         """.stripMargin
-      parse(comment).get should equal(List(Example(s"1 + 2 +${LS}3 +${LS}4 + 5", "15", 1)))
+      parse(comment).get should equal(List(Example(s"1 + 2 +${LS}3 +${LS}4 + 5", TestResult("15", Some("Int")), 1)))
     }
 
     it("doesn't parse a single example for different leading string") {
@@ -91,7 +91,9 @@ class CommentParserSpec extends FunSpec with Matchers {
           | * res2: String = Hello, world
         """.stripMargin
       parse(comment).get should equal(
-        List(Example("1 + 2", "3", 1), Example("\"Hello,\" + \" world\"", "Hello, world", 4))
+        List(
+          Example("1 + 2", TestResult("3", Some("Int")), 1),
+          Example("\"Hello,\" + \" world\"", TestResult("Hello, world", Some("String")), 4))
       )
     }
 
@@ -107,7 +109,7 @@ class CommentParserSpec extends FunSpec with Matchers {
         """ * scala> List(1)
           | * res1: List[Int] = List(1)
         """.stripMargin
-      parse(comment).get should equal(List(Example("List(1)", "List(1)", 1)))
+      parse(comment).get should equal(List(Example("List(1)", TestResult("List(1)", Some("List[Int]")), 1)))
     }
   }
 
