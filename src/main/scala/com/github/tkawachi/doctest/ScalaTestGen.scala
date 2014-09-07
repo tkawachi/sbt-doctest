@@ -33,13 +33,10 @@ object ScalaTestGen extends TestGen {
   def gen(basename: String, firstLine: Int, component: DoctestComponent): String = {
     component match {
       case Example(expr, expected, lineno) =>
-        val lineNumber = firstLine + lineno - 1
-        val description = s"${escapeDQ(basename)}.scala:$lineNumber"
-
-        s"""  it("$description") {
-         |    ($expr).toString should equal("${escapeDQ(expected.value)}")
+        val typeTest = expected.tpe.fold("")(tpe => "\n    " + genTypeTest(expr, tpe))
+        s"""  it("${escapeDQ(basename)}.scala:${firstLine + lineno - 1}") {
+         |    ($expr).toString should equal("${escapeDQ(expected.value)}")$typeTest
          |  }
-         |${expected.tpe.fold("")(tpe => genTypeTest(description, expr, tpe))}
          |""".stripMargin
       case Prop(prop, lineno) =>
         s"""  it("${escapeDQ(basename)}.scala:${firstLine + lineno - 1}") {
@@ -53,10 +50,7 @@ object ScalaTestGen extends TestGen {
     }
   }
 
-  def genTypeTest(description: String, expr: String, tpe: String): String =
-    s"""  it("$description type test") {
-       |    require(typeOf[$tpe] =:= getType($expr), "$tpe != " + getType($expr).toString)
-       |  }
-     """.stripMargin
+  def genTypeTest(expr: String, tpe: String): String =
+    s"""require(typeOf[$tpe] =:= getType($expr), "$tpe != " + getType($expr).toString)"""
 
 }
