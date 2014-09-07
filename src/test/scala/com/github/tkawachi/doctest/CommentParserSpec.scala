@@ -43,7 +43,9 @@ class CommentParserSpec extends FunSpec with Matchers {
           | * Hello, world
         """.stripMargin
       parse(comment).get should equal(
-        List(Example("1 + 2", TestResult("3"), 1), Example("\"Hello,\" + \" world\"", TestResult("Hello, world"), 4))
+        List(
+          Example("1 + 2", TestResult("3"), 1),
+          Example("\"Hello,\" + \" world\"", TestResult("Hello, world"), 4))
       )
     }
 
@@ -110,6 +112,14 @@ class CommentParserSpec extends FunSpec with Matchers {
           | * res1: List[Int] = List(1)
         """.stripMargin
       parse(comment).get should equal(List(Example("List(1)", TestResult("List(1)", Some("List[Int]")), 1)))
+    }
+
+    it("parses a type with a colon") {
+      val comment =
+        """ * scala> =:=
+          | * res0: =:=.type = scala.Predef...
+        """.stripMargin
+      parse(comment).get should equal(List(Example("=:=", TestResult("scala.Predef...", Some("=:=.type")), 1)))
     }
   }
 

@@ -52,9 +52,12 @@ object CommentParser extends RegexParsers {
 
   def replContLine(leading: String) = leading ~> REPL_CONT_PROMPT ~> ".*".r <~ eol
 
-  def replExpectedLine(leading: String) = (leading ~> "res\\d+: ".r ~> "[^=\\n\\r]+".r <~ "= ".r) ~ ".+".r <~ eol ^^ {
-    case tpe ~ value => TestResult(value, Some(tpe.trim))
-  }
+  lazy val typeName = "((?! = )[^\\n\\r])+".r
+
+  def replExpectedLine(leading: String) =
+    (leading ~> "res\\d+: ".r ~> typeName <~ " = ".r) ~ ".+".r <~ eol ^^ {
+      case tpe ~ value => TestResult(value, Some(tpe.trim))
+    }
 
   lazy val replExample = replLine >> {
     case leading ~ posFirstLine =>
