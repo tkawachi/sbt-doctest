@@ -12,8 +12,12 @@ object ScalaTestGen extends TestGen {
       |import org.scalatest.prop.PropertyChecks
       |import org.scalacheck.Arbitrary._
       |import org.scalacheck.Prop._
+      |import scala.reflect.runtime.universe._
       |
       |class ${basename}Doctest extends FunSpec with Matchers with PropertyChecks {
+      |
+      |  def getType[A: TypeTag](a: A) = typeOf[A]
+      |
       |${parsedList.map(generateIt(basename, _)).mkString}
       |}
       |""".stripMargin
@@ -29,9 +33,13 @@ object ScalaTestGen extends TestGen {
   def gen(basename: String, firstLine: Int, component: DoctestComponent): String = {
     component match {
       case Example(expr, expected, lineno) =>
-        s"""  it("${escapeDQ(basename)}.scala:${firstLine + lineno - 1}") {
+        val lineNumber = firstLine + lineno - 1
+        val description = s"${escapeDQ(basename)}.scala:$lineNumber"
+
+        s"""  it("$description") {
          |    ($expr).toString should equal("${escapeDQ(expected.value)}")
          |  }
+         |${expected.tpe.fold("")(tpe => genTypeTest(description, expr, tpe))}
          |""".stripMargin
       case Prop(prop, lineno) =>
         s"""  it("${escapeDQ(basename)}.scala:${firstLine + lineno - 1}") {
@@ -44,5 +52,11 @@ object ScalaTestGen extends TestGen {
         line + "\n"
     }
   }
+
+  def genTypeTest(description: String, expr: String, tpe: String): String =
+    s"""  it("$description type test") {
+       |    require(typeOf[$tpe] =:= getType($expr), "$tpe != " + getType($expr).toString)
+       |  }
+     """.stripMargin
 
 }
