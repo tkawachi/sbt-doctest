@@ -52,7 +52,7 @@ object CommentParser extends RegexParsers {
 
   def replContLine(leading: String) = leading ~> REPL_CONT_PROMPT ~> ".*".r <~ eol
 
-  def replExpectedLine(leading: String) = leading ~> "res\\d+: \\w+ = ".r ~> ".+".r <~ eol
+  def replExpectedLine(leading: String) = leading ~> "res\\d+: [^=\\n\\r]+ = ".r ~> ".+".r <~ eol
 
   lazy val replExample = replLine >> {
     case leading ~ posFirstLine =>
