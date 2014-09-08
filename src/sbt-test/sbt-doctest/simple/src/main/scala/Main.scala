@@ -38,5 +38,13 @@ object Main {
    * }}}
    */
   val abc = "Hello, world!"
+
+  /**
+   * {{{
+   * scala> Main.list.take(2)
+   * res0: List[Int] = List(0, 1)
+   * }}}
+   */
+  def list: List[Int] = List.range(0, 5)
 }
 
