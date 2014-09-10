@@ -43,6 +43,10 @@ object Main {
    * {{{
    * scala> Main.list.take(2)
    * res0: List[Int] = List(0, 1)
+   *
+   * scala> val xs = List(2)
+   * scala> 1 :: xs
+   * res0: List[Int] = List(1, 2)
    * }}}
    */
   def list: List[Int] = List.range(0, 5)
