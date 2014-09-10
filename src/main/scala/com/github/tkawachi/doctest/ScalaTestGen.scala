@@ -43,7 +43,7 @@ object ScalaTestGen extends TestGen {
            |        $prop
            |      }
            |    }""".stripMargin
-      case Import(line) =>
+      case VerbatimLine(line) =>
         s"    $line"
     }
   }

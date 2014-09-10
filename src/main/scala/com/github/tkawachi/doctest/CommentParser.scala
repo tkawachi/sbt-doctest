@@ -20,7 +20,7 @@ object CommentParser extends RegexParsers {
 
   lazy val anyLine = ".*".r <~ eol ^^ (_ => None)
 
-  def lines = rep(importLine | example | replExample | prop | anyLine) <~ ".*".r ^^ (_.flatten)
+  def lines = rep(verbatimLine | example | replExample | prop | anyLine) <~ ".*".r ^^ (_.flatten)
 
   lazy val leadingChar = ('/': Parser[Char]) | '*' | ' ' | '\t'
 
@@ -28,9 +28,15 @@ object CommentParser extends RegexParsers {
 
   lazy val strRep1 = positioned(".+".r ^^ { PositionedString })
 
-  lazy val importLine =
-    leadingString ~> (REPL_STYLE_PROMPT | PYTHON_STYLE_PROMPT | PROP_PROMPT) ~> "import\\s+\\S+".r <~ eol ^^ {
-      case imp => Some(Import(imp))
+  lazy val anyPrompt = REPL_STYLE_PROMPT | PYTHON_STYLE_PROMPT | PROP_PROMPT
+
+  lazy val importStmt = "import\\s+\\S+".r
+
+  lazy val assignment = "va(l|r)\\s+[^=]+\\s+=\\s+[^\\r\\n]+".r
+
+  lazy val verbatimLine =
+    leadingString ~> anyPrompt ~> (importStmt | assignment) <~ eol ^^ {
+      case line => Some(VerbatimLine(line))
     }
 
   lazy val pythonLine = (leadingString <~ PYTHON_STYLE_PROMPT) ~ strRep1 <~ eol

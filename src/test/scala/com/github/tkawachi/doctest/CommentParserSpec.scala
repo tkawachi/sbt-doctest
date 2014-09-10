@@ -53,7 +53,14 @@ class CommentParserSpec extends FunSpec with Matchers {
       val comment =
         """ * >>> import abc.def
         """.stripMargin
-      parse(comment).get should equal(List(Import("import abc.def")))
+      parse(comment).get should equal(List(VerbatimLine("import abc.def")))
+    }
+
+    it("parses a val") {
+      val comment =
+        """ * >>> val x = 1
+        """.stripMargin
+      parse(comment).get should equal(List(VerbatimLine("val x = 1")))
     }
   }
 
@@ -103,7 +110,14 @@ class CommentParserSpec extends FunSpec with Matchers {
       val comment =
         """ * scala> import abc.def
         """.stripMargin
-      parse(comment).get should equal(List(Import("import abc.def")))
+      parse(comment).get should equal(List(VerbatimLine("import abc.def")))
+    }
+
+    it("parses a val") {
+      val comment =
+        """ * scala> val x = 1
+        """.stripMargin
+      parse(comment).get should equal(List(VerbatimLine("val x = 1")))
     }
 
     it("parses a result with a parametric type") {
@@ -114,7 +128,7 @@ class CommentParserSpec extends FunSpec with Matchers {
       parse(comment).get should equal(List(Example("List(1)", TestResult("List(1)", Some("List[Int]")), 1)))
     }
 
-    it("parses a type with a colon") {
+    it("parses a type with an equal sign") {
       val comment =
         """ * scala> =:=
           | * res0: =:=.type = scala.Predef...
@@ -145,7 +159,14 @@ class CommentParserSpec extends FunSpec with Matchers {
       val comment =
         """ * prop> import abc.def
         """.stripMargin
-      parse(comment).get should equal(List(Import("import abc.def")))
+      parse(comment).get should equal(List(VerbatimLine("import abc.def")))
+    }
+
+    it("parses a val") {
+      val comment =
+        """ * prop> val x = 1
+        """.stripMargin
+      parse(comment).get should equal(List(VerbatimLine("val x = 1")))
     }
   }
 
