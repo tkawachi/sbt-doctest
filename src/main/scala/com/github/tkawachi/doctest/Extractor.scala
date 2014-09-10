@@ -12,19 +12,20 @@ class Extractor {
   settings.bootclasspath.value = ScalaPath.pathList.mkString(File.pathSeparator)
   private val parser = new DocParser(settings)
 
-  def extract(scalaSource: String): List[ScaladocComment] = parser.docDefs(scalaSource).map(toComment)
-
-  private[this] def extractPkg(parsed: DocParser.Parsed): Option[String] = {
-    parsed.enclosing
-      .filter(_.isInstanceOf[parser.PackageDef])
-      .map(_.asInstanceOf[parser.PackageDef].pid.toString())
-      .filter(_ != "<empty>") match {
-        case Nil => None
-        case lst => Some(lst.mkString("."))
-      }
-  }
+  def extract(scalaSource: String): List[ScaladocComment] =
+    parser.docDefs(scalaSource).map(toComment)
 
   private[this] def toComment(parsed: DocParser.Parsed) =
-    ScaladocComment(extractPkg(parsed), parsed.docDef.comment.raw, parsed.docDef.comment.pos.line)
+    ScaladocComment(extractPkg(parsed), parsed.nameChain.last.toString,
+      parsed.docDef.comment.raw, parsed.docDef.comment.pos.line)
 
+  private[this] def extractPkg(parsed: DocParser.Parsed): Option[String] = {
+    val packages = parsed.enclosing
+      .collect { case pkgDef: parser.PackageDef => pkgDef.pid.toString() }
+      .filter(_ != "<empty>")
+    packages match {
+      case Nil => None
+      case lst => Some(lst.mkString("."))
+    }
+  }
 }

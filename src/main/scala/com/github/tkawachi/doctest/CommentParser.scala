@@ -84,7 +84,7 @@ object CommentParser extends RegexParsers {
   def parse(input: String) = parseAll(lines, input)
 
   def apply(comment: ScaladocComment): Either[String, ParsedDoctest] = parse(comment.text) match {
-    case Success(examples, _) => Right(ParsedDoctest(comment.pkg, examples, comment.lineno))
+    case Success(examples, _) => Right(ParsedDoctest(comment.pkg, comment.symbol, examples, comment.lineno))
     case NoSuccess(msg, next) => Left(s"$msg on line ${next.pos.line}, column ${next.pos.column}")
   }
 

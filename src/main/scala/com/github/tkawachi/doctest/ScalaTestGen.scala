@@ -25,7 +25,7 @@ object ScalaTestGen extends TestGen {
   }
 
   def generateIt(basename: String, parsed: ParsedDoctest): String = {
-    s"""  describe("${escapeDQ(basename)}.scala:${parsed.lineno}") {
+    s"""  describe("${escapeDQ(basename)}.scala:${parsed.lineno}: ${parsed.symbol}") {
        |${parsed.components.map(gen(basename, parsed.lineno, _)).mkString("\n\n")}
        |  }""".stripMargin
   }
