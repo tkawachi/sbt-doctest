@@ -9,12 +9,13 @@ object ScalaTestGen extends TestGen {
     val pkgLine = pkg.fold("")(p => s"package $p")
     s"""$pkgLine
        |
-       |import org.scalatest.{ Matchers, FunSpec }
-       |import org.scalatest.prop.PropertyChecks
        |import org.scalacheck.Arbitrary._
        |import org.scalacheck.Prop._
        |
-       |class ${basename}Doctest extends FunSpec with Matchers with PropertyChecks {
+       |class ${basename}Doctest
+       |    extends org.scalatest.FunSpec
+       |    with org.scalatest.Matchers
+       |    with org.scalatest.prop.PropertyChecks {
        |
        |  def sbtDoctestGetType[A: $ru.TypeTag](a: A): $ru.Type =
        |    $ru.typeOf[A]
