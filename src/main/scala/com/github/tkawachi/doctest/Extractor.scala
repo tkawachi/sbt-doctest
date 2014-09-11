@@ -16,7 +16,7 @@ class Extractor {
     parser.docDefs(scalaSource).map(toComment)
 
   private[this] def toComment(parsed: DocParser.Parsed) =
-    ScaladocComment(extractPkg(parsed), parsed.nameChain.last.toString,
+    ScaladocComment(extractPkg(parsed), parsed.nameChain.lastOption.map(_.toString).getOrElse(""),
       parsed.docDef.comment.raw, parsed.docDef.comment.pos.line)
 
   private[this] def extractPkg(parsed: DocParser.Parsed): Option[String] = {
