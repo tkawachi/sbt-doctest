@@ -43,13 +43,15 @@ trait GenericParser extends RegexParsers {
         }
     }
 
-  def verbatim(prompt: Prompt): Parser[Verbatim] = {
+  private val verbatimBegin = {
     val keywords = "def" | "import" | "val" | "var"
-    val begin = keywords ~ anyStr ^^ { case a ~ b => PositionedString(a + b) }
-    multiLine(prompt, begin) ^^ {
-      case (_, expr) => Verbatim(expr.str)
+    keywords ~ whiteSpace ~ anyStr ^^ {
+      case a ~ b ~ c => PositionedString(a + b + c)
     }
   }
+
+  def verbatim(prompt: Prompt): Parser[Verbatim] =
+    multiLine(prompt, verbatimBegin) ^^ { case (_, code) => Verbatim(code.str) }
 
   def example(prompt: Prompt, resultLine: String => Parser[TestResult]): Parser[Example] =
     multiLine(prompt, anyPosStr1) >> {
@@ -73,10 +75,10 @@ trait ReplStyleParser extends GenericParser {
     "scala> ",
     "     | ")
 
-  def replResultLine(leading: String) = {
-    val res = "res\\d+".r
-    val tpe = "((?! = )[^\\n\\r])+".r
+  private val res: Parser[String] = "res\\d+".r
+  private val tpe: Parser[String] = "((?! = )[^\\n\\r])+".r
 
+  def replResultLine(leading: String) = {
     (leading ~> res ~> ": " ~> tpe <~ " = ") ~ (anyStr1 <~ eol) ^^ {
       case parsedType ~ value => TestResult(value, Some(parsedType.trim))
     }

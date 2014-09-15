@@ -155,6 +155,19 @@ class CommentParserSpec extends FunSpec with Matchers {
         """.stripMargin
       parse(comment).get should equal(List(Verbatim(s"var ys = List($LS  1,$LS  2,$LS  3)")))
     }
+
+    it("parses an example that starts with a verbatim keyword") {
+      val comment =
+        """ * scala> val value = 1
+          | * scala> value + 1
+          | * res0: Int = 2
+        """.stripMargin
+      parse(comment).get should equal(
+        List(
+          Verbatim("val value = 1"),
+          Example("value + 1", TestResult("2", Some("Int")), 2))
+      )
+    }
   }
 
   describe("Property based") {
