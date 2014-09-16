@@ -217,9 +217,9 @@ class CommentParserSpec extends FunSpec with Matchers {
     it("returns None") {
       val comment =
         """/**
-        | * Test comment.
-        | */
-      """.stripMargin
+          | * Test comment.
+          | */
+        """.stripMargin
       parse(comment).get should equal(List.empty)
     }
   }
