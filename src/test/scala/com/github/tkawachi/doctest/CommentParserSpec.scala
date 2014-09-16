@@ -211,6 +211,14 @@ class CommentParserSpec extends FunSpec with Matchers {
         """.stripMargin
       parse(comment).get should equal(List(Verbatim(s"var ys = List($LS 1,$LS  2,$LS   3)")))
     }
+
+    it("parses a multi-line assignment whose first line is only a keyword") {
+      val comment =
+        """ * prop> def
+          | *     | x = 1
+        """.stripMargin
+      parse(comment).get should equal(List(Verbatim(s"def${LS}x = 1")))
+    }
   }
 
   describe("No examples") {

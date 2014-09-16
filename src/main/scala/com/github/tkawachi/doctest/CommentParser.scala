@@ -10,9 +10,15 @@ trait GenericParser extends RegexParsers {
 
   case class PositionedString(str: String) extends Positional
 
-  val anyStr: Parser[String] = ".*".r
+  def append(s: String ~ String): String = s._1 + s._2
 
-  val anyStr1: Parser[String] = ".+".r
+  val horizontalWhiteSpace: Parser[String] = "[ \\t]+".r
+
+  val emptyStr: Parser[String] = ""
+
+  val anyStr: Parser[String] = "[^\\r\\n]*".r
+
+  val anyStr1: Parser[String] = "[^\\r\\n]+".r
 
   val anyPosStr1: Parser[PositionedString] = positioned(anyStr1 ^^ PositionedString)
 
@@ -45,9 +51,8 @@ trait GenericParser extends RegexParsers {
 
   private val verbatimBegin = {
     val keywords = "def" | "import" | "val" | "var"
-    keywords ~ whiteSpace ~ anyStr ^^ {
-      case a ~ b ~ c => PositionedString(a + b + c)
-    }
+    val whiteSpacePlusAnyStr = horizontalWhiteSpace ~ anyStr ^^ append
+    keywords ~ (whiteSpacePlusAnyStr | emptyStr) ^^ PositionedString.compose(append)
   }
 
   def verbatim(prompt: Prompt): Parser[Verbatim] =
