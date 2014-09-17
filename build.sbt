@@ -13,6 +13,15 @@ scmInfo := Some(ScmInfo(
 
 scalaVersion := "2.10.4"
 
+scalacOptions ++= Seq(
+  "-deprecation",
+  "-encoding", "UTF-8",
+  "-feature",
+  "-unchecked",
+  "-Xfatal-warnings",
+  "-Xlint"
+)
+
 libraryDependencies ++= Seq(
   "org.scala-lang" % "scala-compiler" % scalaVersion.value,
   "org.scalatest" %% "scalatest" % "2.2.0" % "test",
