@@ -1,0 +1,5 @@
+### Changes
+
+* Test type equality in the REPL style
+* Allow `val`, `var`, and `def` definitions in all styles
+* Improve test descriptions
