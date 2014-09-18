@@ -57,7 +57,9 @@ object Main {
    * ...   3)
    * >>> xs.sum
    * 6
+   *
+   * scala> "Hello World".split(" ").head
+   * res0: String = Hello
    */
   type MyInt = Int
 }
-

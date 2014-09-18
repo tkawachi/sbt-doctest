@@ -59,18 +59,18 @@ object ScalaTestGen extends TestGen {
 
   def componentDescription(comp: DoctestComponent, firstLine: Int): String = {
     def absLine(lineNo: Int): Int = firstLine + lineNo - 1
-    def shorten(s: String): String = {
+    def mkStub(s: String): String = {
       val maxLength = 60
       val lines = s.split("[\\r\\n]")
       val suffix = if (lines.size > 1 || lines.head.length > maxLength) " ..." else ""
-      lines.head.take(maxLength) + suffix
+      escapeDQ(lines.head.take(maxLength)) + suffix
     }
 
     comp match {
       case Example(expr, _, lineNo) =>
-        s"example at line ${absLine(lineNo)}: ${shorten(expr)}"
+        s"example at line ${absLine(lineNo)}: ${mkStub(expr)}"
       case Property(prop, lineNo) =>
-        s"property at line ${absLine(lineNo)}: ${shorten(prop)}"
+        s"property at line ${absLine(lineNo)}: ${mkStub(prop)}"
       case _ => ""
     }
   }
