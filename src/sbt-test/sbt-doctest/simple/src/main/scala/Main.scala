@@ -62,4 +62,20 @@ object Main {
    * res0: String = Hello
    */
   type MyInt = Int
+
+  /**
+   * scala> ""
+   * res0: String = ""
+   *
+   * scala> "\"\""
+   * res1: String = ""
+   *
+   * scala> "a a"
+   * res3: String = a a
+   *
+   * scala> "a "
+   * res3: String = "a "
+   */
+  // uncomment to enable above tests
+  //lazy val fortytwo = 21 * 2
 }
