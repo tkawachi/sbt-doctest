@@ -27,20 +27,20 @@ object ScalaTestGen extends TestGen {
   }
 
   def generateIt(basename: String, parsed: ParsedDoctest): String = {
-    s"""  describe("${escapeDQ(basename)}.scala:${parsed.lineno}: ${parsed.symbol}") {
-       |${parsed.components.map(gen(basename, parsed.lineno, _)).mkString("\n\n")}
+    s"""  describe("${escapeDQ(basename)}.scala:${parsed.lineNo}: ${parsed.symbol}") {
+       |${parsed.components.map(gen(parsed.lineNo, _)).mkString("\n\n")}
        |  }""".stripMargin
   }
 
-  def gen(basename: String, firstLine: Int, component: DoctestComponent): String = {
+  def gen(firstLine: Int, component: DoctestComponent): String =
     component match {
-      case Example(expr, expected, lineNo) =>
+      case Example(expr, expected, _) =>
         val typeTest = expected.tpe.fold("")(tpe => genTypeTest(expr, tpe))
-        s"""    it("${escapeDQ(basename)}.scala:${firstLine + lineNo - 1}") {
+        s"""    it("${componentDescription(component, firstLine)}") {
            |      ($expr).toString should equal("${escapeDQ(expected.value)}")$typeTest
            |    }""".stripMargin
-      case Property(prop, lineNo) =>
-        s"""    it("${escapeDQ(basename)}.scala:${firstLine + lineNo - 1}") {
+      case Property(prop, _) =>
+        s"""    it("${componentDescription(component, firstLine)}") {
            |      forAll {
            |        $prop
            |      }
@@ -48,7 +48,6 @@ object ScalaTestGen extends TestGen {
       case Verbatim(code) =>
         s"    $code"
     }
-  }
 
   def genTypeTest(expr: String, expectedType: String): String = {
     s"""
@@ -58,4 +57,21 @@ object ScalaTestGen extends TestGen {
        |        "$expectedType != " + sbtDoctestActualType.toString)""".stripMargin
   }
 
+  def componentDescription(comp: DoctestComponent, firstLine: Int): String = {
+    def absLine(lineNo: Int): Int = firstLine + lineNo - 1
+    def shorten(s: String): String = {
+      val maxLength = 60
+      val lines = s.split("[\\r\\n]")
+      val suffix = if (lines.size > 1 || lines.head.length > maxLength) " ..." else ""
+      lines.head.take(maxLength) + suffix
+    }
+
+    comp match {
+      case Example(expr, _, lineNo) =>
+        s"example at line ${absLine(lineNo)}: ${shorten(expr)}"
+      case Property(prop, lineNo) =>
+        s"property at line ${absLine(lineNo)}: ${shorten(prop)}"
+      case _ => ""
+    }
+  }
 }
