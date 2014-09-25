@@ -71,7 +71,7 @@ object Main {
    * res1: String = ""
    *
    * scala> "a a"
-   * res3: String = a a
+   * res2: String = a a
    *
    * scala> "a "
    * res3: String = "a "
