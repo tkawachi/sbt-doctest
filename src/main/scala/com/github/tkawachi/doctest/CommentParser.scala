@@ -50,7 +50,8 @@ trait GenericParser extends RegexParsers {
     }
 
   private val verbatimBegin = {
-    val keywords = "def" | "import" | "val" | "var"
+    val keywords = "abstract" | "case" | "class" | "def" | "implicit" | "import" |
+      "lazy" | "object" | "sealed" | "trait" | "type" | "val" | "var"
     val whiteSpacePlusAnyStr = horizontalWhiteSpace ~ anyStr ^^ append
     keywords ~ (whiteSpacePlusAnyStr | emptyStr) ^^ PositionedString.compose(append)
   }
