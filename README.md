@@ -12,7 +12,7 @@ Install
 
 To use this plugin, add it to your `project/plugins.sbt`
 
-	addSbtPlugin("com.github.tkawachi" % "sbt-doctest" % "0.1.0")
+	addSbtPlugin("com.github.tkawachi" % "sbt-doctest" % "0.1.1")
 
 and add the following settings to your `build.sbt`
 
