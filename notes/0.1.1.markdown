@@ -1,0 +1,5 @@
+### Changes
+
+* Allow more declarations including `abstract`, `case`, `class`,
+  `implicit`, `lazy`, `object`, `sealed`, `trait` and `type`.
+  Contributed by @fthomas.
