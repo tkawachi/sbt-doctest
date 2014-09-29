@@ -2,3 +2,7 @@ language: scala
 
 script:
   - sbt test scripted
+
+jdk:
+  - openjdk7
+  - oraclejdk7
