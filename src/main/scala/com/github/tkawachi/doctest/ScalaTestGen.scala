@@ -46,7 +46,7 @@ object ScalaTestGen extends TestGen {
            |      }
            |    }""".stripMargin
       case Verbatim(code) =>
-        s"    $code"
+        StringUtil.indent(code, "    ")
     }
 
   def genTypeTest(expr: String, expectedType: String): String = {
