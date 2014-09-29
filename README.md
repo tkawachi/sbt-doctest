@@ -27,9 +27,9 @@ It might be useful when you want to specify a version of scalatest/scalacheck ex
 	DoctestPlugin.doctestSettingsWithoutLibs
 	
 	libraryDependencies ++= Seq(
-      "org.scalatest" %% "scalatest" % "2.2.0" % "test",
-      "org.scalacheck" %% "scalacheck" % "1.11.4" % "test"
-      // And other library dependencies.
+	  "org.scalatest" %% "scalatest" % "2.2.0" % "test",
+	  "org.scalacheck" %% "scalacheck" % "1.11.4" % "test"
+	  // And other library dependencies.
 	)
 
 Usage
