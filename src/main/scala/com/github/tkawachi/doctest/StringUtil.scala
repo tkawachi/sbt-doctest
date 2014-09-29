@@ -30,4 +30,14 @@ object StringUtil {
     val pattern = """(\n\r?)""".r
     indentation + pattern.replaceAllIn(target, _.group(0) + indentation)
   }
+
+  def truncate(s: String): String = {
+    val maxLength = 60
+    val lines = s.split("[\\r\\n]")
+    val suffix =
+      if (lines.size > 1 || lines.head.length > maxLength) " ..."
+      else ""
+
+    lines.head.take(maxLength) + suffix
+  }
 }
