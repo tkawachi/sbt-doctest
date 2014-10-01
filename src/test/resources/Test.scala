@@ -12,4 +12,10 @@ class Test {
    * hello, world!
    */
   def f(x: Int) = x + x
+
+  /** Ascii method
+   * scala> new Test() += 1
+   * 2
+   */
+  def +=(x: Int) = x + x
 }
