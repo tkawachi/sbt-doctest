@@ -21,7 +21,12 @@ class ExtractorSpec extends FunSpec with Matchers with BeforeAndAfter {
           |   *
           |   * >>> "hello, " + "world!"
           |   * hello, world!
-          |   */""".stripMargin, 5)
+          |   */""".stripMargin, 5),
+        ScaladocComment(None, "+=",
+          """/** Ascii method
+          |   * scala> new Test() += 1
+          |   * 2
+          |   */""".stripMargin, 16)
       )
     )
   }
