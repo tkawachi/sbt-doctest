@@ -19,7 +19,18 @@ import sbt._, Keys._
 object DoctestPlugin extends Plugin {
   val doctestGenTests = taskKey[Seq[File]]("Generates test files.")
 
-  val doctestSettings = Seq(
+  /**
+   * Default libraryDependencies.
+   */
+  val doctestDefaultLibs = Seq(
+    "org.scalatest" %% "scalatest" % "2.2.0" % "test",
+    "org.scalacheck" %% "scalacheck" % "1.11.4" % "test"
+  )
+
+  /**
+   * Settings for test Generation.
+   */
+  val doctestGenSettings = Seq(
     doctestGenTests := {
       (managedSourceDirectories in Test).value.headOption match {
         case None =>
@@ -43,10 +54,12 @@ object DoctestPlugin extends Plugin {
             }.toSeq
       }
     },
-    sourceGenerators in Test += doctestGenTests.taskValue,
-    libraryDependencies ++= Seq(
-      "org.scalatest" %% "scalatest" % "2.2.0" % "test",
-      "org.scalacheck" %% "scalacheck" % "1.11.4" % "test"
-    )
+    sourceGenerators in Test += doctestGenTests.taskValue
+  )
+
+  val doctestSettingsWithoutLibs = doctestGenSettings
+
+  val doctestSettings = doctestSettingsWithoutLibs ++ Seq(
+    libraryDependencies ++= doctestDefaultLibs
   )
 }

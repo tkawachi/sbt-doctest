@@ -10,13 +10,27 @@ in ScalaDoc.
 Install
 -------
 
-To use this plugin, add it to your `project/plugins.sbt`
+To use this plugin, add it to your `project/plugins.sbt`,
 
 	addSbtPlugin("com.github.tkawachi" % "sbt-doctest" % "0.1.1")
 
-and add the following settings to your `build.sbt`
+and add the following settings to your `build.sbt`.
 
 	DoctestPlugin.doctestSettings
+
+NOTE:
+`DoctestPlugin.doctestSettings` adds scalatest and scalacheck to `libraryDependencies`.
+Use `DoctestPlugin.doctestSettingsWithoutLibs` instead when you specify these in `build.sbt`.
+It might be useful when you want to specify a version of scalatest/scalacheck explicitly.
+
+	// Instead of DoctestPlugin.doctestSettings
+	DoctestPlugin.doctestSettingsWithoutLibs
+	
+	libraryDependencies ++= Seq(
+	  "org.scalatest" %% "scalatest" % "2.2.0" % "test",
+	  "org.scalacheck" %% "scalacheck" % "1.11.4" % "test"
+	  // And other library dependencies.
+	)
 
 Usage
 -----
