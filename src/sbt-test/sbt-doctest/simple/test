@@ -5,3 +5,8 @@ $ absent target/scala-2.10/src_managed/test/sbt_doctest/NoDoctestDoctest.scala
 $ absent target/scala-2.11/src_managed/test/sbt_doctest/NoDoctestDoctest.scala
 > + test:compile
 > + test
+
+# Try with specs2
+> set doctestTestFramework :="specs2"
+> clean
+> + test

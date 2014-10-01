@@ -1,5 +1,4 @@
-sbt-doctest
-===========
+# sbt-doctest
 
 Plugin for [sbt](http://www.scala-sbt.org) that generates tests from examples
 in ScalaDoc.
@@ -7,8 +6,7 @@ in ScalaDoc.
 [![Build Status](https://travis-ci.org/tkawachi/sbt-doctest.svg?branch=master)](https://travis-ci.org/tkawachi/sbt-doctest)
 [![Stories in Ready](https://badge.waffle.io/tkawachi/sbt-doctest.png?label=ready&title=Ready)](https://waffle.io/tkawachi/sbt-doctest)
 
-Install
--------
+## Install
 
 To use this plugin, add it to your `project/plugins.sbt`,
 
@@ -18,8 +16,18 @@ and add the following settings to your `build.sbt`.
 
 	DoctestPlugin.doctestSettings
 
-NOTE:
-`DoctestPlugin.doctestSettings` adds scalatest and scalacheck to `libraryDependencies`.
+### Using specs2
+
+This plugin generates tests for ScalaTest by default. If you use specs2,
+set `doctestTestFramework` to `specs2` in `build.sbt`.
+Then it will generate tests for specs2.
+
+	doctestTestFramework := "specs2"
+
+
+### Note for libraryDependencies
+
+`DoctestPlugin.doctestSettings` adds specific version of testing libraries to `libraryDependencies`.
 Use `DoctestPlugin.doctestSettingsWithoutLibs` instead when you specify these in `build.sbt`.
 It might be useful when you want to specify a version of scalatest/scalacheck explicitly.
 
@@ -32,8 +40,7 @@ It might be useful when you want to specify a version of scalatest/scalacheck ex
 	  // And other library dependencies.
 	)
 
-Usage
------
+## Usage
 
 sbt-doctest will generate [ScalaTest](http://www.scalatest.org) tests from
 doctests in ScalaDoc comments. These tests are automatically generated and

@@ -1,4 +1,4 @@
-import com.github.tkawachi.doctest.TestGenerator
+import com.github.tkawachi.doctest.{ TestFramework => TFramework, Specs2, ScalaTest, TestGenerator }
 import sbt._, Keys._
 
 /**
@@ -17,20 +17,31 @@ import sbt._, Keys._
  * }}}
  */
 object DoctestPlugin extends Plugin {
+  val doctestTestFramework = settingKey[String]("Test framework. Specify scalatest (default) or specs2.")
   val doctestGenTests = taskKey[Seq[File]]("Generates test files.")
 
   /**
    * Default libraryDependencies.
    */
-  val doctestDefaultLibs = Seq(
-    "org.scalatest" %% "scalatest" % "2.2.0" % "test",
-    "org.scalacheck" %% "scalacheck" % "1.11.4" % "test"
-  )
+  object TestLibs {
+    val scalatest: Seq[ModuleID] = Seq(
+      "org.scalatest" %% "scalatest" % "2.2.0" % "test",
+      "org.scalacheck" %% "scalacheck" % "1.11.4" % "test"
+    )
+
+    val specs2Version = "2.4.4"
+
+    val specs2 = Seq(
+      "org.specs2" %% "specs2-core" % specs2Version % "test",
+      "org.specs2" %% "specs2-scalacheck" % specs2Version % "test"
+    )
+  }
 
   /**
    * Settings for test Generation.
    */
   val doctestGenSettings = Seq(
+    doctestTestFramework := "scalatest",
     doctestGenTests := {
       (managedSourceDirectories in Test).value.headOption match {
         case None =>
@@ -39,7 +50,7 @@ object DoctestPlugin extends Plugin {
         case Some(testDir) =>
           (unmanagedSources in Compile).value
             .filter(_.ext == "scala")
-            .flatMap(TestGenerator.apply)
+            .flatMap(TestGenerator(_, TFramework(doctestTestFramework.value)))
             .groupBy(r => r.pkg -> r.basename)
             .flatMap {
               case ((pkg, basename), results) =>
@@ -60,6 +71,9 @@ object DoctestPlugin extends Plugin {
   val doctestSettingsWithoutLibs = doctestGenSettings
 
   val doctestSettings = doctestSettingsWithoutLibs ++ Seq(
-    libraryDependencies ++= doctestDefaultLibs
+    libraryDependencies ++= (TFramework(doctestTestFramework.value) match {
+      case ScalaTest => TestLibs.scalatest
+      case Specs2 => TestLibs.specs2
+    })
   )
 }
