@@ -14,7 +14,7 @@ To use this plugin, add it to your `project/plugins.sbt`,
 
 and add the following settings to your `build.sbt`.
 
-	DoctestPlugin.doctestSettings
+	doctestSettings
 
 ### Using specs2
 
@@ -22,17 +22,20 @@ This plugin generates tests for ScalaTest by default. If you use specs2,
 set `doctestTestFramework` to `specs2` in `build.sbt`.
 Then it will generate tests for specs2.
 
+	doctestSettings
+	
 	doctestTestFramework := "specs2"
 
 
 ### Note for libraryDependencies
 
-`DoctestPlugin.doctestSettings` adds specific version of testing libraries to `libraryDependencies`.
-Use `DoctestPlugin.doctestSettingsWithoutLibs` instead when you specify these in `build.sbt`.
-It might be useful when you want to specify a version of scalatest/scalacheck explicitly.
+`doctestSettings` adds specific version of testing libraries to `libraryDependencies`.
+Set `doctestWithDependencies` to `false` when you explicitly specify testing library dependencies in `build.sbt`.
+`doctestWithDependencies` line should come after `doctestSettings` line.
 
-	// Instead of DoctestPlugin.doctestSettings
-	DoctestPlugin.doctestSettingsWithoutLibs
+	doctestSettings
+	
+	doctestWithDependencies := false
 	
 	libraryDependencies ++= Seq(
 	  "org.scalatest" %% "scalatest" % "2.2.0" % "test",

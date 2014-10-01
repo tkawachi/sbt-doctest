@@ -18,6 +18,7 @@ import sbt._, Keys._
  */
 object DoctestPlugin extends Plugin {
   val doctestTestFramework = settingKey[String]("Test framework. Specify scalatest (default) or specs2.")
+  val doctestWithDependencies = settingKey[Boolean]("Whether to include libraryDependencies to doctestSettings.")
   val doctestGenTests = taskKey[Seq[File]]("Generates test files.")
 
   /**
@@ -42,6 +43,7 @@ object DoctestPlugin extends Plugin {
    */
   val doctestGenSettings = Seq(
     doctestTestFramework := "scalatest",
+    doctestWithDependencies := true,
     doctestGenTests := {
       (managedSourceDirectories in Test).value.headOption match {
         case None =>
@@ -68,12 +70,14 @@ object DoctestPlugin extends Plugin {
     sourceGenerators in Test += doctestGenTests.taskValue
   )
 
-  val doctestSettingsWithoutLibs = doctestGenSettings
-
-  val doctestSettings = doctestSettingsWithoutLibs ++ Seq(
-    libraryDependencies ++= (TFramework(doctestTestFramework.value) match {
-      case ScalaTest => TestLibs.scalatest
-      case Specs2 => TestLibs.specs2
+  val doctestSettings = doctestGenSettings ++ Seq(
+    libraryDependencies ++= (if (doctestWithDependencies.value) {
+      TFramework(doctestTestFramework.value) match {
+        case ScalaTest => TestLibs.scalatest
+        case Specs2 => TestLibs.specs2
+      }
+    } else {
+      Seq.empty
     })
   )
 }

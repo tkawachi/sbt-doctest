@@ -6,4 +6,6 @@ libraryDependencies ++= Seq(
 
 crossScalaVersions := "2.11.2" :: "2.10.4" :: Nil
 
-DoctestPlugin.doctestSettingsWithoutLibs
+doctestSettings
+
+doctestWithDependencies := false
