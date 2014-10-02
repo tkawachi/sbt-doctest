@@ -7,7 +7,6 @@ import StringUtil.{ escapeDoubleQuote => escapeDQ }
  */
 object ScalaTestGen extends TestGen {
   private val st = "org.scalatest"
-  private val ru = "scala.reflect.runtime.universe"
 
   def generate(basename: String, pkg: Option[String], parsedList: Seq[ParsedDoctest]): String = {
     val pkgLine = pkg.fold("")(p => s"package $p")
@@ -21,8 +20,7 @@ object ScalaTestGen extends TestGen {
        |    with $st.Matchers
        |    with $st.prop.PropertyChecks {
        |
-       |  def sbtDoctestGetType[A: $ru.TypeTag](a: A): $ru.Type =
-       |    $ru.typeOf[A]
+       |  def sbtDoctestTypeEquals[A, B](a: => A, b: => B)(implicit ev: A =:= B): Boolean = true
        |
        |${parsedList.map(generateExample(basename, _)).mkString("\n\n")}
        |}
@@ -54,10 +52,7 @@ object ScalaTestGen extends TestGen {
 
   def genTypeTest(expr: String, expectedType: String): String = {
     s"""
-       |      val sbtDoctestExpectedType = $ru.typeOf[$expectedType]
-       |      val sbtDoctestActualType = sbtDoctestGetType($expr)
-       |      require(sbtDoctestExpectedType =:= sbtDoctestActualType,
-       |        "$expectedType != " + sbtDoctestActualType.toString)""".stripMargin
+       |      sbtDoctestTypeEquals($expr, ($expr): $expectedType)""".stripMargin
   }
 
   def componentDescription(comp: DoctestComponent, firstLine: Int): String = {
