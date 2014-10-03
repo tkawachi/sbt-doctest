@@ -6,8 +6,6 @@ import StringUtil.{ escapeDoubleQuote => escapeDQ }
  * Test generator for specs2.
  */
 object Specs2TestGen extends TestGen {
-  private val ru = "scala.reflect.runtime.universe"
-
   override def generate(basename: String, pkg: Option[String], examples: Seq[ParsedDoctest]): String = {
     val pkgLine = pkg.fold("")(p => s"package $p")
     s"""$pkgLine
@@ -19,8 +17,7 @@ object Specs2TestGen extends TestGen {
        |    extends org.specs2.mutable.Specification
        |    with org.specs2.ScalaCheck {
        |
-       |  def sbtDoctestGetType[A: $ru.TypeTag](a: A): $ru.Type =
-       |    $ru.typeOf[A]
+       |  def sbtDoctestTypeEquals[A, B](a: => A, b: => B)(implicit ev: A =:= B): Boolean = true
        |
        |${examples.map(generateExample(basename, _)).mkString("\n\n")}
        |}
@@ -50,10 +47,7 @@ object Specs2TestGen extends TestGen {
 
   def genTypeTest(expr: String, expectedType: String): String = {
     s"""
-       |      val sbtDoctestExpectedType = $ru.typeOf[$expectedType]
-       |      val sbtDoctestActualType = sbtDoctestGetType($expr)
-       |      require(sbtDoctestExpectedType =:= sbtDoctestActualType,
-       |        "$expectedType != " + sbtDoctestActualType.toString)""".stripMargin
+       |      sbtDoctestTypeEquals($expr, ($expr): $expectedType)""".stripMargin
   }
 
   def componentDescription(comp: DoctestComponent, firstLine: Int): String = {
