@@ -1,0 +1,7 @@
+### Changes
+
+* specs2 support. Tests are generated for specs2 when you set `doctestTestFramework := "specs2"`.
+* New setting key `doctestWithDependencies`. It controls whether `doctestSettings` provides `libraryDependencies` or not.
+* Fixed the StackOverflowError issue (#33). Thanks to @fthomas.
+
+Please try it out, and send feedback to https://github.com/tkawachi/sbt-doctest/issues.
