@@ -10,11 +10,15 @@ in ScalaDoc.
 
 To use this plugin, add it to your `project/plugins.sbt`,
 
-	addSbtPlugin("com.github.tkawachi" % "sbt-doctest" % "0.2.0")
+```scala
+addSbtPlugin("com.github.tkawachi" % "sbt-doctest" % "0.2.0")
+```
 
 and add the following settings to your `build.sbt`.
 
-	doctestSettings
+```scala
+doctestSettings
+```
 
 ### Using specs2
 
@@ -22,10 +26,11 @@ This plugin generates tests for ScalaTest by default. If you use specs2,
 set `doctestTestFramework` to `specs2` in `build.sbt`.
 Then it will generate tests for specs2.
 
-	doctestSettings
-	
-	doctestTestFramework := "specs2"
+```scala
+doctestSettings
 
+doctestTestFramework := "specs2"
+```
 
 ### Note for libraryDependencies
 
@@ -33,15 +38,17 @@ Then it will generate tests for specs2.
 Set `doctestWithDependencies` to `false` when you explicitly specify testing library dependencies in `build.sbt`.
 `doctestWithDependencies` line should come after `doctestSettings` line.
 
-	doctestSettings
-	
-	doctestWithDependencies := false
-	
-	libraryDependencies ++= Seq(
-	  "org.scalatest" %% "scalatest" % "2.2.0" % "test",
-	  "org.scalacheck" %% "scalacheck" % "1.11.4" % "test"
-	  // And other library dependencies.
-	)
+```scala
+doctestSettings
+
+doctestWithDependencies := false
+
+libraryDependencies ++= Seq(
+  "org.scalatest" %% "scalatest" % "2.2.0" % "test",
+  "org.scalacheck" %% "scalacheck" % "1.11.4" % "test"
+  // And other library dependencies.
+)
+```
 
 ## Usage
 
@@ -52,6 +59,7 @@ run when sbt's `test` task is invoked.
 Here is an example that shows the different doctest styles that are supported
 by the plugin:
 
+```scala
 	object Test {
 	
 	  /**
@@ -72,9 +80,11 @@ by the plugin:
 	   */
 	  def f(x: Int) = x + x
 	}
+```
 
 It also supports multi-line inputs:
 
+```scala
 	/**
 	 * {{{
 	 * # Python style
@@ -95,3 +105,4 @@ It also supports multi-line inputs:
 	 * }}}
 	 */
 	def f(x: Int) = x + x
+```
