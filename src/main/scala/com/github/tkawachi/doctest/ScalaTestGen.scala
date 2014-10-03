@@ -20,7 +20,7 @@ object ScalaTestGen extends TestGen {
        |    with $st.Matchers
        |    with $st.prop.PropertyChecks {
        |
-       |  def sbtDoctestTypeEquals[A, B](a: => A, b: => B)(implicit ev: A =:= B): Boolean = true
+       |  def sbtDoctestTypeEquals[A](a1: => A)(a2: => A) = ()
        |
        |${parsedList.map(generateExample(basename, _)).mkString("\n\n")}
        |}
@@ -52,7 +52,7 @@ object ScalaTestGen extends TestGen {
 
   def genTypeTest(expr: String, expectedType: String): String = {
     s"""
-       |      sbtDoctestTypeEquals($expr, ($expr): $expectedType)""".stripMargin
+       |      sbtDoctestTypeEquals($expr)(($expr): $expectedType)""".stripMargin
   }
 
   def componentDescription(comp: DoctestComponent, firstLine: Int): String = {

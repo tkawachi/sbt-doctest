@@ -17,7 +17,7 @@ object Specs2TestGen extends TestGen {
        |    extends org.specs2.mutable.Specification
        |    with org.specs2.ScalaCheck {
        |
-       |  def sbtDoctestTypeEquals[A, B](a: => A, b: => B)(implicit ev: A =:= B): Boolean = true
+       |  def sbtDoctestTypeEquals[A](a1: => A)(a2: => A) = ()
        |
        |${examples.map(generateExample(basename, _)).mkString("\n\n")}
        |}
@@ -47,7 +47,7 @@ object Specs2TestGen extends TestGen {
 
   def genTypeTest(expr: String, expectedType: String): String = {
     s"""
-       |      sbtDoctestTypeEquals($expr, ($expr): $expectedType)""".stripMargin
+       |      sbtDoctestTypeEquals($expr)(($expr): $expectedType)""".stripMargin
   }
 
   def componentDescription(comp: DoctestComponent, firstLine: Int): String = {
