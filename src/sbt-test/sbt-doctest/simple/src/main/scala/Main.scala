@@ -64,6 +64,12 @@ object Main {
   type MyInt = Int
 
   /**
+   * scala> Main.square(4)
+   * res0: Int = 16
+   */
+  private[sbt_doctest] def square(x: Int) = x * x
+
+  /**
    * scala> ""
    * res0: String = ""
    *
