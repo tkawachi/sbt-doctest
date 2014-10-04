@@ -106,3 +106,7 @@ It also supports multi-line inputs:
 	 */
 	def f(x: Int) = x + x
 ```
+
+## License
+
+MIT
