@@ -81,7 +81,18 @@ object Main {
    *
    * scala> "a "
    * res3: String = "a "
+   *
+   * scala> List("")
+   * res0: List[String] = List("")
+   *
+   * scala> List("a")
+   * res1: List[String] = List(a)
+   *
+   * scala> List("a ")
+   * res2: List[String] = List("a ")
+   *
+   * scala> List("a a")
+   * res3: List[String] = List(a a)
    */
-  // uncomment to enable above tests
-  //lazy val fortytwo = 21 * 2
+  lazy val fortytwo = 21 * 2
 }

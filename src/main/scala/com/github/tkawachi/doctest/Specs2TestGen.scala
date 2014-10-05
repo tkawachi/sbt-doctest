@@ -18,6 +18,7 @@ object Specs2TestGen extends TestGen {
        |    with org.specs2.ScalaCheck {
        |
        |  def sbtDoctestTypeEquals[A](a1: => A)(a2: => A) = ()
+       |  def sbtDoctestReplString(any: Any): String = scala.runtime.ScalaRunTime.replStringOf(any, 1000).init
        |
        |${examples.map(generateExample(basename, _)).mkString("\n\n")}
        |}
@@ -35,7 +36,7 @@ object Specs2TestGen extends TestGen {
       case Example(expr, expected, _) =>
         val typeTest = expected.tpe.fold("")(tpe => genTypeTest(expr, tpe))
         s"""    "${componentDescription(component, firstLine)}" in {$typeTest
-           |      ($expr).toString must_== "${escapeDQ(expected.value)}"
+           |      sbtDoctestReplString($expr) must_== "${escapeDQ(expected.value)}"
            |    }""".stripMargin
       case Property(prop, _) =>
         s"""    "${componentDescription(component, firstLine)}" ! prop {

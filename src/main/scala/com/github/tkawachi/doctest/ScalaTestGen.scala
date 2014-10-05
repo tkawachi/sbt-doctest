@@ -21,6 +21,7 @@ object ScalaTestGen extends TestGen {
        |    with $st.prop.PropertyChecks {
        |
        |  def sbtDoctestTypeEquals[A](a1: => A)(a2: => A) = ()
+       |  def sbtDoctestReplString(any: Any): String = scala.runtime.ScalaRunTime.replStringOf(any, 1000).init
        |
        |${parsedList.map(generateExample(basename, _)).mkString("\n\n")}
        |}
@@ -38,7 +39,7 @@ object ScalaTestGen extends TestGen {
       case Example(expr, expected, _) =>
         val typeTest = expected.tpe.fold("")(tpe => genTypeTest(expr, tpe))
         s"""    it("${componentDescription(component, firstLine)}") {
-           |      ($expr).toString should equal("${escapeDQ(expected.value)}")$typeTest
+           |      sbtDoctestReplString($expr) should equal("${escapeDQ(expected.value)}")$typeTest
            |    }""".stripMargin
       case Property(prop, _) =>
         s"""    it("${componentDescription(component, firstLine)}") {
