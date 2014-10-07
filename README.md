@@ -22,7 +22,7 @@ doctestSettings
 
 ### Using ScalaTest or specs2
 
-This plugin generates tests for ScalaCheck by default. If you use SalaTest or specs2,
+This plugin generates tests for ScalaCheck by default. If you use ScalaTest or specs2,
 set `doctestTestFramework` to `scalatest` or `specs2` in `build.sbt`.
 Then it will generate tests for the specified framework.
 
