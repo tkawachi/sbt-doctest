@@ -41,7 +41,7 @@ object DoctestPlugin extends Plugin {
    * Settings for test Generation.
    */
   val doctestGenSettings = Seq(
-    doctestTestFramework := "scalatest",
+    doctestTestFramework := "scalacheck",
     doctestWithDependencies := true,
     doctestGenTests := {
       (managedSourceDirectories in Test).value.headOption match {
