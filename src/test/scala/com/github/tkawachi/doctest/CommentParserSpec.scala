@@ -173,19 +173,19 @@ class CommentParserSpec extends FunSpec with Matchers {
   describe("Property based") {
     it("parses a single property") {
       val comment =
-        """ * prop> (i: Int) => i + i should === i * 2
+        """ * prop> (i: Int) => i + i == i * 2
         """.stripMargin
-      parse(comment).get should equal(List(Property("""(i: Int) => i + i should === i * 2""", 1)))
+      parse(comment).get should equal(List(Property("""(i: Int) => i + i == i * 2""", 1)))
     }
 
     it("parses a muti-lines property") {
       val comment =
         """ * prop> (i: Int) =>
-          | *     | i + i should === (i *
+          | *     | i + i == (i *
           | *     | 2)
           | *
         """.stripMargin
-      parse(comment).get should equal(List(Property(s"(i: Int) =>${LS}i + i should === (i *${LS}2)", 1)))
+      parse(comment).get should equal(List(Property(s"(i: Int) =>${LS}i + i == (i *${LS}2)", 1)))
     }
 
     it("parses an import line") {

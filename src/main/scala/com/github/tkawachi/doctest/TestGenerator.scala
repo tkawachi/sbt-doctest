@@ -12,6 +12,7 @@ object TestGenerator {
   private def testGen(framework: TestFramework): TestGen = framework match {
     case ScalaTest => ScalaTestGen
     case Specs2 => Specs2TestGen
+    case ScalaCheck => ScalaCheckGen
   }
 
   /**

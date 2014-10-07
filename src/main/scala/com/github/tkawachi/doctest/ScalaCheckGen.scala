@@ -1,12 +1,8 @@
 package com.github.tkawachi.doctest
 
-import StringUtil.{ escapeDoubleQuote => escapeDQ }
+import com.github.tkawachi.doctest.StringUtil.{ escapeDoubleQuote => escapeDQ }
 
-/**
- * Test generator for ScalaTest.
- */
-object ScalaTestGen extends TestGen {
-  private val st = "org.scalatest"
+object ScalaCheckGen extends TestGen {
 
   def generate(basename: String, pkg: Option[String], parsedList: Seq[ParsedDoctest]): String = {
     val pkgLine = pkg.fold("")(p => s"package $p")
@@ -15,10 +11,8 @@ object ScalaTestGen extends TestGen {
        |import org.scalacheck.Arbitrary._
        |import org.scalacheck.Prop._
        |
-       |class ${basename}Doctest
-       |    extends $st.FunSpec
-       |    with $st.Matchers
-       |    with $st.prop.Checkers {
+       |object ${basename}Doctest
+       |    extends org.scalacheck.Properties("${escapeDQ(basename)}.scala") {
        |
        |  def sbtDoctestTypeEquals[A](a1: => A)(a2: => A) = ()
        |  def sbtDoctestReplString(any: Any): String = scala.runtime.ScalaRunTime.replStringOf(any, 1000).init
@@ -29,32 +23,28 @@ object ScalaTestGen extends TestGen {
   }
 
   def generateExample(basename: String, parsed: ParsedDoctest): String = {
-    s"""  describe("${escapeDQ(basename)}.scala:${parsed.lineNo}: ${parsed.symbol}") {
+    s"""  include(new org.scalacheck.Properties("L${parsed.lineNo}:${parsed.symbol}") {
        |${parsed.components.map(gen(parsed.lineNo, _)).mkString("\n\n")}
-       |  }""".stripMargin
+       |  })""".stripMargin
   }
 
   def gen(firstLine: Int, component: DoctestComponent): String =
     component match {
       case Example(expr, expected, _) =>
         val typeTest = expected.tpe.fold("")(tpe => genTypeTest(expr, tpe))
-        s"""    it("${componentDescription(component, firstLine)}") {
-           |      sbtDoctestReplString($expr) should equal("${escapeDQ(expected.value)}")$typeTest
+        s"""    property("${componentDescription(component, firstLine)}") = {
+           |      ${typeTest}sbtDoctestReplString($expr) == ("${escapeDQ(expected.value)}")
            |    }""".stripMargin
       case Property(prop, _) =>
-        s"""    it("${componentDescription(component, firstLine)}") {
-           |      check {
-           |        $prop
-           |      }
+        s"""    property("${componentDescription(component, firstLine)}") = org.scalacheck.Prop.forAll {
+           |      $prop
            |    }""".stripMargin
       case Verbatim(code) =>
         StringUtil.indent(code, "    ")
     }
 
-  def genTypeTest(expr: String, expectedType: String): String = {
-    s"""
-       |      sbtDoctestTypeEquals($expr)(($expr): $expectedType)""".stripMargin
-  }
+  def genTypeTest(expr: String, expectedType: String): String =
+    s"      sbtDoctestTypeEquals($expr)(($expr): $expectedType)\n"
 
   def componentDescription(comp: DoctestComponent, firstLine: Int): String = {
     def absLine(lineNo: Int): Int = firstLine + lineNo - 1

@@ -20,11 +20,11 @@ and add the following settings to your `build.sbt`.
 doctestSettings
 ```
 
-### Using specs2
+### Using ScalaTest or specs2
 
-This plugin generates tests for ScalaTest by default. If you use specs2,
-set `doctestTestFramework` to `specs2` in `build.sbt`.
-Then it will generate tests for specs2.
+This plugin generates tests for ScalaCheck by default. If you use ScalaTest or specs2,
+set `doctestTestFramework` to `scalatest` or `specs2` in `build.sbt`.
+Then it will generate tests for the specified framework.
 
 ```scala
 doctestSettings
@@ -52,7 +52,7 @@ libraryDependencies ++= Seq(
 
 ## Usage
 
-sbt-doctest will generate [ScalaTest](http://www.scalatest.org) tests from
+sbt-doctest will generate tests from
 doctests in ScalaDoc comments. These tests are automatically generated and
 run when sbt's `test` task is invoked.
 
@@ -75,7 +75,7 @@ by the plugin:
 	   * res1: Int = 40
 	   *
 	   * # Property based test
-	   * prop> (i: Int) => Test.f(i) should === (i * 2)
+	   * prop> (i: Int) => Test.f(i) == (i * 2)
 	   * }}}
 	   */
 	  def f(x: Int) = x + x
@@ -101,7 +101,7 @@ It also supports multi-line inputs:
 	 *
 	 * # Property based test
 	 * prop> (i: Int) =>
-	 *     |   Test.f(i) should === (i * 2)
+	 *     |   Test.f(i) == (i * 2)
 	 * }}}
 	 */
 	def f(x: Int) = x + x
