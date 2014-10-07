@@ -1,4 +1,4 @@
-import com.github.tkawachi.doctest.{ TestFramework => TFramework, ScalaCheck, Specs2, ScalaTest, TestGenerator }
+package com.github.tkawachi.doctest
 import sbt._, Keys._
 
 /**
@@ -17,9 +17,19 @@ import sbt._, Keys._
  * }}}
  */
 object DoctestPlugin extends Plugin {
-  val doctestTestFramework = settingKey[String]("Test framework. Specify scalatest (default) or specs2.")
+  val doctestTestFramework = settingKey[DoctestFramework]("Test framework. Specify scalacheck (default) or specs2 or scalatest.")
   val doctestWithDependencies = settingKey[Boolean]("Whether to include libraryDependencies to doctestSettings.")
   val doctestGenTests = taskKey[Seq[File]]("Generates test files.")
+
+  sealed abstract class DoctestFramework
+
+  object DoctestFramework {
+    case object Specs2 extends DoctestFramework
+    case object ScalaTest extends DoctestFramework
+    case object ScalaCheck extends DoctestFramework
+  }
+
+  import DoctestFramework._
 
   /**
    * Default libraryDependencies.
@@ -41,7 +51,7 @@ object DoctestPlugin extends Plugin {
    * Settings for test Generation.
    */
   val doctestGenSettings = Seq(
-    doctestTestFramework := "scalacheck",
+    doctestTestFramework := (doctestTestFramework ?? ScalaCheck).value,
     doctestWithDependencies := true,
     doctestGenTests := {
       (managedSourceDirectories in Test).value.headOption match {
@@ -51,7 +61,7 @@ object DoctestPlugin extends Plugin {
         case Some(testDir) =>
           (unmanagedSources in Compile).value
             .filter(_.ext == "scala")
-            .flatMap(TestGenerator(_, TFramework(doctestTestFramework.value)))
+            .flatMap(TestGenerator(_, doctestTestFramework.value))
             .groupBy(r => r.pkg -> r.basename)
             .flatMap {
               case ((pkg, basename), results) =>
@@ -71,7 +81,7 @@ object DoctestPlugin extends Plugin {
 
   val doctestSettings = doctestGenSettings ++ Seq(
     libraryDependencies ++= (if (doctestWithDependencies.value) {
-      TFramework(doctestTestFramework.value) match {
+      doctestTestFramework.value match {
         case ScalaTest => TestLibs.scalatest
         case Specs2 => TestLibs.specs2
         case ScalaCheck => TestLibs.scalacheck
