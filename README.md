@@ -75,7 +75,7 @@ by the plugin:
 	   * res1: Int = 40
 	   *
 	   * # Property based test
-	   * prop> (i: Int) => Test.f(i) should === (i * 2)
+	   * prop> (i: Int) => Test.f(i) == (i * 2)
 	   * }}}
 	   */
 	  def f(x: Int) = x + x
@@ -101,7 +101,7 @@ It also supports multi-line inputs:
 	 *
 	 * # Property based test
 	 * prop> (i: Int) =>
-	 *     |   Test.f(i) should === (i * 2)
+	 *     |   Test.f(i) == (i * 2)
 	 * }}}
 	 */
 	def f(x: Int) = x + x

@@ -1,4 +1,4 @@
-import com.github.tkawachi.doctest.{ TestFramework => TFramework, Specs2, ScalaTest, TestGenerator }
+import com.github.tkawachi.doctest.{ TestFramework => TFramework, ScalaCheck, Specs2, ScalaTest, TestGenerator }
 import sbt._, Keys._
 
 /**
@@ -25,10 +25,9 @@ object DoctestPlugin extends Plugin {
    * Default libraryDependencies.
    */
   object TestLibs {
-    val scalatest: Seq[ModuleID] = Seq(
-      "org.scalatest" %% "scalatest" % "2.2.0" % "test",
-      "org.scalacheck" %% "scalacheck" % "1.11.4" % "test"
-    )
+    val scalacheck = Seq("org.scalacheck" %% "scalacheck" % "1.11.6" % "test")
+
+    val scalatest = Seq("org.scalatest" %% "scalatest" % "2.2.0" % "test") ++ scalacheck
 
     val specs2Version = "2.4.4"
 
@@ -75,6 +74,7 @@ object DoctestPlugin extends Plugin {
       TFramework(doctestTestFramework.value) match {
         case ScalaTest => TestLibs.scalatest
         case Specs2 => TestLibs.specs2
+        case ScalaCheck => TestLibs.scalacheck
       }
     } else {
       Seq.empty

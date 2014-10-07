@@ -9,7 +9,7 @@ object Main {
    * 20
    *
    * prop> (i: Int) =>
-   *     |   Main.f(i) should === (i *
+   *     |   Main.f(i) == (i *
    *     | 2)
    * }}}
    */

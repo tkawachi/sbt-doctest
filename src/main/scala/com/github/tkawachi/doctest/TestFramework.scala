@@ -3,6 +3,7 @@ package com.github.tkawachi.doctest
 sealed abstract class TestFramework
 case object Specs2 extends TestFramework
 case object ScalaTest extends TestFramework
+case object ScalaCheck extends TestFramework
 
 object TestFramework {
   /**
@@ -20,6 +21,9 @@ object TestFramework {
    * >>> get("specs2")
    * Some(Specs2)
    *
+   * >>> get("scalacheck")
+   * Some(ScalaCheck)
+   *
    * >>> get("foobar")
    * None
    * }}}
@@ -27,6 +31,7 @@ object TestFramework {
   def get(s: String): Option[TestFramework] = s.toLowerCase match {
     case "scalatest" => Some(ScalaTest)
     case "specs2" => Some(Specs2)
+    case "scalacheck" => Some(ScalaCheck)
     case _ => None
   }
 
