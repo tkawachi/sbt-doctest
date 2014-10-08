@@ -17,19 +17,19 @@ import sbt._, Keys._
  * }}}
  */
 object DoctestPlugin extends Plugin {
-  val doctestTestFramework = settingKey[DoctestFramework]("Test framework. Specify scalacheck (default) or specs2 or scalatest.")
+  val doctestTestFramework = settingKey[DoctestTestFramework]("Test framework. Specify ScalaCheck (default), Specs2 or ScalaTest.")
   val doctestWithDependencies = settingKey[Boolean]("Whether to include libraryDependencies to doctestSettings.")
   val doctestGenTests = taskKey[Seq[File]]("Generates test files.")
 
-  sealed abstract class DoctestFramework
+  sealed abstract class DoctestTestFramework
 
-  object DoctestFramework {
-    case object Specs2 extends DoctestFramework
-    case object ScalaTest extends DoctestFramework
-    case object ScalaCheck extends DoctestFramework
+  object DoctestTestFramework {
+    case object Specs2 extends DoctestTestFramework
+    case object ScalaTest extends DoctestTestFramework
+    case object ScalaCheck extends DoctestTestFramework
   }
 
-  import DoctestFramework._
+  import DoctestTestFramework._
 
   /**
    * Default libraryDependencies.

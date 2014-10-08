@@ -1,4 +1,4 @@
-> set doctestTestFramework := DoctestFramework.ScalaTest
+> set doctestTestFramework := DoctestTestFramework.ScalaTest
 > + test:managedSources
 $ exists target/scala-2.10/src_managed/test/sbt_doctest/MainDoctest.scala
 $ exists target/scala-2.11/src_managed/test/sbt_doctest/MainDoctest.scala
@@ -8,11 +8,11 @@ $ absent target/scala-2.11/src_managed/test/sbt_doctest/NoDoctestDoctest.scala
 > + test
 
 # Try with specs2
-> set doctestTestFramework := DoctestFramework.Specs2
+> set doctestTestFramework := DoctestTestFramework.Specs2
 > clean
 > + test
 
 # Try with scalacheck
-> set doctestTestFramework := DoctestFramework.ScalaCheck
+> set doctestTestFramework := DoctestTestFramework.ScalaCheck
 > clean
 > + test
