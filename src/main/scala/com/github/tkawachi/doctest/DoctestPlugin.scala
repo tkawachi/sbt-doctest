@@ -52,7 +52,7 @@ object DoctestPlugin extends Plugin {
    */
   val doctestGenSettings = Seq(
     doctestTestFramework := (doctestTestFramework ?? ScalaCheck).value,
-    doctestWithDependencies := true,
+    doctestWithDependencies := (doctestWithDependencies ?? true).value,
     doctestGenTests := {
       (managedSourceDirectories in Test).value.headOption match {
         case None =>
