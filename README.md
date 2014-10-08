@@ -23,24 +23,21 @@ doctestSettings
 ### Using ScalaTest or specs2
 
 This plugin generates tests for ScalaCheck by default. If you use ScalaTest or specs2,
-set `doctestTestFramework` to `scalatest` or `specs2` in `build.sbt`.
+set `doctestTestFramework` to `DoctestTestFramework.ScalaTest` or `DoctestTestFramework.Specs2` in `build.sbt`.
 Then it will generate tests for the specified framework.
 
 ```scala
-doctestSettings
-
-doctestTestFramework := "specs2"
+// To generate tests for ScalaTest
+doctestTestFramework := DoctestTestFramework.ScalaTest
+// Or specify DoctestTestFramework.Specs2 or DoctestTestFramework.ScalaCheck
 ```
 
 ### Note for libraryDependencies
 
 `doctestSettings` adds specific version of testing libraries to `libraryDependencies`.
 Set `doctestWithDependencies` to `false` when you explicitly specify testing library dependencies in `build.sbt`.
-`doctestWithDependencies` line should come after `doctestSettings` line.
 
 ```scala
-doctestSettings
-
 doctestWithDependencies := false
 
 libraryDependencies ++= Seq(

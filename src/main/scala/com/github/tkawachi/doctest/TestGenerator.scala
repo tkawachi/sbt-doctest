@@ -1,6 +1,7 @@
 package com.github.tkawachi.doctest
 
 import java.io.File
+import DoctestPlugin.DoctestTestFramework
 import scala.io.Source
 import org.apache.commons.io.FilenameUtils
 
@@ -9,16 +10,16 @@ object TestGenerator {
 
   val extractor = new Extractor
 
-  private def testGen(framework: TestFramework): TestGen = framework match {
-    case ScalaTest => ScalaTestGen
-    case Specs2 => Specs2TestGen
-    case ScalaCheck => ScalaCheckGen
+  private def testGen(framework: DoctestTestFramework): TestGen = framework match {
+    case DoctestTestFramework.ScalaTest => ScalaTestGen
+    case DoctestTestFramework.Specs2 => Specs2TestGen
+    case DoctestTestFramework.ScalaCheck => ScalaCheckGen
   }
 
   /**
    * Generates test source code from scala source file.
    */
-  def apply(srcFile: File, framework: TestFramework): Seq[Result] = {
+  def apply(srcFile: File, framework: DoctestTestFramework): Seq[Result] = {
     val src = Source.fromFile(srcFile).mkString
     val basename = FilenameUtils.getBaseName(srcFile.getName)
     extractor.extract(src)
