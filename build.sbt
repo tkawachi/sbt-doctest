@@ -31,4 +31,4 @@ libraryDependencies ++= Seq(
 
 scalariformSettings
 
-DoctestPlugin.doctestSettings
+doctestSettings

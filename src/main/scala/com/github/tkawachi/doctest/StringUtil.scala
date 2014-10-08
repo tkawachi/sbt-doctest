@@ -18,7 +18,7 @@ object StringUtil {
    *
    * // Number of double quotes will be not changed.
    * prop> (s: String) =>
-   *     |   escapeDoubleQuote(s).filter(_ == '"').size should be >= s.filter(_ == '"').size
+   *     |   escapeDoubleQuote(s).filter(_ == '"').size >= s.filter(_ == '"').size
    * }}}
    *
    * @param s An original string.
