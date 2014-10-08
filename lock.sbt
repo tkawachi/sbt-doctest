@@ -50,7 +50,7 @@ dependencyOverrides in ThisBuild ++= Set(
   "org.scala-sbt" % "testing" % "0.13.2",
   "org.scala-sbt" % "tracking" % "0.13.2",
   "org.scala-tools.sbinary" % "sbinary_2.10" % "0.4.2",
-  "org.scalacheck" % "scalacheck_2.10" % "1.11.4",
+  "org.scalacheck" % "scalacheck_2.10" % "1.11.6",
   "org.scalatest" % "scalatest_2.10" % "2.2.0"
 )
-// LIBRARY_DEPENDENCIES_HASH a54b03bf3917ad82c29e64d53cd8f8c32fb1af13
+// LIBRARY_DEPENDENCIES_HASH f19df6add5d224271eb27e4d28e25f71a5b688ff
