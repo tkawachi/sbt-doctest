@@ -1,0 +1,12 @@
+### Changes
+
+* Support ScalaCheck as standalone test framework.
+* Default testing framework is changed from ScalaTest to ScalaCheck.
+
+#### Breaking changes
+
+* `doctestTestFramework` now takes `DoctestTestFramework.ScalaTest`,
+  `DoctestTestFramework.Specs2` or `DoctestTestFramework.ScalaCheck` instead of string.
+* Propety style now must return boolean.
+
+Please try it out, and send feedback to https://github.com/tkawachi/sbt-doctest/issues
