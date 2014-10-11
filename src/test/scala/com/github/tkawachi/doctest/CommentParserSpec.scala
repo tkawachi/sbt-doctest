@@ -49,6 +49,36 @@ class CommentParserSpec extends FunSpec with Matchers {
       )
     }
 
+    it("parses a multi-line output") {
+      val comment =
+        """ * >>> "abc\ndef"
+          | * abc
+          | * def
+          | *
+        """.stripMargin
+      parse(comment).get should equal(
+        List(Example("\"abc\\ndef\"", TestResult("abc\ndef", None), 1))
+      )
+    }
+
+    it("parses multi-line outputs") {
+      val comment =
+        """ * >>> "abc\ndef"
+          | * abc
+          | * def
+          | *
+          | * >>> " abc\ndef"
+          | * " abc
+          | * def"
+        """.stripMargin
+      parse(comment).get should equal(
+        List(
+          Example("\"abc\\ndef\"", TestResult("abc\ndef", None), 1),
+          Example("\" abc\\ndef\"", TestResult("\" abc\ndef\"", None), 5)
+        )
+      )
+    }
+
     it("parses an import line") {
       val comment =
         """ * >>> import abc.def
@@ -113,6 +143,38 @@ class CommentParserSpec extends FunSpec with Matchers {
         List(
           Example("1 + 2", TestResult("3", Some("Int")), 1),
           Example("\"Hello,\" + \" world\"", TestResult("Hello, world", Some("String")), 4))
+      )
+    }
+
+    it("parses a multi-line output") {
+      val comment =
+        """ * scala> "abc\ndef"
+          | * res0: String =
+          | * abc
+          | * def
+        """.stripMargin
+      parse(comment).get should equal(
+        List(Example("\"abc\\ndef\"", TestResult("abc\ndef", Some("String")), 1))
+      )
+    }
+
+    it("parses multi-line outputs") {
+      val comment =
+        """ * scala> "abc\ndef"
+          | * res0: String =
+          | * abc
+          | * def
+          | *
+          | * scala> " abc\ndef"
+          | * res2: String =
+          | * " abc
+          | * def"
+        """.stripMargin
+      parse(comment).get should equal(
+        List(
+          Example("\"abc\\ndef\"", TestResult("abc\ndef", Some("String")), 1),
+          Example("\" abc\\ndef\"", TestResult("\" abc\ndef\"", Some("String")), 6)
+        )
       )
     }
 

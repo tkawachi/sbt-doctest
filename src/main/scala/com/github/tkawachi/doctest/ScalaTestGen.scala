@@ -1,6 +1,6 @@
 package com.github.tkawachi.doctest
 
-import StringUtil.{ escapeDoubleQuote => escapeDQ }
+import StringUtil.escape
 
 /**
  * Test generator for ScalaTest.
@@ -21,7 +21,10 @@ object ScalaTestGen extends TestGen {
        |    with $st.prop.Checkers {
        |
        |  def sbtDoctestTypeEquals[A](a1: => A)(a2: => A) = ()
-       |  def sbtDoctestReplString(any: Any): String = scala.runtime.ScalaRunTime.replStringOf(any, 1000).init
+       |  def sbtDoctestReplString(any: Any): String = {
+       |    val s = scala.runtime.ScalaRunTime.replStringOf(any, 1000).init
+       |    if (s.headOption == Some('\\n')) s.tail else s
+       |  }
        |
        |${parsedList.map(generateExample(basename, _)).mkString("\n\n")}
        |}
@@ -29,7 +32,7 @@ object ScalaTestGen extends TestGen {
   }
 
   def generateExample(basename: String, parsed: ParsedDoctest): String = {
-    s"""  describe("${escapeDQ(basename)}.scala:${parsed.lineNo}: ${parsed.symbol}") {
+    s"""  describe("${escape(basename)}.scala:${parsed.lineNo}: ${parsed.symbol}") {
        |${parsed.components.map(gen(parsed.lineNo, _)).mkString("\n\n")}
        |  }""".stripMargin
   }
@@ -39,7 +42,7 @@ object ScalaTestGen extends TestGen {
       case Example(expr, expected, _) =>
         val typeTest = expected.tpe.fold("")(tpe => genTypeTest(expr, tpe))
         s"""    it("${componentDescription(component, firstLine)}") {
-           |      sbtDoctestReplString($expr) should equal("${escapeDQ(expected.value)}")$typeTest
+           |      sbtDoctestReplString($expr) should equal("${escape(expected.value)}")$typeTest
            |    }""".stripMargin
       case Property(prop, _) =>
         s"""    it("${componentDescription(component, firstLine)}") {
@@ -58,7 +61,7 @@ object ScalaTestGen extends TestGen {
 
   def componentDescription(comp: DoctestComponent, firstLine: Int): String = {
     def absLine(lineNo: Int): Int = firstLine + lineNo - 1
-    def mkStub(s: String): String = escapeDQ(StringUtil.truncate(s))
+    def mkStub(s: String): String = escape(StringUtil.truncate(s))
 
     comp match {
       case Example(expr, _, lineNo) =>

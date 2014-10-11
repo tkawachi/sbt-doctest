@@ -22,7 +22,10 @@ trait GenericParser extends RegexParsers {
 
   val anyPosStr1: Parser[PositionedString] = positioned(anyStr1 ^^ PositionedString)
 
-  val lineSep = System.lineSeparator()
+  /**
+   * String used when an example contains line separators.
+   */
+  val LINE_SEP = "\n"
 
   val eol = '\r'.? ~> '\n'
 
@@ -42,7 +45,7 @@ trait GenericParser extends RegexParsers {
       case leading ~ first =>
         tailPromptLine(leading, prompt.tail).* ^^ {
           case rest =>
-            val code = (first.str :: rest).mkString(lineSep)
+            val code = (first.str :: rest).mkString(LINE_SEP)
             val posCode = PositionedString(code)
             posCode.pos = first.pos
             (leading, posCode)
@@ -71,9 +74,11 @@ trait PythonStyleParser extends GenericParser {
     ">>> ",
     "... ")
 
-  def pyResultLine(leading: String) = leading ~> anyStr1 <~ eol ^^ (TestResult(_))
+  def pyResultLines(leading: String) = (leading ~> anyStr1 <~ eol).+ ^^ {
+    lines => TestResult(lines.mkString(LINE_SEP))
+  }
 
-  val pyComponents = verbatim(pyPrompt) | example(pyPrompt, pyResultLine)
+  val pyComponents = verbatim(pyPrompt) | example(pyPrompt, pyResultLines)
 }
 
 trait ReplStyleParser extends GenericParser {
@@ -82,15 +87,23 @@ trait ReplStyleParser extends GenericParser {
     "     | ")
 
   private val res: Parser[String] = "res\\d+".r
-  private val tpe: Parser[String] = "((?! = )[^\\n\\r])+".r
+  private val tpe: Parser[String] = "((?! =)[^\\n\\r])+".r
 
-  def replResultLine(leading: String) = {
+  def replResultLine(leading: String): Parser[TestResult] = {
     (leading ~> res ~> ": " ~> tpe <~ " = ") ~ (anyStr1 <~ eol) ^^ {
       case parsedType ~ value => TestResult(value, Some(parsedType.trim))
     }
   }
 
-  val replComponents = verbatim(replPrompt) | example(replPrompt, replResultLine)
+  def replMultiResultLines(leading: String): Parser[TestResult] = {
+    (leading ~> res ~> ": " ~> tpe <~ " =" <~ eol) ~ (leading ~> anyStr1 <~ eol).+ ^^ {
+      case parsedType ~ lines => TestResult(lines.mkString(LINE_SEP), Some(parsedType.trim))
+    }
+  }
+
+  val replComponents = verbatim(replPrompt) |
+    example(replPrompt, leading => replResultLine(leading) | replMultiResultLines(leading))
+
 }
 
 trait PropertyStyleParser extends GenericParser {

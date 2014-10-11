@@ -24,6 +24,7 @@ object Main {
    *
    * >>> xyz
    * 123
+   *
    * }}}
    */
   val xyz = 123
