@@ -40,6 +40,13 @@ object StringUtil {
 
   def escape(s: String): String = escapeLineSep(escapeDoubleQuote(s))
 
+  /**
+   * {{{
+   * >>> StringUtil.indent("Hello\nWorld", "[indent]")
+   * [indent]Hello
+   * [indent]World
+   * }}}
+   */
   def indent(target: String, indentation: String): String = {
     val pattern = """(\n\r?)""".r
     indentation + pattern.replaceAllIn(target, _.group(0) + indentation)

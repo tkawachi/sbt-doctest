@@ -32,3 +32,5 @@ libraryDependencies ++= Seq(
 scalariformSettings
 
 doctestSettings
+
+doctestTestFramework := DoctestTestFramework.ScalaTest
