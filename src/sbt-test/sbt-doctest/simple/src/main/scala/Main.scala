@@ -109,12 +109,16 @@ object Main {
    * <BLANKLINE>
    * World
    *
+   * >>> """Hello
+   * ... World"""
+   * Hello
+   * World
+   *
    * scala> """Hello
    *      | World"""
    * res1: String =
    * Hello
    * World
-   *
    * }}}
    */
   val helloWorld = "Hello\n\nWorld"
