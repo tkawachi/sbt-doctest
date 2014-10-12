@@ -57,51 +57,73 @@ Here is an example that shows the different doctest styles that are supported
 by the plugin:
 
 ```scala
-	object Test {
-	
-	  /**
-	   * A sample function.
-	   *
-	   * {{{
-	   * # Python style
-	   * >>> Test.f(10)
-	   * 20
-	   *
-	   * # Scala REPL style
-	   * scala> Test.f(20)
-	   * res1: Int = 40
-	   *
-	   * # Property based test
-	   * prop> (i: Int) => Test.f(i) == (i * 2)
-	   * }}}
-	   */
-	  def f(x: Int) = x + x
-	}
+object Test {
+
+  /**
+   * A sample function.
+   *
+   * {{{
+   * # Python style
+   * >>> Test.f(10)
+   * 20
+   *
+   * # Scala REPL style
+   * scala> Test.f(20)
+   * res1: Int = 40
+   *
+   * # Property based test
+   * prop> (i: Int) => Test.f(i) == (i * 2)
+   * }}}
+   */
+  def f(x: Int) = x + x
+}
 ```
 
 It also supports multi-line inputs:
 
 ```scala
-	/**
-	 * {{{
-	 * # Python style
-	 * >>> Test.f(
-	 * ...   10
-	 * ... )
-	 * 20
-	 *
-	 * # Scala REPL style
-	 * scala> Test.f(
-	 *      |   20
-	 *      | )
-	 * res1: Int = 40
-	 *
-	 * # Property based test
-	 * prop> (i: Int) =>
-	 *     |   Test.f(i) == (i * 2)
-	 * }}}
-	 */
-	def f(x: Int) = x + x
+/**
+ * {{{
+ * # Python style
+ * >>> Test.f(
+ * ...   10
+ * ... )
+ * 20
+ *
+ * # Scala REPL style
+ * scala> Test.f(
+ *      |   20
+ *      | )
+ * res1: Int = 40
+ *
+ * # Property based test
+ * prop> (i: Int) =>
+ *     |   Test.f(i) == (i * 2)
+ * }}}
+ */
+def f(x: Int) = x + x
+```
+
+Please use `<BLANKLINE>` when an output contains blank lines.
+
+```scala
+/**
+ * {{{
+ * # Python style
+ * >>> Test.helloWorld
+ * Hello
+ * <BLANKLINE>
+ * World
+ *
+ * # Scala REPL style
+ * scala> Test.helloWorld
+ * res0: String =
+ * Hello
+ * <BLANKLINE>
+ * World
+ * }}}
+ */
+def helloWorld = "Hello\n\nWorld"
 ```
 
 ## License
