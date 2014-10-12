@@ -36,6 +36,8 @@ trait GenericParser extends RegexParsers {
 
   val blankLine = "<BLANKLINE>" ^^^ ""
 
+  val endCodeBlock: Parser[String] = "}}}"
+
   def headPromptLine(prompt: String, begin: Parser[PositionedString]): Parser[String ~ PositionedString] =
     (leadingString <~ prompt) ~ (begin <~ eol)
 
@@ -76,9 +78,10 @@ trait PythonStyleParser extends GenericParser {
     ">>> ",
     "... ")
 
-  def pyResultLines(leading: String) = (leading ~> (blankLine | anyStr1) <~ eol).+ ^^ {
-    lines => TestResult(lines.mkString(LINE_SEP))
-  }
+  def pyResultLines(leading: String) =
+    (leading ~> guard(not(endCodeBlock)) ~> (blankLine | anyStr1) <~ eol).+ ^^ {
+      lines => TestResult(lines.mkString(LINE_SEP))
+    }
 
   val pyComponents = verbatim(pyPrompt) | example(pyPrompt, pyResultLines)
 }
@@ -98,9 +101,10 @@ trait ReplStyleParser extends GenericParser {
   }
 
   def replMultiResultLines(leading: String): Parser[TestResult] = {
-    (leading ~> res ~> ": " ~> tpe <~ " =" <~ eol) ~ (leading ~> (blankLine | anyStr1) <~ eol).+ ^^ {
-      case parsedType ~ lines => TestResult(lines.mkString(LINE_SEP), Some(parsedType.trim))
-    }
+    (leading ~> res ~> ": " ~> tpe <~ " =" <~ eol) ~
+      (leading ~> guard(not(endCodeBlock)) ~> (blankLine | anyStr1) <~ eol).+ ^^ {
+        case parsedType ~ lines => TestResult(lines.mkString(LINE_SEP), Some(parsedType.trim))
+      }
   }
 
   val replComponents = verbatim(replPrompt) |
