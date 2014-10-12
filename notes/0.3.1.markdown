@@ -1,0 +1,5 @@
+### Changes
+
+* Support multiline output.
+
+Please try it out, and send feedback to https://github.com/tkawachi/sbt-doctest/issues
