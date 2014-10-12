@@ -11,7 +11,7 @@ in ScalaDoc.
 To use this plugin, add it to your `project/plugins.sbt`,
 
 ```scala
-addSbtPlugin("com.github.tkawachi" % "sbt-doctest" % "0.3.0")
+addSbtPlugin("com.github.tkawachi" % "sbt-doctest" % "0.3.1")
 ```
 
 and add the following settings to your `build.sbt`.
