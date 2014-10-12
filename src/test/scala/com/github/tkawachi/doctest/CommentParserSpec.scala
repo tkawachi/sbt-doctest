@@ -61,6 +61,18 @@ class CommentParserSpec extends FunSpec with Matchers {
       )
     }
 
+    it("parses a <BLANKLINE>") {
+      val comment =
+        """ * >>> "abc\n\ndef"
+          | * abc
+          | * <BLANKLINE>
+          | * def
+        """.stripMargin
+      parse(comment).get should equal(
+        List(Example("\"abc\\n\\ndef\"", TestResult("abc\n\ndef", None), 1))
+      )
+    }
+
     it("parses multi-line outputs") {
       val comment =
         """ * >>> "abc\ndef"
@@ -155,6 +167,19 @@ class CommentParserSpec extends FunSpec with Matchers {
         """.stripMargin
       parse(comment).get should equal(
         List(Example("\"abc\\ndef\"", TestResult("abc\ndef", Some("String")), 1))
+      )
+    }
+
+    it("parses a <BLANKLINE>") {
+      val comment =
+        """ * scala> "abc\n\ndef"
+          | * res0: String =
+          | * abc
+          | * <BLANKLINE>
+          | * def
+        """.stripMargin
+      parse(comment).get should equal(
+        List(Example("\"abc\\n\\ndef\"", TestResult("abc\n\ndef", Some("String")), 1))
       )
     }
 

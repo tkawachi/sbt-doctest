@@ -34,6 +34,8 @@ trait GenericParser extends RegexParsers {
     leadingChar.* ^^ (_.mkString)
   }
 
+  val blankLine = "<BLANKLINE>" ^^^ ""
+
   def headPromptLine(prompt: String, begin: Parser[PositionedString]): Parser[String ~ PositionedString] =
     (leadingString <~ prompt) ~ (begin <~ eol)
 
@@ -74,7 +76,7 @@ trait PythonStyleParser extends GenericParser {
     ">>> ",
     "... ")
 
-  def pyResultLines(leading: String) = (leading ~> anyStr1 <~ eol).+ ^^ {
+  def pyResultLines(leading: String) = (leading ~> (blankLine | anyStr1) <~ eol).+ ^^ {
     lines => TestResult(lines.mkString(LINE_SEP))
   }
 
@@ -96,7 +98,7 @@ trait ReplStyleParser extends GenericParser {
   }
 
   def replMultiResultLines(leading: String): Parser[TestResult] = {
-    (leading ~> res ~> ": " ~> tpe <~ " =" <~ eol) ~ (leading ~> anyStr1 <~ eol).+ ^^ {
+    (leading ~> res ~> ": " ~> tpe <~ " =" <~ eol) ~ (leading ~> (blankLine | anyStr1) <~ eol).+ ^^ {
       case parsedType ~ lines => TestResult(lines.mkString(LINE_SEP), Some(parsedType.trim))
     }
   }
