@@ -1,6 +1,6 @@
 package com.github.tkawachi.doctest
 
-import com.github.tkawachi.doctest.StringUtil.{ escapeDoubleQuote => escapeDQ }
+import com.github.tkawachi.doctest.StringUtil.escape
 
 object ScalaCheckGen extends TestGen {
 
@@ -12,10 +12,9 @@ object ScalaCheckGen extends TestGen {
        |import org.scalacheck.Prop._
        |
        |object ${basename}Doctest
-       |    extends org.scalacheck.Properties("${escapeDQ(basename)}.scala") {
+       |    extends org.scalacheck.Properties("${escape(basename)}.scala") {
        |
-       |  def sbtDoctestTypeEquals[A](a1: => A)(a2: => A) = ()
-       |  def sbtDoctestReplString(any: Any): String = scala.runtime.ScalaRunTime.replStringOf(any, 1000).init
+       |  ${StringUtil.indent(TestGen.helperMethods, "  ")}
        |
        |${parsedList.map(generateExample(basename, _)).mkString("\n\n")}
        |}
@@ -33,7 +32,7 @@ object ScalaCheckGen extends TestGen {
       case Example(expr, expected, _) =>
         val typeTest = expected.tpe.fold("")(tpe => genTypeTest(expr, tpe))
         s"""    property("${componentDescription(component, firstLine)}") = {
-           |      ${typeTest}sbtDoctestReplString($expr) == ("${escapeDQ(expected.value)}")
+           |      ${typeTest}sbtDoctestReplString($expr) == ("${escape(expected.value)}")
            |    }""".stripMargin
       case Property(prop, _) =>
         s"""    property("${componentDescription(component, firstLine)}") = org.scalacheck.Prop.forAll {
@@ -48,7 +47,7 @@ object ScalaCheckGen extends TestGen {
 
   def componentDescription(comp: DoctestComponent, firstLine: Int): String = {
     def absLine(lineNo: Int): Int = firstLine + lineNo - 1
-    def mkStub(s: String): String = escapeDQ(StringUtil.truncate(s))
+    def mkStub(s: String): String = escape(StringUtil.truncate(s))
 
     comp match {
       case Example(expr, _, lineNo) =>

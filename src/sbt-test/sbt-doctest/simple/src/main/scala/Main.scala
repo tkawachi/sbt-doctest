@@ -95,4 +95,31 @@ object Main {
    * res3: List[String] = List(a a)
    */
   lazy val fortytwo = 21 * 2
+
+  /**
+   * {{{
+   * >>> Main.helloWorld
+   * Hello
+   * <BLANKLINE>
+   * World
+   *
+   * scala> Main.helloWorld
+   * res0: String =
+   * Hello
+   * <BLANKLINE>
+   * World
+   *
+   * >>> """Hello
+   * ... World"""
+   * Hello
+   * World
+   *
+   * scala> """Hello
+   *      | World"""
+   * res1: String =
+   * Hello
+   * World
+   * }}}
+   */
+  val helloWorld = "Hello\n\nWorld"
 }

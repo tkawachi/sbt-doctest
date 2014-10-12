@@ -1,6 +1,6 @@
 package com.github.tkawachi.doctest
 
-import StringUtil.{ escapeDoubleQuote => escapeDQ }
+import StringUtil.escape
 
 /**
  * Test generator for specs2.
@@ -17,8 +17,7 @@ object Specs2TestGen extends TestGen {
        |    extends org.specs2.mutable.Specification
        |    with org.specs2.ScalaCheck {
        |
-       |  def sbtDoctestTypeEquals[A](a1: => A)(a2: => A) = ()
-       |  def sbtDoctestReplString(any: Any): String = scala.runtime.ScalaRunTime.replStringOf(any, 1000).init
+       |  ${StringUtil.indent(TestGen.helperMethods, "  ")}
        |
        |${examples.map(generateExample(basename, _)).mkString("\n\n")}
        |}
@@ -26,7 +25,7 @@ object Specs2TestGen extends TestGen {
   }
 
   def generateExample(basename: String, parsed: ParsedDoctest): String = {
-    s"""  "${escapeDQ(basename)}.scala:${parsed.lineNo}: ${parsed.symbol}" should {
+    s"""  "${escape(basename)}.scala:${parsed.lineNo}: ${parsed.symbol}" should {
        |${parsed.components.map(gen(parsed.lineNo, _)).mkString("\n\n")}
        |  }""".stripMargin
   }
@@ -36,7 +35,7 @@ object Specs2TestGen extends TestGen {
       case Example(expr, expected, _) =>
         val typeTest = expected.tpe.fold("")(tpe => genTypeTest(expr, tpe))
         s"""    "${componentDescription(component, firstLine)}" in {$typeTest
-           |      sbtDoctestReplString($expr) must_== "${escapeDQ(expected.value)}"
+           |      sbtDoctestReplString($expr) must_== "${escape(expected.value)}"
            |    }""".stripMargin
       case Property(prop, _) =>
         s"""    "${componentDescription(component, firstLine)}" ! prop {
@@ -53,7 +52,7 @@ object Specs2TestGen extends TestGen {
 
   def componentDescription(comp: DoctestComponent, firstLine: Int): String = {
     def absLine(lineNo: Int): Int = firstLine + lineNo - 1
-    def mkStub(s: String): String = escapeDQ(StringUtil.truncate(s))
+    def mkStub(s: String): String = escape(StringUtil.truncate(s))
 
     comp match {
       case Example(expr, _, lineNo) =>
