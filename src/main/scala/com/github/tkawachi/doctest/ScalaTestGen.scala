@@ -20,11 +20,7 @@ object ScalaTestGen extends TestGen {
        |    with $st.Matchers
        |    with $st.prop.Checkers {
        |
-       |  def sbtDoctestTypeEquals[A](a1: => A)(a2: => A) = ()
-       |  def sbtDoctestReplString(any: Any): String = {
-       |    val s = scala.runtime.ScalaRunTime.replStringOf(any, 1000).init
-       |    if (s.headOption == Some('\\n')) s.tail else s
-       |  }
+       |  ${StringUtil.indent(TestGen.helperMethods, "  ")}
        |
        |${parsedList.map(generateExample(basename, _)).mkString("\n\n")}
        |}
