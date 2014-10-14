@@ -273,6 +273,30 @@ class CommentParserSpec extends FunSpec with Matchers {
       parse(comment).get should equal(List(Example("=:=", TestResult("scala.Predef...", Some("=:=.type")), 1)))
     }
 
+    it("parses a type with equal signs") {
+      val comment =
+        """ * scala> ==>>.empty[Int, String]
+          | * res0: ==>>[Int, String] = ???
+        """.stripMargin
+      parse(comment).get should equal(
+        List(Example("==>>.empty[Int, String]", TestResult("???", Some("==>>[Int, String]")), 1))
+      )
+    }
+
+    it("parses a type which only contains equal signs") {
+      // This example would compile with this alias definition:
+      // type == = String
+      val comment =
+        """ * scala> "Hello\nWorld": ==
+          | * res0: == =
+          | * Hello
+          | * World
+        """.stripMargin
+      parse(comment).get should equal(
+        List(Example("\"Hello\\nWorld\": ==", TestResult("Hello\nWorld", Some("==")), 1))
+      )
+    }
+
     it("parses a single-line assignment") {
       val comment =
         """ * scala> var xs = List(1, 2, 3)
