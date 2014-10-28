@@ -76,7 +76,7 @@ object DoctestPlugin extends Plugin {
             }.toSeq
       }
     },
-    sourceGenerators in Test += doctestGenTests.taskValue
+    sourceGenerators in Test <+= doctestGenTests
   )
 
   val doctestSettings = doctestGenSettings ++ Seq(

@@ -32,7 +32,9 @@ object ScalaCheckGen extends TestGen {
       case Example(expr, expected, _) =>
         val typeTest = expected.tpe.fold("")(tpe => genTypeTest(expr, tpe))
         s"""    property("${componentDescription(component, firstLine)}") = {
-           |      ${typeTest}sbtDoctestReplString($expr) == ("${escape(expected.value)}")
+           |      ${typeTest}val actual = sbtDoctestReplString($expr)
+           |      val expected = "${escape(expected.value)}"
+           |      (actual == expected) :| s"'$$actual' is not equal to '$$expected'"
            |    }""".stripMargin
       case Property(prop, _) =>
         s"""    property("${componentDescription(component, firstLine)}") = org.scalacheck.Prop.forAll {
