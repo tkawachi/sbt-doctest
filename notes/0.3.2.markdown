@@ -1,5 +1,5 @@
 ### Changes
 
-* Show actual and expected values for failed tests when using ScalaCheck.
+* Improved failed test output when using ScalaCheck. It now shows actual and expected values.
 
 Please try it out, and send feedback to https://github.com/tkawachi/sbt-doctest/issues
