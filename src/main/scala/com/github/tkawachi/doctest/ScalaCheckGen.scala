@@ -22,7 +22,7 @@ object ScalaCheckGen extends TestGen {
   }
 
   def generateExample(basename: String, parsed: ParsedDoctest): String = {
-    s"""  include(new org.scalacheck.Properties("L${parsed.lineNo}:${parsed.symbol}") {
+    s"""  include(new org.scalacheck.Properties("${parsed.symbol}") {
        |${parsed.components.map(gen(parsed.lineNo, _)).mkString("\n\n")}
        |  })""".stripMargin
   }
