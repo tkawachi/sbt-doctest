@@ -1,0 +1,5 @@
+### Changes
+
+* Fixed `java.lang.ExceptionInInitializerError` when evaluating an expression throws an exception.
+
+Please try it out, and send feedback to https://github.com/tkawachi/sbt-doctest/issues
