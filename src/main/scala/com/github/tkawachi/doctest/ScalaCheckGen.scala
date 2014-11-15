@@ -31,7 +31,7 @@ object ScalaCheckGen extends TestGen {
     component match {
       case Example(expr, expected, _) =>
         val typeTest = expected.tpe.fold("")(tpe => genTypeTest(expr, tpe))
-        s"""    property("${componentDescription(component, firstLine)}") = {
+        s"""    property("${componentDescription(component, firstLine)}") = org.scalacheck.Prop.secure {
            |      ${typeTest}val actual = sbtDoctestReplString($expr)
            |      val expected = "${escape(expected.value)}"
            |      (actual == expected) :| s"'$$actual' is not equal to '$$expected'"
