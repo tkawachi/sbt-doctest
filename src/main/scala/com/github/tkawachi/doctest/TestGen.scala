@@ -1,10 +1,23 @@
 package com.github.tkawachi.doctest
 
+import java.io.File
+
 /**
  * Interface of a test generator.
  */
 trait TestGen {
-  def generate(basename: String, pkg: Option[String], examples: Seq[ParsedDoctest]): String
+  def generate(srcFile: File, basename: String, pkg: Option[String], examples: Seq[ParsedDoctest]): String = {
+    generateHeader(srcFile) + generateBody(srcFile, basename, pkg, examples)
+  }
+
+  private def generateHeader(srcFile: File): String =
+    GeneratedSource.MARKER + "\n" +
+      GeneratedSource.SOURCE_PREFIX + srcFile.getAbsolutePath + "\n"
+
+  protected def generateLine(lineNo: Int): String =
+    GeneratedSource.LINE_PREFIX + lineNo.toString
+
+  protected def generateBody(srcFile: File, basename: String, pkg: Option[String], examples: Seq[ParsedDoctest]): String
 }
 
 object TestGen {

@@ -60,11 +60,11 @@ trait GenericParser extends RegexParsers {
     val keywords = "abstract" | "case" | "class" | "def" | "implicit" | "import" |
       "lazy" | "object" | "sealed" | "trait" | "type" | "val" | "var"
     val whiteSpacePlusAnyStr = horizontalWhiteSpace ~ anyStr ^^ append
-    keywords ~ (whiteSpacePlusAnyStr | emptyStr) ^^ PositionedString.compose(append)
+    positioned(keywords ~ (whiteSpacePlusAnyStr | emptyStr) ^^ PositionedString.compose(append))
   }
 
   def verbatim(prompt: Prompt): Parser[Verbatim] =
-    multiLine(prompt, verbatimBegin) ^^ { case (_, code) => Verbatim(code.str) }
+    multiLine(prompt, verbatimBegin) ^^ { case (_, code) => Verbatim(code.str, code.pos.line) }
 
   def example(prompt: Prompt, resultLine: String => Parser[TestResult]): Parser[Example] =
     multiLine(prompt, anyPosStr1) >> {

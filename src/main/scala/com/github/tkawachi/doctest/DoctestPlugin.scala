@@ -76,7 +76,8 @@ object DoctestPlugin extends Plugin {
             }.toSeq
       }
     },
-    sourceGenerators in Test <+= doctestGenTests
+    sourceGenerators in Test <+= doctestGenTests,
+    sourcePositionMappers += PositionMapper.mapper
   )
 
   val doctestSettings = doctestGenSettings ++ Seq(

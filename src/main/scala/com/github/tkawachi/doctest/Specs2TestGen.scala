@@ -1,12 +1,14 @@
 package com.github.tkawachi.doctest
 
+import java.io.File
+
 import StringUtil.escape
 
 /**
  * Test generator for specs2.
  */
 object Specs2TestGen extends TestGen {
-  override def generate(basename: String, pkg: Option[String], examples: Seq[ParsedDoctest]): String = {
+  override def generateBody(srcFile: File, basename: String, pkg: Option[String], examples: Seq[ParsedDoctest]): String = {
     val pkgLine = pkg.fold("")(p => s"package $p")
     s"""$pkgLine
        |
@@ -25,24 +27,27 @@ object Specs2TestGen extends TestGen {
   }
 
   def generateExample(basename: String, parsed: ParsedDoctest): String = {
-    s"""  "${escape(basename)}.scala:${parsed.lineNo}: ${parsed.symbol}" should {
+    s"""  ${generateLine(parsed.lineNo)}
+       |  "${escape(basename)}.scala:${parsed.lineNo}: ${parsed.symbol}" should {
        |${parsed.components.map(gen(parsed.lineNo, _)).mkString("\n\n")}
        |  }""".stripMargin
   }
 
   def gen(firstLine: Int, component: DoctestComponent): String =
     component match {
-      case Example(expr, expected, _) =>
+      case Example(expr, expected, lineNo) =>
         val typeTest = expected.tpe.fold("")(tpe => genTypeTest(expr, tpe))
-        s"""    "${componentDescription(component, firstLine)}" in {$typeTest
+        s"""    ${generateLine(lineNo)}
+           |    "${componentDescription(component, firstLine)}" in {$typeTest
            |      sbtDoctestReplString($expr) must_== "${escape(expected.value)}"
            |    }""".stripMargin
-      case Property(prop, _) =>
-        s"""    "${componentDescription(component, firstLine)}" ! prop {
+      case Property(prop, lineNo) =>
+        s"""    ${generateLine(lineNo)}
+           |    "${componentDescription(component, firstLine)}" ! prop {
            |      $prop
            |    }""".stripMargin
-      case Verbatim(code) =>
-        StringUtil.indent(code, "    ")
+      case Verbatim(code, lineNo) =>
+        StringUtil.indent(generateLine(lineNo) + "\n" + code, "    ")
     }
 
   def genTypeTest(expr: String, expectedType: String): String = {

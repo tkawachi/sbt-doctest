@@ -26,7 +26,7 @@ object TestGenerator {
       .flatMap(comment => CommentParser(comment).right.toOption.filter(_.components.size > 0))
       .groupBy(_.pkg).map {
         case (pkg, examples) =>
-          Result(pkg, basename, testGen(framework).generate(basename, pkg, examples))
+          Result(pkg, basename, testGen(framework).generate(srcFile, basename, pkg, examples))
       }.toSeq
   }
 }

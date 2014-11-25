@@ -1,10 +1,12 @@
 package com.github.tkawachi.doctest
 
+import java.io.File
+
 import com.github.tkawachi.doctest.StringUtil.escape
 
 object ScalaCheckGen extends TestGen {
 
-  def generate(basename: String, pkg: Option[String], parsedList: Seq[ParsedDoctest]): String = {
+  override def generateBody(srcFile: File, basename: String, pkg: Option[String], parsedList: Seq[ParsedDoctest]): String = {
     val pkgLine = pkg.fold("")(p => s"package $p")
     s"""$pkgLine
        |
@@ -22,26 +24,29 @@ object ScalaCheckGen extends TestGen {
   }
 
   def generateExample(basename: String, parsed: ParsedDoctest): String = {
-    s"""  include(new org.scalacheck.Properties("${parsed.symbol}") {
+    s"""  ${generateLine(parsed.lineNo)}
+       |  include(new org.scalacheck.Properties("${parsed.symbol}") {
        |${parsed.components.map(gen(parsed.lineNo, _)).mkString("\n\n")}
        |  })""".stripMargin
   }
 
   def gen(firstLine: Int, component: DoctestComponent): String =
     component match {
-      case Example(expr, expected, _) =>
+      case Example(expr, expected, lineNo) =>
         val typeTest = expected.tpe.fold("")(tpe => genTypeTest(expr, tpe))
-        s"""    property("${componentDescription(component, firstLine)}") = org.scalacheck.Prop.secure {
+        s"""    ${generateLine(lineNo)}
+           |    property("${componentDescription(component, firstLine)}") = org.scalacheck.Prop.secure {
            |      ${typeTest}val actual = sbtDoctestReplString($expr)
            |      val expected = "${escape(expected.value)}"
            |      (actual == expected) :| s"'$$actual' is not equal to '$$expected'"
            |    }""".stripMargin
-      case Property(prop, _) =>
-        s"""    property("${componentDescription(component, firstLine)}") = org.scalacheck.Prop.forAll {
+      case Property(prop, lineNo) =>
+        s"""    ${generateLine(lineNo)}
+           |    property("${componentDescription(component, firstLine)}") = org.scalacheck.Prop.forAll {
            |      $prop
            |    }""".stripMargin
-      case Verbatim(code) =>
-        StringUtil.indent(code, "    ")
+      case Verbatim(code, lineNo) =>
+        StringUtil.indent(generateLine(lineNo) + "\n" + code, "    ")
     }
 
   def genTypeTest(expr: String, expectedType: String): String =

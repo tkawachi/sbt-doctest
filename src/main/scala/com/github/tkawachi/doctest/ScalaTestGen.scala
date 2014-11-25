@@ -1,5 +1,7 @@
 package com.github.tkawachi.doctest
 
+import java.io.File
+
 import StringUtil.escape
 
 /**
@@ -8,7 +10,7 @@ import StringUtil.escape
 object ScalaTestGen extends TestGen {
   private val st = "org.scalatest"
 
-  def generate(basename: String, pkg: Option[String], parsedList: Seq[ParsedDoctest]): String = {
+  override def generateBody(srcFile: File, basename: String, pkg: Option[String], parsedList: Seq[ParsedDoctest]): String = {
     val pkgLine = pkg.fold("")(p => s"package $p")
     s"""$pkgLine
        |
@@ -28,26 +30,29 @@ object ScalaTestGen extends TestGen {
   }
 
   def generateExample(basename: String, parsed: ParsedDoctest): String = {
-    s"""  describe("${escape(basename)}.scala:${parsed.lineNo}: ${parsed.symbol}") {
+    s"""  ${generateLine(parsed.lineNo)}
+       |  describe("${escape(basename)}.scala:${parsed.lineNo}: ${parsed.symbol}") {
        |${parsed.components.map(gen(parsed.lineNo, _)).mkString("\n\n")}
        |  }""".stripMargin
   }
 
   def gen(firstLine: Int, component: DoctestComponent): String =
     component match {
-      case Example(expr, expected, _) =>
+      case Example(expr, expected, lineNo) =>
         val typeTest = expected.tpe.fold("")(tpe => genTypeTest(expr, tpe))
-        s"""    it("${componentDescription(component, firstLine)}") {
+        s"""    ${generateLine(lineNo)}
+           |    it("${componentDescription(component, firstLine)}") {
            |      sbtDoctestReplString($expr) should equal("${escape(expected.value)}")$typeTest
            |    }""".stripMargin
-      case Property(prop, _) =>
-        s"""    it("${componentDescription(component, firstLine)}") {
+      case Property(prop, lineNo) =>
+        s"""    ${generateLine(lineNo)}
+           |    it("${componentDescription(component, firstLine)}") {
            |      check {
            |        $prop
            |      }
            |    }""".stripMargin
-      case Verbatim(code) =>
-        StringUtil.indent(code, "    ")
+      case Verbatim(code, lineNo) =>
+        StringUtil.indent(generateLine(lineNo) + "\n" + code, "    ")
     }
 
   def genTypeTest(expr: String, expectedType: String): String = {

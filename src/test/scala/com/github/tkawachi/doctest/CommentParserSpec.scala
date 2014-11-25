@@ -118,14 +118,14 @@ class CommentParserSpec extends FunSpec with Matchers {
       val comment =
         """ * >>> import abc.def
         """.stripMargin
-      parse(comment).get should equal(List(Verbatim("import abc.def")))
+      parse(comment).get should equal(List(Verbatim("import abc.def", 1)))
     }
 
     it("parses a single-line assignment") {
       val comment =
         """ * >>> val xs = List(1, 2, 3)
         """.stripMargin
-      parse(comment).get should equal(List(Verbatim("val xs = List(1, 2, 3)")))
+      parse(comment).get should equal(List(Verbatim("val xs = List(1, 2, 3)", 1)))
     }
 
     it("parses a multi-line assignment") {
@@ -135,7 +135,7 @@ class CommentParserSpec extends FunSpec with Matchers {
           | * ... 2,
           | * ... 3)
         """.stripMargin
-      parse(comment).get should equal(List(Verbatim(s"val xs = List(${LS}1,${LS}2,${LS}3)")))
+      parse(comment).get should equal(List(Verbatim(s"val xs = List(${LS}1,${LS}2,${LS}3)", 1)))
     }
   }
 
@@ -254,7 +254,7 @@ class CommentParserSpec extends FunSpec with Matchers {
       val comment =
         """ * scala> import abc.def
         """.stripMargin
-      parse(comment).get should equal(List(Verbatim("import abc.def")))
+      parse(comment).get should equal(List(Verbatim("import abc.def", 1)))
     }
 
     it("parses a result with a parametric type") {
@@ -301,7 +301,7 @@ class CommentParserSpec extends FunSpec with Matchers {
       val comment =
         """ * scala> var xs = List(1, 2, 3)
         """.stripMargin
-      parse(comment).get should equal(List(Verbatim("var xs = List(1, 2, 3)")))
+      parse(comment).get should equal(List(Verbatim("var xs = List(1, 2, 3)", 1)))
     }
 
     it("parses a multi-line assignment") {
@@ -311,7 +311,7 @@ class CommentParserSpec extends FunSpec with Matchers {
           | *      |   2,
           | *      |   3)
         """.stripMargin
-      parse(comment).get should equal(List(Verbatim(s"var ys = List($LS  1,$LS  2,$LS  3)")))
+      parse(comment).get should equal(List(Verbatim(s"var ys = List($LS  1,$LS  2,$LS  3)", 1)))
     }
 
     it("parses an example that starts with a verbatim keyword") {
@@ -322,7 +322,7 @@ class CommentParserSpec extends FunSpec with Matchers {
         """.stripMargin
       parse(comment).get should equal(
         List(
-          Verbatim("val value = 1"),
+          Verbatim("val value = 1", 1),
           Example("value + 1", TestResult("2", Some("Int")), 2))
       )
     }
@@ -350,14 +350,14 @@ class CommentParserSpec extends FunSpec with Matchers {
       val comment =
         """ * prop> import abc.def
         """.stripMargin
-      parse(comment).get should equal(List(Verbatim("import abc.def")))
+      parse(comment).get should equal(List(Verbatim("import abc.def", 1)))
     }
 
     it("parses a single-line assignment") {
       val comment =
         """ * prop> var xs = List(1, 2, 3)
         """.stripMargin
-      parse(comment).get should equal(List(Verbatim("var xs = List(1, 2, 3)")))
+      parse(comment).get should equal(List(Verbatim("var xs = List(1, 2, 3)", 1)))
     }
 
     it("parses a multi-line assignment") {
@@ -367,7 +367,7 @@ class CommentParserSpec extends FunSpec with Matchers {
           | *     |   2,
           | *     |    3)
         """.stripMargin
-      parse(comment).get should equal(List(Verbatim(s"var ys = List($LS 1,$LS  2,$LS   3)")))
+      parse(comment).get should equal(List(Verbatim(s"var ys = List($LS 1,$LS  2,$LS   3)", 1)))
     }
 
     it("parses a multi-line assignment whose first line is only a keyword") {
@@ -375,7 +375,7 @@ class CommentParserSpec extends FunSpec with Matchers {
         """ * prop> def
           | *     | x = 1
         """.stripMargin
-      parse(comment).get should equal(List(Verbatim(s"def${LS}x = 1")))
+      parse(comment).get should equal(List(Verbatim(s"def${LS}x = 1", 1)))
     }
   }
 
