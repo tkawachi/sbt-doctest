@@ -59,9 +59,10 @@ object DoctestPlugin extends Plugin {
           streams.value.log.warn("managedSourceDirectories in Test is empty. Failed to generate tests")
           Seq()
         case Some(testDir) =>
+          val srcEncoding = TestGenerator.findEncoding((scalacOptions in Compile).value).getOrElse("UTF-8")
           (unmanagedSources in Compile).value
             .filter(_.ext == "scala")
-            .flatMap(TestGenerator(_, doctestTestFramework.value))
+            .flatMap(TestGenerator(_, srcEncoding, doctestTestFramework.value))
             .groupBy(r => r.pkg -> r.basename)
             .flatMap {
               case ((pkg, basename), results) =>
