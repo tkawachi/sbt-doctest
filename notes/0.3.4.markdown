@@ -1,0 +1,6 @@
+### Changes
+
+* It now uses `-encoding` in `scalacOptions` when reading source files. It uses `UTF-8` when an encoding is not specified.
+  Fixed #48. Thanks to @gakuzzzz and @xuwei-k.
+
+Please try it out, and send feedback to https://github.com/tkawachi/sbt-doctest/issues
