@@ -41,8 +41,8 @@ Set `doctestWithDependencies` to `false` when you explicitly specify testing lib
 doctestWithDependencies := false
 
 libraryDependencies ++= Seq(
-  "org.scalatest" %% "scalatest" % "2.2.0" % "test",
-  "org.scalacheck" %% "scalacheck" % "1.11.4" % "test"
+  "org.scalatest"  %% "scalatest"  % "2.2.3"  % "test",
+  "org.scalacheck" %% "scalacheck" % "1.12.1" % "test"
   // And other library dependencies.
 )
 ```
