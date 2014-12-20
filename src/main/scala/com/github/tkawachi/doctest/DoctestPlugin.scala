@@ -35,12 +35,9 @@ object DoctestPlugin extends Plugin {
    * Default libraryDependencies.
    */
   object TestLibs {
-    val scalacheck = Seq("org.scalacheck" %% "scalacheck" % "1.11.6" % "test")
-
-    val scalatest = Seq("org.scalatest" %% "scalatest" % "2.2.0" % "test") ++ scalacheck
-
-    val specs2Version = "2.4.4"
-
+    val scalacheck = Seq("org.scalacheck" %% "scalacheck" % "1.12.1" % "test")
+    val scalatest = Seq("org.scalatest" %% "scalatest" % "2.2.3" % "test") ++ scalacheck
+    val specs2Version = "2.4.15"
     val specs2 = Seq(
       "org.specs2" %% "specs2-core" % specs2Version % "test",
       "org.specs2" %% "specs2-scalacheck" % specs2Version % "test"

@@ -53,4 +53,4 @@ dependencyOverrides in ThisBuild ++= Set(
   "org.scalacheck" % "scalacheck_2.10" % "1.11.6",
   "org.scalatest" % "scalatest_2.10" % "2.2.0"
 )
-// LIBRARY_DEPENDENCIES_HASH f19df6add5d224271eb27e4d28e25f71a5b688ff
+// LIBRARY_DEPENDENCIES_HASH d6bf3180f39acceaf1557c3f50fd864ba6e87afc
