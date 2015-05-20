@@ -5,6 +5,7 @@ in ScalaDoc.
 
 [![Build Status](https://travis-ci.org/tkawachi/sbt-doctest.svg?branch=master)](https://travis-ci.org/tkawachi/sbt-doctest)
 [![Stories in Ready](https://badge.waffle.io/tkawachi/sbt-doctest.png?label=ready&title=Ready)](https://waffle.io/tkawachi/sbt-doctest)
+[![Codacy Badge](https://www.codacy.com/project/badge/69a7c0f566464cc38032d10d3b9dab6c)](https://www.codacy.com/app/tkawachi/sbt-doctest)
 
 ## Install
 
