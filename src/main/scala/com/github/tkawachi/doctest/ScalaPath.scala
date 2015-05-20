@@ -1,5 +1,7 @@
 package com.github.tkawachi.doctest
 
+import scala.util.control.NonFatal
+
 /**
  * Path for scala library and compiler
  *
@@ -24,14 +26,14 @@ object ScalaPath {
   private lazy val compilerPath = try {
     classPathOfClass("scala.tools.nsc.Interpreter")
   } catch {
-    case e: Throwable =>
+    case NonFatal(e) =>
       throw new RuntimeException("Unable to load Scala interpreter from classpath (scala-compiler jar is missing?)", e)
   }
 
   private lazy val libPath = try {
     classPathOfClass("scala.ScalaObject")
   } catch {
-    case e: Throwable =>
+    case NonFatal(e) =>
       throw new RuntimeException("Unable to load scala base object from classpath (scala-library jar is missing?)", e)
   }
 
