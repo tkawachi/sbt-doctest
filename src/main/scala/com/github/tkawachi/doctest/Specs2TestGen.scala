@@ -17,7 +17,7 @@ object Specs2TestGen extends TestGen {
        |    extends org.specs2.mutable.Specification
        |    with org.specs2.ScalaCheck {
        |
-       |  ${StringUtil.indent(TestGen.helperMethods, "  ")}
+       |${StringUtil.indent(TestGen.helperMethods, "  ")}
        |
        |${examples.map(generateExample(basename, _)).mkString("\n\n")}
        |}

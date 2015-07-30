@@ -16,6 +16,5 @@ object TestGen {
       |def sbtDoctestReplString(any: Any): String = {
       |  val s = scala.runtime.ScalaRunTime.replStringOf(any, 1000).init
       |  if (s.headOption == Some('\n')) s.tail else s
-      |}
-    """.stripMargin
+      |}""".stripMargin
 }
