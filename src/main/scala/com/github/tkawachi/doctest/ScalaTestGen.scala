@@ -20,7 +20,7 @@ object ScalaTestGen extends TestGen {
        |    with $st.Matchers
        |    with $st.prop.Checkers {
        |
-       |  ${StringUtil.indent(TestGen.helperMethods, "  ")}
+       |${StringUtil.indent(TestGen.helperMethods, "  ")}
        |
        |${parsedList.map(generateExample(basename, _)).mkString("\n\n")}
        |}
