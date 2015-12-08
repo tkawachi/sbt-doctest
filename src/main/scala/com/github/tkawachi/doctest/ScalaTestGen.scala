@@ -12,8 +12,7 @@ object ScalaTestGen extends TestGen {
     val pkgLine = pkg.fold("")(p => s"package $p")
     s"""$pkgLine
        |
-       |import org.scalacheck.Arbitrary._
-       |import org.scalacheck.Prop._
+       |${TestGen.importArbitrary(parsedList)}
        |
        |class ${basename}Doctest
        |    extends $st.FunSpec

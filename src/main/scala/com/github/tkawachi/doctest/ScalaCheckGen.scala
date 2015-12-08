@@ -6,10 +6,16 @@ object ScalaCheckGen extends TestGen {
 
   def generate(basename: String, pkg: Option[String], parsedList: Seq[ParsedDoctest]): String = {
     val pkgLine = pkg.fold("")(p => s"package $p")
+    val importProp =
+      if (TestGen.containsExample(parsedList) || TestGen.containsProperty(parsedList))
+        "import org.scalacheck.Prop._"
+      else
+        ""
+
     s"""$pkgLine
        |
-       |import org.scalacheck.Arbitrary._
-       |import org.scalacheck.Prop._
+       |${TestGen.importArbitrary(parsedList)}
+       |$importProp
        |
        |object ${basename}Doctest
        |    extends org.scalacheck.Properties("${escape(basename)}.scala") {
