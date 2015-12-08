@@ -61,7 +61,7 @@ object StringUtil {
     val maxLength = 60
     val lines = s.split("[\\r\\n]")
     val suffix =
-      if (lines.size > 1 || lines.headOption.fold(0)(_.length) > maxLength) " ..."
+      if (lines.size > 1 || lines.headOption.exists(_.length > maxLength)) " ..."
       else ""
 
     lines.headOption.fold("")(_.take(maxLength) + suffix)
