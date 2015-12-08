@@ -4,5 +4,4 @@
  *
  * prop> (i: Int) => (i * 2) == (i + i)
  */
-object Main {
-}
+object Main
