@@ -1,0 +1,6 @@
+### Changes
+
+* Improved formatting of generated test sources #54.
+* Resolved unused import warnings #57.
+
+Please try it out, and send feedback to https://github.com/tkawachi/sbt-doctest/issues
