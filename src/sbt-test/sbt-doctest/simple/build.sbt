@@ -1,8 +1,8 @@
 doctestSettings
 
-scalaVersion := "2.10.4"
+scalaVersion := "2.10.6"
 
-crossScalaVersions := "2.10.4" :: "2.11.2" :: Nil
+crossScalaVersions := "2.10.6" :: "2.11.7" :: Nil
 
 scalacOptions += "-Xfatal-warnings"
 scalacOptions += {

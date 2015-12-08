@@ -9,9 +9,9 @@ dependencyOverrides in ThisBuild ++= Set(
   "org.json4s" % "json4s-ast_2.10" % "3.2.10",
   "org.json4s" % "json4s-core_2.10" % "3.2.10",
   "org.json4s" % "json4s-native_2.10" % "3.2.10",
-  "org.scala-lang" % "scala-compiler" % "2.10.4",
-  "org.scala-lang" % "scala-library" % "2.10.4",
-  "org.scala-lang" % "scala-reflect" % "2.10.4",
+  "org.scala-lang" % "scala-compiler" % "2.10.6",
+  "org.scala-lang" % "scala-library" % "2.10.6",
+  "org.scala-lang" % "scala-reflect" % "2.10.6",
   "org.scala-lang" % "scalap" % "2.10.0",
   "org.scala-sbt" % "actions" % "0.13.7",
   "org.scala-sbt" % "api" % "0.13.7",
@@ -61,4 +61,4 @@ dependencyOverrides in ThisBuild ++= Set(
   "org.spire-math" % "jawn-parser_2.10" % "0.6.0",
   "org.spire-math" % "json4s-support_2.10" % "0.6.0"
 )
-// LIBRARY_DEPENDENCIES_HASH d6bf3180f39acceaf1557c3f50fd864ba6e87afc
+// LIBRARY_DEPENDENCIES_HASH d02f44de61c0dee8af2dee71f9dec9ddd5e4c656

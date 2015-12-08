@@ -12,7 +12,7 @@ lazy val root = (project in file(".")).settings(
     url("https://github.com/tkawachi/sbt-doctest/"),
     "scm:git:github.com:tkawachi/sbt-doctest.git"
   )),
-  scalaVersion := "2.10.4",
+  scalaVersion := "2.10.6",
   scalacOptions ++= Seq(
     "-deprecation",
     "-encoding", "UTF-8",
