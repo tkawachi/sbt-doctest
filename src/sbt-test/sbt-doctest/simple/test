@@ -4,6 +4,8 @@ $ exists target/scala-2.10/src_managed/test/sbt_doctest/MainDoctest.scala
 $ exists target/scala-2.11/src_managed/test/sbt_doctest/MainDoctest.scala
 $ absent target/scala-2.10/src_managed/test/sbt_doctest/NoDoctestDoctest.scala
 $ absent target/scala-2.11/src_managed/test/sbt_doctest/NoDoctestDoctest.scala
+$ exists target/scala-2.10/src_managed/test/sbt_doctest/VerbatimTestDoctest.scala
+$ exists target/scala-2.11/src_managed/test/sbt_doctest/VerbatimTestDoctest.scala
 > + test:compile
 > + test
 
