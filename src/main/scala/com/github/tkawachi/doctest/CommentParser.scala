@@ -10,7 +10,10 @@ trait GenericParser extends RegexParsers {
 
   case class PositionedString(str: String) extends Positional
 
-  def append(s: String ~ String): String = s._1 + s._2
+  def append(s: String ~ String): String = {
+    val lhs ~ rhs = s
+    lhs + rhs
+  }
 
   val horizontalWhiteSpace: Parser[String] = "[ \\t]+".r
 
