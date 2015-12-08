@@ -1,14 +1,6 @@
-import sbtrelease._
-import ReleaseStateTransformations._
+import ReleaseTransformations._
 
-sonatypeSettings
-
-releaseSettings
-
-def runTaskStep[A](task: TaskKey[A]) =
-  ReleaseStep(state => Project.extract(state).runTask(task, state)._1)
-
-ReleaseKeys.releaseProcess := Seq[ReleaseStep](
+releaseProcess := Seq[ReleaseStep](
   checkSnapshotDependencies,
   inquireVersions,
   runClean,
@@ -16,10 +8,10 @@ ReleaseKeys.releaseProcess := Seq[ReleaseStep](
   setReleaseVersion,
   commitReleaseVersion,
   tagRelease,
-  runTaskStep(PgpKeys.publishSigned),
+  ReleaseStep(action = Command.process("publishSigned", _)),
   setNextVersion,
   commitNextVersion,
-  runTaskStep(SonatypeKeys.sonatypeReleaseAll),
+  ReleaseStep(action = Command.process("sonatypeReleaseAll", _)),
   pushChanges
 )
 
