@@ -6,5 +6,3 @@ libraryDependencies ++= Seq(
 crossScalaVersions := "2.11.7" :: "2.10.6" :: Nil
 
 doctestWithDependencies := false
-
-doctestSettings

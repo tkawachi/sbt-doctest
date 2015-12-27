@@ -1,5 +1,3 @@
-doctestSettings
-
 scalaVersion := "2.10.6"
 
 crossScalaVersions := "2.10.6" :: "2.11.7" :: Nil

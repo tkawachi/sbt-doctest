@@ -1,5 +1,6 @@
 package com.github.tkawachi.doctest
 import sbt._, Keys._
+import sbt.plugins.JvmPlugin
 
 /**
  * Sbt plugin for doctest.
@@ -16,10 +17,8 @@ import sbt._, Keys._
  * res0: Int = 11
  * }}}
  */
-object DoctestPlugin extends Plugin {
-  val doctestTestFramework = settingKey[DoctestTestFramework]("Test framework. Specify ScalaCheck (default), Specs2 or ScalaTest.")
-  val doctestWithDependencies = settingKey[Boolean]("Whether to include libraryDependencies to doctestSettings.")
-  val doctestGenTests = taskKey[Seq[File]]("Generates test files.")
+object DoctestPlugin extends AutoPlugin {
+  self =>
 
   sealed abstract class DoctestTestFramework
 
@@ -28,8 +27,24 @@ object DoctestPlugin extends Plugin {
     case object ScalaTest extends DoctestTestFramework
     case object ScalaCheck extends DoctestTestFramework
   }
-
   import DoctestTestFramework._
+
+  override def trigger: PluginTrigger = allRequirements
+
+  // Currently not working with ScalaJS. See #52.
+  override def requires = JvmPlugin
+
+  override def projectSettings: Seq[Setting[_]] = doctestSettings
+
+  object autoImport {
+    val doctestTestFramework = settingKey[DoctestTestFramework]("Test framework. Specify ScalaCheck (default), Specs2 or ScalaTest.")
+    val doctestWithDependencies = settingKey[Boolean]("Whether to include libraryDependencies to doctestSettings.")
+    val doctestGenTests = taskKey[Seq[File]]("Generates test files.")
+
+    val DoctestTestFramework = self.DoctestTestFramework
+  }
+
+  import autoImport._
 
   /**
    * Default libraryDependencies.
