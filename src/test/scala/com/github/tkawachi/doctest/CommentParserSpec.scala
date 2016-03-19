@@ -137,6 +137,16 @@ class CommentParserSpec extends FunSpec with Matchers {
         """.stripMargin
       parse(comment).get should equal(List(Verbatim(s"val xs = List(${LS}1,${LS}2,${LS}3)")))
     }
+
+    it("decodes `&lt;` HTML entities") {
+      val comment =
+        """ * >>> "&lt;html>&lt;/html>"
+          | * &lt;html>&lt;/html>
+        """.stripMargin
+      parse(comment).get should equal(
+        List(Example("\"<html></html>\"", TestResult("<html></html>", None), 1))
+      )
+    }
   }
 
   describe("Scala repl style") {
@@ -326,6 +336,18 @@ class CommentParserSpec extends FunSpec with Matchers {
           Example("value + 1", TestResult("2", Some("Int")), 2))
       )
     }
+
+    it("decodes &lt; HTML entities") {
+      val comment =
+        """ * scala> "&lt;html>&lt;/html>"
+        | * res0: String =
+        | * &lt;html>&lt;/html>
+      """.stripMargin
+      parse(comment).get should equal(
+        List(Example("\"<html></html>\"", TestResult("<html></html>", Some("String")), 1))
+      )
+    }
+
   }
 
   describe("Property based") {
@@ -376,6 +398,13 @@ class CommentParserSpec extends FunSpec with Matchers {
           | *     | x = 1
         """.stripMargin
       parse(comment).get should equal(List(Verbatim(s"def${LS}x = 1")))
+    }
+
+    it("decodes &lt; HTML entities") {
+      val comment =
+        """ * prop> var html = "&lt;html>&lt;/html>"
+        """.stripMargin
+      parse(comment).get should equal(List(Verbatim("var html = \"<html></html>\"")))
     }
   }
 

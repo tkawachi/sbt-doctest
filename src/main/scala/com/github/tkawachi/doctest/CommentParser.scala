@@ -134,7 +134,7 @@ object CommentParser extends PythonStyleParser with ReplStyleParser with Propert
 
   val allLines = (components ^^ Some.apply | anyLine ^^^ None).* <~ anyStr ^^ (_.flatten)
 
-  def parse(input: String) = parseAll(allLines, input)
+  def parse(input: String) = parseAll(allLines, input.replace("&lt;", "<"))
 
   def apply(comment: ScaladocComment): Either[String, ParsedDoctest] =
     parse(comment.text) match {
