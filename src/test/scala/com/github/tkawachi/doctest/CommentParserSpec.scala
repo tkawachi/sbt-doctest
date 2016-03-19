@@ -389,4 +389,52 @@ class CommentParserSpec extends FunSpec with Matchers {
       parse(comment).get should equal(List.empty)
     }
   }
+
+  describe("Markdown comments") {
+    it("python style") {
+      val comment =
+        """```scala
+          |>>> 1 + 2
+          |3
+          |```
+        """.stripMargin
+      parse(comment).get should equal(List(Example("1 + 2", TestResult("3"), 2)))
+    }
+
+    it("repl style") {
+      val comment =
+        """```scala
+          |scala> 1 + 2
+          |res0: Int = 3
+          |```
+        """.stripMargin
+      parse(comment).get should equal(List(Example("1 + 2", TestResult("3", Some("Int")), 2)))
+    }
+
+    it("repl style with import and example") {
+      val comment =
+        """```scala
+          |scala> import scala.util.Success
+          |import scala.util.Success
+          |
+          |scala> Success(1 + 2)
+          |res0: scala.util.Try[Int] = Success(3)
+          |```
+        """.stripMargin
+      parse(comment).get should equal(List(
+        Verbatim("import scala.util.Success"),
+        Example("Success(1 + 2)", TestResult("Success(3)", Some("scala.util.Try[Int]")), 5)
+      ))
+    }
+
+    it("property style") {
+      val comment =
+
+        """```scala
+          |prop> (i: Int) => i + i == i * 2
+          |```
+        """.stripMargin
+      parse(comment).get should equal(List(Property("""(i: Int) => i + i == i * 2""", 2)))
+    }
+  }
 }

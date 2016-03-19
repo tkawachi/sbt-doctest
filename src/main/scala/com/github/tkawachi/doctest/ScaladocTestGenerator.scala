@@ -6,23 +6,16 @@ import scala.io.Source
 import org.apache.commons.io.FilenameUtils
 import org.apache.commons.lang3.StringEscapeUtils.unescapeHtml4
 
-object TestGenerator {
-  case class Result(pkg: Option[String], basename: String, testSource: String)
+object ScaladocTestGenerator {
 
-  val extractor = new Extractor
-
-  private def testGen(framework: DoctestTestFramework): TestGen = framework match {
-    case DoctestTestFramework.ScalaTest => ScalaTestGen
-    case DoctestTestFramework.Specs2 => Specs2TestGen
-    case DoctestTestFramework.ScalaCheck => ScalaCheckGen
-  }
+  val extractor = new ScaladocExtractor
 
   private def decodeHtml(comment: ScaladocComment) = comment.copy(text = unescapeHtml4(comment.text))
 
   /**
    * Generates test source code from scala source file.
    */
-  def apply(srcFile: File, srcEncoding: String, framework: DoctestTestFramework, decodeHtmlEnabled: Boolean): Seq[Result] = {
+  def apply(srcFile: File, srcEncoding: String, framework: DoctestTestFramework, decodeHtmlEnabled: Boolean): Seq[TestSource] = {
     val src = Source.fromFile(srcFile, srcEncoding).mkString
     val basename = FilenameUtils.getBaseName(srcFile.getName)
     extractor.extract(src)
@@ -33,8 +26,9 @@ object TestGenerator {
       .flatMap(comment => CommentParser(comment).right.toOption.filter(_.components.size > 0))
       .groupBy(_.pkg).map {
         case (pkg, examples) =>
-          Result(pkg, basename, testGen(framework).generate(basename, pkg, examples))
-      }.toSeq
+          TestSource(pkg, basename, testGen(framework).generate(basename, pkg, examples))
+      }
+      .toSeq
   }
 
   def findEncoding(scalacOptions: Seq[String]): Option[String] = {

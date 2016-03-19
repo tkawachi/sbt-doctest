@@ -6,7 +6,7 @@ import java.io.File
 /**
  * Extract examples from scala source.
  */
-class Extractor {
+class ScaladocExtractor {
 
   private val settings = new Settings(Console println _)
   settings.bootclasspath.value = ScalaPath.pathList.mkString(File.pathSeparator)
