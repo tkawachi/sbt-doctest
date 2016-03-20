@@ -125,6 +125,27 @@ Please use `<BLANKLINE>` when an output contains blank lines.
  */
 def helloWorld = "Hello\n\nWorld"
 ```
+## HTML Entities
+
+Often when documenting libraries that work with HTML you need to encode HTML entities so that they will be displayed in browsers.
+
+However, `sbt-doctest` ignores these and attempts to compare encoded HTML with unencoded HTML entities. You can fix this by enabling decoding of HTML entities. Just add the following setting to your `build.sbt`:
+
+```
+doctestDecodeHtmlEntities := true
+```
+
+Now the following should pass:
+
+```scala
+  /**
+   * {{{
+   * >>> Main.html
+   * &lt;html&gt;&lt;/html&gt;
+   * }}}
+   */
+  val html = "<html></html>"
+```
 
 ## License
 

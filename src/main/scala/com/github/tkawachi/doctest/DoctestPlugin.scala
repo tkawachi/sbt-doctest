@@ -40,6 +40,7 @@ object DoctestPlugin extends AutoPlugin {
     val doctestTestFramework = settingKey[DoctestTestFramework]("Test framework. Specify ScalaCheck (default), Specs2 or ScalaTest.")
     val doctestWithDependencies = settingKey[Boolean]("Whether to include libraryDependencies to doctestSettings.")
     val doctestGenTests = taskKey[Seq[File]]("Generates test files.")
+    val doctestDecodeHtmlEntities = settingKey[Boolean]("Whether to decode HTML entities.")
 
     val DoctestTestFramework = self.DoctestTestFramework
   }
@@ -64,6 +65,7 @@ object DoctestPlugin extends AutoPlugin {
   val doctestGenSettings = Seq(
     doctestTestFramework := (doctestTestFramework ?? ScalaCheck).value,
     doctestWithDependencies := (doctestWithDependencies ?? true).value,
+    doctestDecodeHtmlEntities := (doctestDecodeHtmlEntities ?? false).value,
     doctestGenTests := {
       (managedSourceDirectories in Test).value.headOption match {
         case None =>
@@ -73,7 +75,7 @@ object DoctestPlugin extends AutoPlugin {
           val srcEncoding = TestGenerator.findEncoding((scalacOptions in Compile).value).getOrElse("UTF-8")
           (unmanagedSources in Compile).value
             .filter(_.ext == "scala")
-            .flatMap(TestGenerator(_, srcEncoding, doctestTestFramework.value))
+            .flatMap(TestGenerator(_, srcEncoding, doctestTestFramework.value, doctestDecodeHtmlEntities.value))
             .groupBy(r => r.pkg -> r.basename)
             .flatMap {
               case ((pkg, basename), results) =>

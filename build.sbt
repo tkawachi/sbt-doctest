@@ -30,10 +30,11 @@ lazy val root = (project in file(".")).settings(
     "specs2Version" -> "2.4.15"
   ),
   libraryDependencies ++= Seq(
-    "org.scala-lang" %  "scala-compiler" % scalaVersion.value,
-    "org.scalatest"  %% "scalatest"      % scalatestVersion % "test",
-    "org.scalacheck" %% "scalacheck"     % scalacheckVersion % "test",
-    "commons-io"     %  "commons-io"     % "2.4"
+    "org.scala-lang"     %  "scala-compiler" % scalaVersion.value,
+    "org.scalatest"      %% "scalatest"      % scalatestVersion % "test",
+    "org.scalacheck"     %% "scalacheck"     % scalacheckVersion % "test",
+    "commons-io"         %  "commons-io"     % "2.4",
+    "org.apache.commons" %  "commons-lang3"  % "3.4"
   ),
   doctestTestFramework := DoctestTestFramework.ScalaTest
 ).settings(scalariformSettings: _*)
