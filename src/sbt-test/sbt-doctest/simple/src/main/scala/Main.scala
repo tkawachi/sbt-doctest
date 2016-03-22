@@ -122,4 +122,13 @@ object Main {
    * }}}
    */
   val helloWorld = "Hello\n\nWorld"
+
+  /**
+   * {{{
+   * >>> Main.html
+   * &lt;html&gt;&lt;/html&gt;
+   * }}}
+   */
+  val html = "&lt;html&gt;&lt;/html&gt;"
+
 }
