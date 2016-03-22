@@ -6,6 +6,7 @@ dependencyOverrides in ThisBuild ++= Set(
   "com.thoughtworks.paranamer" % "paranamer" % "2.6",
   "commons-io" % "commons-io" % "2.4",
   "jline" % "jline" % "2.11",
+  "org.apache.commons" % "commons-lang3" % "3.4",
   "org.json4s" % "json4s-ast_2.10" % "3.2.10",
   "org.json4s" % "json4s-core_2.10" % "3.2.10",
   "org.scala-lang.modules" % "scala-pickling_2.10" % "0.10.0",
@@ -59,4 +60,4 @@ dependencyOverrides in ThisBuild ++= Set(
   "org.spire-math" % "jawn-parser_2.10" % "0.6.0",
   "org.spire-math" % "json4s-support_2.10" % "0.6.0"
 )
-// LIBRARY_DEPENDENCIES_HASH 2381205a7ef9e7c72f1962a59a59a4a7a07203f4
+// LIBRARY_DEPENDENCIES_HASH cc1441a109310ee3be42dfaa069fc458e2a69e03
