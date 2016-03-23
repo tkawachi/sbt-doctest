@@ -1,5 +1,5 @@
-val scalatestVersion = "2.2.3"
-val scalacheckVersion = "1.12.1"
+val scalatestVersion = "2.2.6"
+val scalacheckVersion = "1.12.5"
 
 lazy val root = (project in file(".")).settings(
   buildInfoSettings: _*

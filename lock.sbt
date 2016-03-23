@@ -54,10 +54,10 @@ dependencyOverrides in ThisBuild ++= Set(
   "org.scala-sbt" % "tracking" % "0.13.9",
   "org.scala-sbt.ivy" % "ivy" % "2.3.0-sbt-c5d1b95fdcc1e1007740ffbecf4eb07abc51ec93",
   "org.scala-tools.sbinary" % "sbinary_2.10" % "0.4.2",
-  "org.scalacheck" % "scalacheck_2.10" % "1.12.1",
+  "org.scalacheck" % "scalacheck_2.10" % "1.12.5",
   "org.scalamacros" % "quasiquotes_2.10" % "2.0.1",
-  "org.scalatest" % "scalatest_2.10" % "2.2.3",
+  "org.scalatest" % "scalatest_2.10" % "2.2.6",
   "org.spire-math" % "jawn-parser_2.10" % "0.6.0",
   "org.spire-math" % "json4s-support_2.10" % "0.6.0"
 )
-// LIBRARY_DEPENDENCIES_HASH cc1441a109310ee3be42dfaa069fc458e2a69e03
+// LIBRARY_DEPENDENCIES_HASH 3a0608b021fb33b221408c8e617acd918cb2f2a1
