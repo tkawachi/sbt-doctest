@@ -12,4 +12,4 @@ scalacOptions += {
   }
 }
 
-doctestMarkdownCompiler := true
+doctestMarkdownEnabled := true

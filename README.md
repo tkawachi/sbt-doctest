@@ -149,13 +149,23 @@ Now the following should pass:
 
 ## Markdown
 
-Also supports code examples in Markdown documentation. To enable add the following to your `build.bst`:
+Also supports code examples in Markdown documentation. To enable add the following to your `build.sbt`:
 
 ```
-doctestMarkdownCompiler := true
+doctestMarkdownEnabled := true
 ```
 
 Any code blocks that start with the ````scala` markdown directive will be parsed.
+It searches `*.md` under `baseDirectory` by default. It can be configured by
+`doctestMarkdownPathFinder`.
+
+```
+// default
+doctestMarkdownPathFinder := baseDirectory.value * "*.md"
+
+// search doc/ recursively
+doctestMarkdownPathFinder := baseDirectory.value * "doc" ** "*.md" 
+```
 
 ## License
 
