@@ -147,6 +147,16 @@ Now the following should pass:
   val html = "<html></html>"
 ```
 
+## Markdown
+
+Also supports code examples in Markdown documentation. To enable add the following to your `build.bst`:
+
+```
+doctestMarkdownCompiler := true
+```
+
+Any code blocks that start with the ````scala` markdown directive will be parsed.
+
 ## License
 
 MIT

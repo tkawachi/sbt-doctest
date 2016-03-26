@@ -39,6 +39,7 @@ object DoctestPlugin extends AutoPlugin {
   object autoImport {
     val doctestTestFramework = settingKey[DoctestTestFramework]("Test framework. Specify ScalaCheck (default), Specs2 or ScalaTest.")
     val doctestWithDependencies = settingKey[Boolean]("Whether to include libraryDependencies to doctestSettings.")
+    val doctestMarkdownCompiler = settingKey[Boolean]("Whether to compile markdown into doctests.")
     val doctestGenTests = taskKey[Seq[File]]("Generates test files.")
     val doctestDecodeHtmlEntities = settingKey[Boolean]("Whether to decode HTML entities.")
 
@@ -59,6 +60,21 @@ object DoctestPlugin extends AutoPlugin {
     )
   }
 
+  private def doctestScaladocGenTests(sources: Seq[File], framework: DoctestTestFramework, decodeHtml: Boolean, scalacOptions: Seq[String]) = {
+    val srcEncoding = ScaladocTestGenerator.findEncoding(scalacOptions).getOrElse("UTF-8")
+    sources
+      .filter(_.ext == "scala")
+      .flatMap(ScaladocTestGenerator(_, srcEncoding, framework, decodeHtml))
+  }
+
+  private def doctestMarkdownGenTests(enabled: Boolean, base: File, framework: DoctestTestFramework) = {
+    if(enabled)
+      ((base ** "*.md") filter { !_.isDirectory }).get
+        .flatMap(MarkdownTestGenerator(_, framework))
+    else Seq()
+  }
+
+
   /**
    * Settings for test Generation.
    */
@@ -66,16 +82,15 @@ object DoctestPlugin extends AutoPlugin {
     doctestTestFramework := (doctestTestFramework ?? ScalaCheck).value,
     doctestWithDependencies := (doctestWithDependencies ?? true).value,
     doctestDecodeHtmlEntities := (doctestDecodeHtmlEntities ?? false).value,
+    doctestMarkdownCompiler := (doctestMarkdownCompiler ?? false).value,
     doctestGenTests := {
       (managedSourceDirectories in Test).value.headOption match {
         case None =>
           streams.value.log.warn("managedSourceDirectories in Test is empty. Failed to generate tests")
           Seq()
         case Some(testDir) =>
-          val srcEncoding = TestGenerator.findEncoding((scalacOptions in Compile).value).getOrElse("UTF-8")
-          (unmanagedSources in Compile).value
-            .filter(_.ext == "scala")
-            .flatMap(TestGenerator(_, srcEncoding, doctestTestFramework.value, doctestDecodeHtmlEntities.value))
+          doctestScaladocGenTests((unmanagedSources in Compile).value, doctestTestFramework.value, doctestDecodeHtmlEntities.value, (scalacOptions in Compile).value)
+            .++:(doctestMarkdownGenTests(doctestMarkdownCompiler.value, baseDirectory.value, doctestTestFramework.value))
             .groupBy(r => r.pkg -> r.basename)
             .flatMap {
               case ((pkg, basename), results) =>

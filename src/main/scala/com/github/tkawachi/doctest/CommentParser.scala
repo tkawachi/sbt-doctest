@@ -39,7 +39,7 @@ trait GenericParser extends RegexParsers {
 
   val blankLine = "<BLANKLINE>" ^^^ ""
 
-  val endCodeBlock: Parser[String] = "}}}"
+  val endCodeBlock: Parser[String] = "}}}" | "```"
 
   def headPromptLine(prompt: String, begin: Parser[PositionedString]): Parser[String ~ PositionedString] =
     (leadingString <~ prompt) ~ (begin <~ eol)
@@ -144,4 +144,25 @@ object CommentParser extends PythonStyleParser with ReplStyleParser with Propert
       case NoSuccess(msg, next) =>
         Left(s"$msg on line ${next.pos.line}, column ${next.pos.column}")
     }
+}
+
+object CodeblockParser extends PythonStyleParser with ReplStyleParser with PropertyStyleParser {
+
+  val anyLine = anyStr <~ eol
+
+  val components = pyComponents | replComponents | propComponents
+
+  val allLines = (components ^^ Some.apply | anyLine ^^^ None).* <~ anyStr ^^ (_.flatten)
+
+  def parse(input: String) = parseAll(allLines, input)
+
+  def apply(codeblock: MarkdownCodeblock): Either[String, ParsedDoctest] =
+    parse(codeblock.text) match {
+      case Success(examples, _) =>
+        Right(ParsedDoctest(None, "", examples, codeblock.lineNo))
+
+      case NoSuccess(msg, next) =>
+        Left(s"$msg on line ${next.pos.line}, column ${next.pos.column}")
+    }
+
 }

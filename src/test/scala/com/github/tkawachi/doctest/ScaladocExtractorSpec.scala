@@ -3,9 +3,9 @@ package com.github.tkawachi.doctest
 import org.scalatest.{ BeforeAndAfter, Matchers, FunSpec }
 import scala.io.Source
 
-class ExtractorSpec extends FunSpec with Matchers with BeforeAndAfter {
+class ScaladocExtractorSpec extends FunSpec with Matchers with BeforeAndAfter {
 
-  val extractor = new Extractor
+  val extractor = new ScaladocExtractor
 
   it("extracts from Test.scala") {
     val src = Source.fromFile("src/test/resources/Test.scala").mkString
