@@ -39,7 +39,8 @@ object DoctestPlugin extends AutoPlugin {
   object autoImport {
     val doctestTestFramework = settingKey[DoctestTestFramework]("Test framework. Specify ScalaCheck (default), Specs2 or ScalaTest.")
     val doctestWithDependencies = settingKey[Boolean]("Whether to include libraryDependencies to doctestSettings.")
-    val doctestMarkdownCompiler = settingKey[Boolean]("Whether to compile markdown into doctests.")
+    val doctestMarkdownEnabled = settingKey[Boolean]("Whether to compile markdown into doctests.")
+    val doctestMarkdownPathFinder = settingKey[PathFinder]("PathFinder to find markdown to test.")
     val doctestGenTests = taskKey[Seq[File]]("Generates test files.")
     val doctestDecodeHtmlEntities = settingKey[Boolean]("Whether to decode HTML entities.")
 
@@ -67,11 +68,11 @@ object DoctestPlugin extends AutoPlugin {
       .flatMap(ScaladocTestGenerator(_, srcEncoding, framework, decodeHtml))
   }
 
-  private def doctestMarkdownGenTests(enabled: Boolean, base: File, framework: DoctestTestFramework) = {
-    if(enabled)
-      ((base ** "*.md") filter { !_.isDirectory }).get
+  private def doctestMarkdownGenTests(
+                                       finder: PathFinder,
+                                       framework: DoctestTestFramework) = {
+      finder.filter(!_.isDirectory).get
         .flatMap(MarkdownTestGenerator(_, framework))
-    else Seq()
   }
 
 
@@ -82,15 +83,29 @@ object DoctestPlugin extends AutoPlugin {
     doctestTestFramework := (doctestTestFramework ?? ScalaCheck).value,
     doctestWithDependencies := (doctestWithDependencies ?? true).value,
     doctestDecodeHtmlEntities := (doctestDecodeHtmlEntities ?? false).value,
-    doctestMarkdownCompiler := (doctestMarkdownCompiler ?? false).value,
+    doctestMarkdownEnabled := (doctestMarkdownEnabled ?? false).value,
+    doctestMarkdownPathFinder := baseDirectory.value * "*.md",
     doctestGenTests := {
       (managedSourceDirectories in Test).value.headOption match {
         case None =>
           streams.value.log.warn("managedSourceDirectories in Test is empty. Failed to generate tests")
           Seq()
         case Some(testDir) =>
-          doctestScaladocGenTests((unmanagedSources in Compile).value, doctestTestFramework.value, doctestDecodeHtmlEntities.value, (scalacOptions in Compile).value)
-            .++:(doctestMarkdownGenTests(doctestMarkdownCompiler.value, baseDirectory.value, doctestTestFramework.value))
+
+          val scaladocTests = doctestScaladocGenTests(
+            (unmanagedSources in Compile).value,
+            doctestTestFramework.value,
+            doctestDecodeHtmlEntities.value,
+            (scalacOptions in Compile).value
+          )
+
+          val markdownTests = if (doctestMarkdownEnabled.value) {
+            doctestMarkdownGenTests(doctestMarkdownPathFinder.value, doctestTestFramework.value)
+          } else {
+            Seq()
+          }
+
+          (scaladocTests ++ markdownTests)
             .groupBy(r => r.pkg -> r.basename)
             .flatMap {
               case ((pkg, basename), results) =>

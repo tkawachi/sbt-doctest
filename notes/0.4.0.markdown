@@ -4,6 +4,6 @@
 * Encoded HTML entities are supported against parsing restrictions of scaladoc.
   It's enabled by `doctestDecodeHtmlEntities := true`. Contributed by @rgladwell. #64
 * Tests in markdown code fragments are supported.
-  It's enabled by `doctestMarkdownCompiler := true`. Contributed by @rgladwell. #65
+  It's enabled by `doctestMarkdownEnabled := true`. Contributed by @rgladwell. #65
 
 Please try it out, and send feedback to https://github.com/tkawachi/sbt-doctest/issues
