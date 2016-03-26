@@ -8,17 +8,15 @@ in ScalaDoc.
 
 ## Install
 
-To use this plugin, add it to your `project/plugins.sbt`,
+To use this plugin, add it to your `project/plugins.sbt`.
 
 ```scala
-addSbtPlugin("com.github.tkawachi" % "sbt-doctest" % "0.3.5")
+addSbtPlugin("com.github.tkawachi" % "sbt-doctest" % "0.4.0")
 ```
 
-and add the following settings to your `build.sbt`.
+It's automatically enabled for JVM projects.
+Scala.js is currently not supported (See #52).
 
-```scala
-doctestSettings
-```
 
 ### Using ScalaTest or specs2
 
