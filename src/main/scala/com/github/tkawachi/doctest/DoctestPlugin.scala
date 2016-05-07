@@ -120,7 +120,14 @@ object DoctestPlugin extends AutoPlugin {
             }.toSeq
       }
     },
-    sourceGenerators in Test <+= doctestGenTests
+    sourceGenerators in Test <+= doctestGenTests,
+    watchSources ++= {
+      if (doctestMarkdownEnabled.value) {
+        doctestMarkdownPathFinder.value.get
+      } else {
+        Seq.empty
+      }
+    }
   )
 
   val doctestSettings = doctestGenSettings ++ Seq(
