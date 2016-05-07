@@ -36,6 +36,7 @@ lazy val root = (project in file(".")).settings(
     "commons-io"         %  "commons-io"     % "2.4",
     "org.apache.commons" %  "commons-lang3"  % "3.4"
   ),
-  doctestTestFramework := DoctestTestFramework.ScalaTest
+  doctestTestFramework := DoctestTestFramework.ScalaTest,
+  doctestMarkdownEnabled := true,
+  doctestMarkdownPathFinder := (resourceDirectory in Test).value ** "*.md"
 ).settings(scalariformSettings: _*)
- .settings(doctestSettings: _*)
