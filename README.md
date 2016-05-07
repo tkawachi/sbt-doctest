@@ -165,6 +165,8 @@ doctestMarkdownPathFinder := baseDirectory.value * "*.md"
 doctestMarkdownPathFinder := baseDirectory.value * "doc" ** "*.md" 
 ```
 
+See [an example markdown](https://github.com/tkawachi/sbt-doctest/blob/master/src/test/resources/ScalaText.md).
+
 ## License
 
 MIT
