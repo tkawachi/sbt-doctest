@@ -1,0 +1,5 @@
+### Changes
+
+* Changed to watch markdown files for test when testing with `~ test`. #68
+
+Please try it out, and send feedback to https://github.com/tkawachi/sbt-doctest/issues
