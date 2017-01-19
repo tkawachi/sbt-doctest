@@ -17,7 +17,7 @@ object ScalaTestGen extends TestGen {
        |class ${basename}Doctest
        |    extends $st.FunSpec
        |    with $st.Matchers
-       |    with $st.prop.Checkers {
+       |    ${TestGen.withCheckers(parsedList)} {
        |
        |${StringUtil.indent(TestGen.helperMethods, "  ")}
        |
