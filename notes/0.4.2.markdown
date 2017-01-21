@@ -1,0 +1,5 @@
+### Changes
+
+* Remove scalacheck dependency when not necessary #72. Thanks to @nrinaudo.
+
+Please try it out, and send feedback to https://github.com/tkawachi/sbt-doctest/issues
