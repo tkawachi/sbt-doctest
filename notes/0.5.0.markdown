@@ -1,0 +1,6 @@
+### Changes
+
+* Changed to generate tests from `managedSources`. Contributed by @nrinaudo. #73
+* Updated default testing libraries to support Scala 2.12.
+
+Please try it out, and send feedback to https://github.com/tkawachi/sbt-doctest/issues
