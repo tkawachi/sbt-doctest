@@ -4,7 +4,6 @@ script:
   - sbt test scripted
 
 jdk:
-  - openjdk7
-  - oraclejdk7
+  - oraclejdk8
 
 sudo: false
