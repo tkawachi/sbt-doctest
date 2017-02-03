@@ -46,7 +46,7 @@ libraryDependencies ++= Seq(
 ```
 
 *Note*:
-If you are using [Specs2](http://etorreborre.github.io/specs2/) with Scalac `2.11.8`, you need to include both `specs2-core` & `specs2-scalacheck`. Otherwise, `sbt test` would complain with an error message:
+If you are using [Specs2](http://etorreborre.github.io/specs2/), you need to include both `specs2-core` & `specs2-scalacheck`. Otherwise, `sbt test` would complain with an error message:
 > type ScalaCheck is not a member of package org.specs2
 >
 
