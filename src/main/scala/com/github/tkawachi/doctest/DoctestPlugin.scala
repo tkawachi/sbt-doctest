@@ -120,7 +120,7 @@ object DoctestPlugin extends AutoPlugin {
             }.toSeq
       }
     },
-    sourceGenerators in Test <+= doctestGenTests,
+    sourceGenerators in Test += doctestGenTests.taskValue,
     watchSources ++= {
       if (doctestMarkdownEnabled.value) {
         doctestMarkdownPathFinder.value.get

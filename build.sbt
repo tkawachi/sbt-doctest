@@ -1,5 +1,5 @@
-val scalatestVersion = "2.2.6"
-val scalacheckVersion = "1.12.5"
+val scalatestVersion = "3.0.1"
+val scalacheckVersion = "1.13.4"
 
 lazy val root = (project in file(".")).settings(
   buildInfoSettings: _*
@@ -27,7 +27,7 @@ lazy val root = (project in file(".")).settings(
   buildInfoKeys ++= Seq[BuildInfoKey](
     "scalatestVersion" -> scalatestVersion,
     "scalacheckVersion" -> scalacheckVersion,
-    "specs2Version" -> "2.4.15"
+    "specs2Version" -> "3.8.7"
   ),
   libraryDependencies ++= Seq(
     "org.scala-lang"     %  "scala-compiler" % scalaVersion.value,
