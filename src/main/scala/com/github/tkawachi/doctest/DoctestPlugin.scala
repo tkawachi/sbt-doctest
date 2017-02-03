@@ -93,7 +93,7 @@ object DoctestPlugin extends AutoPlugin {
         case Some(testDir) =>
 
           val scaladocTests = doctestScaladocGenTests(
-            (unmanagedSources in Compile).value,
+            (unmanagedSources in Compile).value ++ (managedSources in Compile).value,
             doctestTestFramework.value,
             doctestDecodeHtmlEntities.value,
             (scalacOptions in Compile).value
