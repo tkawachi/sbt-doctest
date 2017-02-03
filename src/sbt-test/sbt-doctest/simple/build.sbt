@@ -1,6 +1,6 @@
-scalaVersion := "2.10.6"
+scalaVersion := "2.11.7"
 
-crossScalaVersions := "2.10.6" :: "2.11.7" :: "2.12.1" :: Nil
+crossScalaVersions := "2.11.7" :: "2.12.1" :: Nil
 
 scalacOptions += "-Xfatal-warnings"
 scalacOptions += {
