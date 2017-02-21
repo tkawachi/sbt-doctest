@@ -12,7 +12,7 @@ object TestGen {
    * Helper methods which will be embedded in generated tests.
    */
   val helperMethods =
-    """def sbtDoctestTypeEquals[A](a1: => A)(a2: => A) = ()
+    """def sbtDoctestTypeEquals[A](a1: => A)(a2: => A): Unit = ()
       |def sbtDoctestReplString(any: Any): String = {
       |  val s = scala.runtime.ScalaRunTime.replStringOf(any, 1000).init
       |  if (s.headOption == Some('\n')) s.tail else s
