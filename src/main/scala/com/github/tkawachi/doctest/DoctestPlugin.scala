@@ -26,6 +26,7 @@ object DoctestPlugin extends AutoPlugin {
     case object Specs2 extends DoctestTestFramework
     case object ScalaTest extends DoctestTestFramework
     case object ScalaCheck extends DoctestTestFramework
+    case object utest extends DoctestTestFramework
   }
   import DoctestTestFramework._
 
@@ -58,6 +59,9 @@ object DoctestPlugin extends AutoPlugin {
     val specs2 = Seq(
       "org.specs2" %% "specs2-core" % DoctestBuildinfo.specs2Version % "test",
       "org.specs2" %% "specs2-scalacheck" % DoctestBuildinfo.specs2Version % "test"
+    )
+    val utest = Seq(
+      "com.lihaoyi" %% "utest" % DoctestBuildinfo.utestVersion % "test"
     )
   }
 
@@ -136,6 +140,7 @@ object DoctestPlugin extends AutoPlugin {
         case ScalaTest => TestLibs.scalatest
         case Specs2 => TestLibs.specs2
         case ScalaCheck => TestLibs.scalacheck
+        case `utest` => TestLibs.utest
       }
     } else {
       Seq.empty

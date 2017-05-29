@@ -20,3 +20,9 @@ $ exists target/scala-2.12/src_managed/test/READMEDoctest.scala
 > set doctestTestFramework := DoctestTestFramework.ScalaCheck
 > clean
 > + test
+
+# Try with utest
+> set doctestTestFramework := DoctestTestFramework.utest
+> set testFrameworks += new TestFramework("utest.runner.Framework")
+> clean
+> + test

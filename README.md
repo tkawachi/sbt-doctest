@@ -18,9 +18,9 @@ It's automatically enabled for JVM projects.
 Scala.js is currently not supported (See #52).
 
 
-### Using ScalaTest or specs2
+### Using ScalaTest or Specs2
 
-This plugin generates tests for ScalaCheck by default. If you use ScalaTest or specs2,
+This plugin generates tests for ScalaCheck by default. If you use ScalaTest or Specs2,
 set `doctestTestFramework` to `DoctestTestFramework.ScalaTest` or `DoctestTestFramework.Specs2` in `build.sbt`.
 Then it will generate tests for the specified framework.
 
@@ -28,6 +28,14 @@ Then it will generate tests for the specified framework.
 // To generate tests for ScalaTest
 doctestTestFramework := DoctestTestFramework.ScalaTest
 // Or specify DoctestTestFramework.Specs2 or DoctestTestFramework.ScalaCheck
+```
+
+### Using µTest
+
+If you are using µTest, add the following lines to your ``build.sbt``:
+```
+doctestTestFramework := DoctestTestFramework.utest
+testFrameworks += new TestFramework("utest.runner.Framework")
 ```
 
 ### Note for libraryDependencies

@@ -25,6 +25,7 @@ lazy val root = (project in file(".")).settings(
   buildInfoPackage := "com.github.tkawachi.doctest",
   buildInfoObject := "DoctestBuildinfo",
   buildInfoKeys ++= Seq[BuildInfoKey](
+    "utestVersion" -> "0.4.7",
     "scalatestVersion" -> scalatestVersion,
     "scalacheckVersion" -> scalacheckVersion,
     "specs2Version" -> "3.8.7"
