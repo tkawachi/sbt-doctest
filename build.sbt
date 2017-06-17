@@ -22,7 +22,7 @@ lazy val root = (project in file(".")).settings(
     "-Xfatal-warnings",
     "-Xlint"
   ),
-  sourceGenerators in Compile <+= buildInfo,
+  sourceGenerators in Compile += buildInfo.toTask,
   buildInfoPackage := "com.github.tkawachi.doctest",
   buildInfoObject := "DoctestBuildinfo",
   buildInfoKeys ++= Seq[BuildInfoKey](
