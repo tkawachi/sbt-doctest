@@ -1,19 +1,23 @@
-> set doctestTestFramework := DoctestTestFramework.ScalaTest
-> + test:managedSources
-$ exists target/scala-2.11/src_managed/test/sbt_doctest/MainDoctest.scala
-$ exists target/scala-2.12/src_managed/test/sbt_doctest/MainDoctest.scala
-> + test:compile
-> + test
+> show libraryDependencies
+> clean
+
+# Try with scalatest
+#> set doctestTestFramework := DoctestTestFramework.ScalaTest
+#> + test:managedSources
+#$ exists target/scala-2.11/src_managed/test/sbt_doctest/MainDoctest.scala
+#$ exists target/scala-2.12/src_managed/test/sbt_doctest/MainDoctest.scala
+#> + test:compile
+#> + test
 
 # Try with specs2
-> set doctestTestFramework := DoctestTestFramework.Specs2
-> clean
-> + test
+#> set doctestTestFramework := DoctestTestFramework.Specs2
+#> clean
+#> + test
 
 # Try with scalacheck
-> set doctestTestFramework := DoctestTestFramework.ScalaCheck
-> clean
-> + test
+#> set doctestTestFramework := DoctestTestFramework.ScalaCheck
+#> clean
+#> + test
 
 # Try with utest
 #> set doctestTestFramework := DoctestTestFramework.utest
