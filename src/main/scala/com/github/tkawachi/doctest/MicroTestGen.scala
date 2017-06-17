@@ -37,11 +37,13 @@ object MicroTestGen extends TestGen {
       case Example(expr, expected, _) =>
         val typeTest = expected.tpe.fold("")(tpe => genTypeTest(expr, tpe))
         s"""    "${componentDescription(component, firstLine)}"-{
-           |      assert( sbtDoctestReplString($expr) == "${escape(expected.value)}" )$typeTest
+                  val _actual_   = sbtDoctestReplString($expr)
+                  val _expected_ = "${escape(expected.value)}"
+           |      assert( _expected_ == _actual_ ) // $typeTest
            |    }""".stripMargin
       case Property(prop, _) =>
         s"""    "${componentDescription(component, firstLine)}"-{
-           |      $prop
+           |      sbtDoctestReplString($prop)
            |    }""".stripMargin
       case Verbatim(code) =>
         StringUtil.indent(code, "    ")
