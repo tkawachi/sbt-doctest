@@ -1,5 +1,6 @@
 val scalatestVersion = "3.0.1"
 val scalacheckVersion = "1.13.4"
+val utestVersion = "0.4.7"
 
 lazy val root = (project in file(".")).settings(
   buildInfoSettings: _*
@@ -21,10 +22,11 @@ lazy val root = (project in file(".")).settings(
     "-Xfatal-warnings",
     "-Xlint"
   ),
-  sourceGenerators in Compile <+= buildInfo,
+  sourceGenerators in Compile += buildInfo.toTask,
   buildInfoPackage := "com.github.tkawachi.doctest",
   buildInfoObject := "DoctestBuildinfo",
   buildInfoKeys ++= Seq[BuildInfoKey](
+    "utestVersion" -> utestVersion,
     "scalatestVersion" -> scalatestVersion,
     "scalacheckVersion" -> scalacheckVersion,
     "specs2Version" -> "3.8.7"
