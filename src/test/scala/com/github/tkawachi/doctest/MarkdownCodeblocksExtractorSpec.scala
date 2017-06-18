@@ -1,45 +1,54 @@
 package com.github.tkawachi.doctest
 
-import org.scalatest.{ BeforeAndAfter, Matchers, FunSpec }
-import scala.io.Source
+import utest._
 
-class MarkdownCodeblocksExtractorSpec extends FunSpec with Matchers with BeforeAndAfter {
+object MarkdownCodeblocksExtractorSpec extends TestSuite {
 
-  val extractor = new MarkdownCodeblocksExtractor
+  val tests = this{
 
-  it("extracts Markdown code block") {
-    val src = """
-              | # Header
-              |
-              |```scala
+    val extractor = new MarkdownCodeblocksExtractor
+
+    "extracts Markdown code block" - {
+      val src = """
+                  | # Header
+                  |
+                  |```scala
+                  | scala> println("Hello, World!")
+                  | Hello, World!
+                  | ```""".stripMargin
+
+      val actual = extractor.extract(src)
+      val expected =
+        Seq(
+          MarkdownCodeblock(
+            """```scala
               | scala> println("Hello, World!")
               | Hello, World!
-              | ```""".stripMargin
+              | ```""".stripMargin, 4
+          )
+        )
+      assert(expected == actual)
+    }
 
-    extractor.extract(src) should contain(
-      MarkdownCodeblock(
-        """```scala
-         | scala> println("Hello, World!")
-         | Hello, World!
-         | ```""".stripMargin, 4
-      )
-    )
+    "extracts multiple Markdown code blocks" - {
+      val src = """
+                  | # Header
+                  |
+                  |```scala
+                  | scala> println("Hello, World!")
+                  | Hello, World!
+                  | ```
+                  |
+                  |```scala
+                  | scala> println("Good night, World!")
+                  | Good night, World!
+                  | ```""".stripMargin
+
+      val actual = extractor.extract(src).size
+      val expected = 2
+      assert(expected == actual)
+    }
+
   }
 
-  it("extracts multiple Markdown code blocks") {
-    val src = """
-              | # Header
-              |
-              |```scala
-              | scala> println("Hello, World!")
-              | Hello, World!
-              | ```
-              |
-              |```scala
-              | scala> println("Good night, World!")
-              | Good night, World!
-              | ```""".stripMargin
-
-    extractor.extract(src).size should equal(2)
-  }
 }
