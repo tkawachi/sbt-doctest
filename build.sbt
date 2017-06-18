@@ -40,10 +40,10 @@ lazy val root = (project in file(".")).settings(
   libraryDependencies ++= Seq(
     "org.scala-lang"     %  "scala-compiler"      % scalaVersion.value,
     "com.lihaoyi"        %% "utest"               % utestVersion        % "test",
-    "org.scalatest"      %% "scalatest"           % scalatestVersion    % "provided",
-    "org.scalacheck"     %% "scalacheck"          % scalacheckVersion   % "provided",
-    "org.specs2"         %% "specs2-core"         % specs2Version       % "provided",
-    "org.specs2"         %% "specs2-scalacheck"   % specs2Version       % "provided"
+    "org.scalatest"      %% "scalatest"           % scalatestVersion    % "test",
+    "org.scalacheck"     %% "scalacheck"          % scalacheckVersion   % "test",
+    "org.specs2"         %% "specs2-core"         % specs2Version       % "test",
+    "org.specs2"         %% "specs2-scalacheck"   % specs2Version       % "test"
   ),
   doctestTestFramework := DoctestTestFramework.utest,
   doctestWithDependencies := false,
