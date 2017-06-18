@@ -5,7 +5,7 @@ libraryDependencies ++= Seq(
 
 scalaVersion := "2.10.6"
 
-crossScalaVersions := /* "2.10.6" :: / "2.11.11" :: "2.12.2" :: Nil
+crossScalaVersions := /* "2.10.6" :: */ "2.11.11" :: "2.12.2" :: Nil
 
 scalacOptions         := Seq("-Ywarn-dead-code")
 scalacOptions in Test -= "-Ywarn-dead-code"
