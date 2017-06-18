@@ -1,5 +1,6 @@
 ### https://raw.github.com/github/gitignore/88a7dc820eb3f160b9765450eabfea8893debe1b/scala.gitignore
 
+*~
 *.class
 *.log
 
@@ -20,3 +21,7 @@ project/plugins/project/
 
 # IDEA specific
 .idea*/
+
+# ENSIME specific
+.ensime
+.ensime_cache/
