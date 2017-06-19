@@ -1,0 +1,8 @@
+### Changes
+
+* Add support for uTest. Contributed by @frgomes. #78
+* Remove dependencies as preparation for ScalaJS. Contributed by @frgomes. #80
+* Remove dependencies from test libraries. Contributed by @frgomes. #85
+* Fix high CPU applying settings during scripted tests. Contributed by @frgomes. #81
+
+Please try it out, and send feedback to https://github.com/tkawachi/sbt-doctest/issues

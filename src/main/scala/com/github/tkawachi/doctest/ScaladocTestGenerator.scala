@@ -3,21 +3,19 @@ package com.github.tkawachi.doctest
 import java.io.File
 import DoctestPlugin.DoctestTestFramework
 import scala.io.Source
-import org.apache.commons.io.FilenameUtils
-import org.apache.commons.lang3.StringEscapeUtils.unescapeHtml4
 
 object ScaladocTestGenerator {
 
   val extractor = new ScaladocExtractor
 
-  private def decodeHtml(comment: ScaladocComment) = comment.copy(text = unescapeHtml4(comment.text))
+  private def decodeHtml(comment: ScaladocComment) = comment.copy(text = StringUtil.unescapeHtml4(comment.text))
 
   /**
    * Generates test source code from scala source file.
    */
   def apply(srcFile: File, srcEncoding: String, framework: DoctestTestFramework, decodeHtmlEnabled: Boolean): Seq[TestSource] = {
     val src = Source.fromFile(srcFile, srcEncoding).mkString
-    val basename = FilenameUtils.getBaseName(srcFile.getName)
+    val basename = StringUtil.getBaseName(srcFile.getName)
     extractor.extract(src)
       .map { comment =>
         if (decodeHtmlEnabled) decodeHtml(comment)

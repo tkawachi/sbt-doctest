@@ -38,8 +38,7 @@ object DoctestPlugin extends AutoPlugin {
   override def projectSettings: Seq[Setting[_]] = doctestSettings
 
   object autoImport {
-    val doctestTestFramework = settingKey[DoctestTestFramework]("Test framework. Specify ScalaCheck (default), Specs2 or ScalaTest.")
-    val doctestWithDependencies = settingKey[Boolean]("Whether to include libraryDependencies to doctestSettings.")
+    val doctestTestFramework = settingKey[DoctestTestFramework]("Test framework. Specify utest, ScalaTest, ScalaCheck or Specs2.")
     val doctestMarkdownEnabled = settingKey[Boolean]("Whether to compile markdown into doctests.")
     val doctestMarkdownPathFinder = settingKey[PathFinder]("PathFinder to find markdown to test.")
     val doctestGenTests = taskKey[Seq[File]]("Generates test files.")
@@ -49,21 +48,6 @@ object DoctestPlugin extends AutoPlugin {
   }
 
   import autoImport._
-
-  /**
-   * Default libraryDependencies.
-   */
-  object TestLibs {
-    val scalacheck = Seq("org.scalacheck" %% "scalacheck" % DoctestBuildinfo.scalacheckVersion % "test")
-    val scalatest = Seq("org.scalatest" %% "scalatest" % DoctestBuildinfo.scalatestVersion % "test") ++ scalacheck
-    val specs2 = Seq(
-      "org.specs2" %% "specs2-core" % DoctestBuildinfo.specs2Version % "test",
-      "org.specs2" %% "specs2-scalacheck" % DoctestBuildinfo.specs2Version % "test"
-    )
-    val utest = Seq(
-      "com.lihaoyi" %% "utest" % DoctestBuildinfo.utestVersion % "test"
-    )
-  }
 
   private def doctestScaladocGenTests(sources: Seq[File], framework: DoctestTestFramework, decodeHtml: Boolean, scalacOptions: Seq[String]) = {
     val srcEncoding = ScaladocTestGenerator.findEncoding(scalacOptions).getOrElse("UTF-8")
@@ -85,10 +69,10 @@ object DoctestPlugin extends AutoPlugin {
    */
   val doctestGenSettings = Seq(
     doctestTestFramework := (doctestTestFramework ?? ScalaCheck).value,
-    doctestWithDependencies := (doctestWithDependencies ?? true).value,
     doctestDecodeHtmlEntities := (doctestDecodeHtmlEntities ?? false).value,
     doctestMarkdownEnabled := (doctestMarkdownEnabled ?? false).value,
     doctestMarkdownPathFinder := baseDirectory.value * "*.md",
+    testFrameworks            += new TestFramework("utest.runner.Framework"),
     doctestGenTests := {
       (managedSourceDirectories in Test).value.headOption match {
         case None =>
@@ -134,16 +118,5 @@ object DoctestPlugin extends AutoPlugin {
     }
   )
 
-  val doctestSettings = doctestGenSettings ++ Seq(
-    libraryDependencies ++= (if (doctestWithDependencies.value) {
-      doctestTestFramework.value match {
-        case ScalaTest => TestLibs.scalatest
-        case Specs2 => TestLibs.specs2
-        case ScalaCheck => TestLibs.scalacheck
-        case `utest` => TestLibs.utest
-      }
-    } else {
-      Seq.empty
-    })
-  )
+  val doctestSettings = doctestGenSettings
 }
