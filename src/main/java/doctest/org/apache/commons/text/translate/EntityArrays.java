@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.text.translate;
+package doctest.org.apache.commons.text.translate;
 
 import java.util.Collections;
 import java.util.HashMap;

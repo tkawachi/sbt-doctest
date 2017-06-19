@@ -97,10 +97,10 @@ object StringUtil {
   def unescapeHtml4(input: String): String = UNESCAPE_HTML4.translate(input)
 
   private val UNESCAPE_HTML4 = {
-    import org.apache.commons.text.translate.AggregateTranslator
-    import org.apache.commons.text.translate.EntityArrays
-    import org.apache.commons.text.translate.LookupTranslator
-    import org.apache.commons.text.translate.NumericEntityUnescaper
+    import doctest.org.apache.commons.text.translate.AggregateTranslator
+    import doctest.org.apache.commons.text.translate.EntityArrays
+    import doctest.org.apache.commons.text.translate.LookupTranslator
+    import doctest.org.apache.commons.text.translate.NumericEntityUnescaper
     new AggregateTranslator(
       new LookupTranslator(EntityArrays.BASIC_UNESCAPE),
       new LookupTranslator(EntityArrays.ISO8859_1_UNESCAPE),
