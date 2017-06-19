@@ -17,7 +17,6 @@ scalacOptions        ++= (scalaVersion.value match {
 })
 
 // Declares scalatest, scalacheck and utest dependencies explicitly.
-doctestWithDependencies := false
 libraryDependencies ++= Seq(
   "com.lihaoyi"    %% "utest"             % "0.4.7"  % "test",
   "org.scalatest"  %% "scalatest"         % "3.0.1"  % "test",
@@ -26,6 +25,4 @@ libraryDependencies ++= Seq(
   "org.specs2"     %% "specs2-scalacheck" % "3.8.7"  % "test"
 )
 
-testFrameworks            := Seq(new TestFramework("utest.runner.Framework"))
-doctestTestFramework      := DoctestTestFramework.utest
 doctestDecodeHtmlEntities := true

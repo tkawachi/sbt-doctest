@@ -65,4 +65,4 @@ dependencyOverrides in ThisBuild ++= Set(
   "org.spire-math" % "jawn-parser_2.10" % "0.6.0",
   "org.spire-math" % "json4s-support_2.10" % "0.6.0"
 )
-// LIBRARY_DEPENDENCIES_HASH e3c4d32afbeef0467f2abfe21bd4bad8df2869fc
+// LIBRARY_DEPENDENCIES_HASH 874b1824f5b89df07930f6ea622570ae71d04139
