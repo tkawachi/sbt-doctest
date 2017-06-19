@@ -39,15 +39,27 @@ lazy val root = (project in file(".")).settings(
   ),
   libraryDependencies ++= Seq(
     "org.scala-lang"     %  "scala-compiler"      % scalaVersion.value,
-    "com.lihaoyi"        %% "utest"               % utestVersion        % "test",
+    "com.lihaoyi"        %% "utest"               % utestVersion        % "provided",
     "org.scalatest"      %% "scalatest"           % scalatestVersion    % "provided",
     "org.scalacheck"     %% "scalacheck"          % scalacheckVersion   % "provided",
     "org.specs2"         %% "specs2-core"         % specs2Version       % "provided",
     "org.specs2"         %% "specs2-scalacheck"   % specs2Version       % "provided"
   ),
-  doctestTestFramework := DoctestTestFramework.utest,
+  doctestTestFramework := DoctestTestFramework.ScalaTest,
   doctestWithDependencies := false,
   doctestMarkdownEnabled := true,
   doctestMarkdownPathFinder := (resourceDirectory in Test).value ** "*.md",
-  testFrameworks       := Seq(new TestFramework("utest.runner.Framework"))
+
+  // allows this plugin to eat its own dog food
+  inConfig(Compile)(
+    Seq(
+      libraryDependencies ++= Seq(
+        "com.lihaoyi"        %% "utest"               % utestVersion        % "test",
+        "org.scalatest"      %% "scalatest"           % scalatestVersion    % "test",
+        "org.scalacheck"     %% "scalacheck"          % scalacheckVersion   % "test",
+        "org.specs2"         %% "specs2-core"         % specs2Version       % "test",
+        "org.specs2"         %% "specs2-scalacheck"   % specs2Version       % "test"),
+      testFrameworks += new TestFramework("utest.runner.Framework")
+    )
+  )
 ).settings(scalariformSettings: _*)
