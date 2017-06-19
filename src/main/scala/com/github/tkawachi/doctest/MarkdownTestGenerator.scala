@@ -2,7 +2,6 @@ package com.github.tkawachi.doctest
 
 import java.io.File
 import scala.io.Source
-import org.apache.commons.io.FilenameUtils
 import com.github.tkawachi.doctest.DoctestPlugin.DoctestTestFramework
 
 object MarkdownTestGenerator {
@@ -11,7 +10,7 @@ object MarkdownTestGenerator {
 
   def apply(source: File, framework: DoctestTestFramework): Seq[TestSource] = {
     val contents = Source.fromFile(source).mkString
-    val basename = FilenameUtils.getBaseName(source.getName)
+    val basename = StringUtil.getBaseName(source.getName)
     extractor.extract(contents)
       .flatMap(codeblock => CodeblockParser(codeblock).right.toOption.filter(_.components.size > 0))
       .groupBy(_.pkg).map {
