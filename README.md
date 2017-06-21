@@ -11,52 +11,77 @@ in ScalaDoc.
 To use this plugin, add it to your `project/plugins.sbt`.
 
 ```scala
-addSbtPlugin("com.github.tkawachi" % "sbt-doctest" % "0.5.0")
+addSbtPlugin("com.github.tkawachi" % "sbt-doctest" % "0.5.1")
 ```
 
 It's automatically enabled for JVM projects.
 Scala.js is currently not supported (See #52).
 
+### Using ScalaTest
 
-### Using ScalaTest or Specs2
-
-This plugin generates tests for ScalaCheck by default. If you use ScalaTest or Specs2,
-set `doctestTestFramework` to `DoctestTestFramework.ScalaTest` or `DoctestTestFramework.Specs2` in `build.sbt`.
-Then it will generate tests for the specified framework.
+If you are using ``ScalaTest``, add the following lines to your ``build.sbt``:
 
 ```scala
-// To generate tests for ScalaTest
+libraryDependencies ++= Seq(
+  "org.scalatest"  %% "scalatest"  % "3.0.1"  % "test",
+  "org.scalacheck" %% "scalacheck" % "1.13.4" % "test"
+)
+
 doctestTestFramework := DoctestTestFramework.ScalaTest
-// Or specify DoctestTestFramework.Specs2 or DoctestTestFramework.ScalaCheck
+```
+
+### Using ScalaCheck
+
+If you are using ``ScalaCheck``, add the following lines to your ``build.sbt``:
+
+```scala
+libraryDependencies ++= Seq(
+  "org.scalacheck" %% "scalacheck" % "1.13.4" % "test"
+)
+
+doctestTestFramework := DoctestTestFramework.ScalaCheck
+```
+
+### Using Specs2
+
+If you are using ``Specs2``, add the following lines to your ``build.sbt``:
+
+```scala
+libraryDependencies ++= Seq(
+  "org.specs2" %% "specs2-core"       % "3.8.7" % "test",
+  "org.specs2" %% "specs2-scalacheck" % "3.8.7" % "test"
+)
+
+doctestTestFramework := DoctestTestFramework.Specs2
 ```
 
 ### Using µTest
 
-If you are using µTest, add the following lines to your ``build.sbt``:
-```
+If you are using ``µTest``, add the following lines to your ``build.sbt``:
+```scala
+libraryDependencies ++= Seq(
+  "com.lihaoyi" %% "utest" % "0.4.7" % "test"
+)
+
 doctestTestFramework := DoctestTestFramework.utest
-testFrameworks += new TestFramework("utest.runner.Framework")
 ```
 
-### Note for libraryDependencies
+### Caveats
 
-`doctestSettings` adds specific version of testing libraries to `libraryDependencies`.
-Set `doctestWithDependencies` to `false` when you explicitly specify testing library dependencies in `build.sbt`.
+There are still dependencies from ``ScalaTest`` and/or ``ScalaCheck`` when property checks are employed.
+
+The difficulty can be circumvented for the time being by providing all dependencies in ``build.sbt``, like
+shown in the example below which uses ``uTest`` with property checks, which require ``ScalaTest`` and ``ScalaCheck`` as well:
 
 ```scala
-doctestWithDependencies := false
-
 libraryDependencies ++= Seq(
-  "org.scalatest"  %% "scalatest"  % "2.2.3"  % "test",
-  "org.scalacheck" %% "scalacheck" % "1.12.1" % "test"
-  // And other library dependencies.
+  "com.lihaoyi"    %% "utest"      % "0.4.7"  % "test",
+  "org.scalatest"  %% "scalatest"  % "3.0.1"  % "test",
+  "org.scalacheck" %% "scalacheck" % "1.13.4" % "test"
 )
+      
+doctestTestFramework := DoctestTestFramework.utest
 ```
-
-*Note*:
-If you are using [Specs2](http://etorreborre.github.io/specs2/), you need to include both `specs2-core` & `specs2-scalacheck`. Otherwise, `sbt test` would complain with an error message:
-> type ScalaCheck is not a member of package org.specs2
->
 
 ## Usage
 
@@ -142,7 +167,7 @@ Often when documenting libraries that work with HTML you need to encode HTML ent
 
 However, `sbt-doctest` ignores these and attempts to compare encoded HTML with unencoded HTML entities. You can fix this by enabling decoding of HTML entities. Just add the following setting to your `build.sbt`:
 
-```
+```scala
 doctestDecodeHtmlEntities := true
 ```
 
@@ -162,7 +187,7 @@ Now the following should pass:
 
 Also supports code examples in Markdown documentation. To enable add the following to your `build.sbt`:
 
-```
+```scala
 doctestMarkdownEnabled := true
 ```
 
@@ -170,7 +195,7 @@ Any code blocks that start with the ````scala` markdown directive will be parsed
 It searches `*.md` under `baseDirectory` by default. It can be configured by
 `doctestMarkdownPathFinder`.
 
-```
+```scala
 // default
 doctestMarkdownPathFinder := baseDirectory.value * "*.md"
 
