@@ -1,5 +1,9 @@
 ### Changes
 
+Dependencies to test libraries are removed. Please add `libraryDependencies`
+according to `doctestTestFramework`. Also `doctestWithDependencies` key is
+removed.
+
 * Add support for uTest. Contributed by @frgomes. #78
 * Remove dependencies as preparation for ScalaJS. Contributed by @frgomes. #80
 * Remove dependencies from test libraries. Contributed by @frgomes #85
