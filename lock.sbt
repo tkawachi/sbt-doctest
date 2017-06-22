@@ -3,6 +3,7 @@
 // https://github.com/tkawachi/sbt-lock/
 dependencyOverrides in ThisBuild ++= Set(
   "com.jcraft" % "jsch" % "0.1.50",
+  "com.lihaoyi" % "utest_2.10" % "0.4.7",
   "com.thoughtworks.paranamer" % "paranamer" % "2.6",
   "commons-io" % "commons-io" % "2.4",
   "jline" % "jline" % "2.14.3",
@@ -55,9 +56,15 @@ dependencyOverrides in ThisBuild ++= Set(
   "org.scala-tools.sbinary" % "sbinary_2.10" % "0.4.2",
   "org.scalacheck" % "scalacheck_2.10" % "1.13.4",
   "org.scalactic" % "scalactic_2.10" % "3.0.1",
-  "org.scalamacros" % "quasiquotes_2.10" % "2.0.1",
+  "org.scalamacros" % "quasiquotes_2.10" % "2.1.0",
   "org.scalatest" % "scalatest_2.10" % "3.0.1",
+  "org.scalaz" % "scalaz-core_2.10" % "7.2.7",
+  "org.scalaz" % "scalaz-effect_2.10" % "7.2.7",
+  "org.specs2" % "specs2-common_2.10" % "3.8.7",
+  "org.specs2" % "specs2-core_2.10" % "3.8.7",
+  "org.specs2" % "specs2-matcher_2.10" % "3.8.7",
+  "org.specs2" % "specs2-scalacheck_2.10" % "3.8.7",
   "org.spire-math" % "jawn-parser_2.10" % "0.6.0",
   "org.spire-math" % "json4s-support_2.10" % "0.6.0"
 )
-// LIBRARY_DEPENDENCIES_HASH 847522d019c42519f7ed61371b78940f5d69f537
+// LIBRARY_DEPENDENCIES_HASH a82e41f63203af576724e23e641e6ea34e8d06fc
