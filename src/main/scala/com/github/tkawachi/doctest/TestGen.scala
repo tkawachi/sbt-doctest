@@ -22,7 +22,7 @@ object TestGen {
     if (containsProperty(examples)) "import org.scalacheck.Arbitrary._" else ""
 
   def withCheckers(examples: Seq[ParsedDoctest]): String =
-    if (containsProperty(examples)) "with org.scalatest.prop.Checkers" else ""
+    if (containsProperty(examples)) "with org.scalatest.check.Checkers" else ""
 
   def containsExample(examples: Seq[ParsedDoctest]): Boolean =
     examples.exists(_.components.exists {
