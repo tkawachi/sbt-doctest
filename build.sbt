@@ -52,5 +52,6 @@ lazy val root = (project in file(".")).settings(
         "org.specs2"         %% "specs2-scalacheck"   % versions.Specs2       % "test"
       )
     )
-  )
+  ),
+  testFrameworks += new TestFramework("utest.runner.Framework")
 ).settings(scalariformSettings: _*)
