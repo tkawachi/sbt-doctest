@@ -15,7 +15,7 @@ object ScaladocTestGenerator {
   /**
    * Generates test source code from scala source file.
    */
-  def apply(srcFile: File, srcEncoding: String, framework: DoctestTestFramework, decodeHtmlEnabled: Boolean): Seq[TestSource] = {
+  def apply(srcFile: File, srcEncoding: String, testGen: TestGen, decodeHtmlEnabled: Boolean): Seq[TestSource] = {
     val src = Source.fromFile(srcFile, srcEncoding).mkString
     val basename = FilenameUtils.getBaseName(srcFile.getName)
     extractor.extract(src)
@@ -23,10 +23,10 @@ object ScaladocTestGenerator {
         if (decodeHtmlEnabled) decodeHtml(comment)
         else comment
       }
-      .flatMap(comment => CommentParser(comment).right.toOption.filter(_.components.size > 0))
+      .flatMap(comment => CommentParser(comment).right.toOption.filter(_.components.nonEmpty))
       .groupBy(_.pkg).map {
         case (pkg, examples) =>
-          TestSource(pkg, basename, testGen(framework).generate(basename, pkg, examples))
+          TestSource(pkg, basename, testGen.generate(basename, pkg, examples))
       }
       .toSeq
   }

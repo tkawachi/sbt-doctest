@@ -1,3 +1,7 @@
+import java.nio.charset.StandardCharsets
+
+import complete.DefaultParsers._
+
 crossScalaVersions := Seq("2.10.6", "2.11.11", "2.12.2")
 
 javacOptions ++= (scalaVersion.value match {
@@ -26,3 +30,13 @@ libraryDependencies ++= Seq(
 )
 
 doctestMarkdownEnabled    := true
+
+val existsInFile = inputKey[Unit]("Ensure a given string exists in a file")
+
+existsInFile := {
+  val Seq(searchKey, fileName) = spaceDelimited("<arg>").parsed
+  val fileContent = IO.read(file(fileName), StandardCharsets.UTF_8)
+  if (!fileContent.contains(searchKey)) {
+    sys.error(s"$searchKey doesn't exist in $fileName")
+  }
+}
