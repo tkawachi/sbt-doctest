@@ -1,11 +1,16 @@
 package com.github.tkawachi.doctest
 
 import StringUtil.escape
+import com.github.tkawachi.doctest.TestGen.containsProperty
+import sbt.Keys.{ Classpath, moduleID }
+
+import scala.util.Try
 
 /**
  * Test generator for ScalaTest.
  */
-object ScalaTestGen extends TestGen {
+trait ScalaTestGen extends TestGen {
+
   private val st = "org.scalatest"
 
   def generate(basename: String, pkg: Option[String], parsedList: Seq[ParsedDoctest]): String = {
@@ -17,7 +22,7 @@ object ScalaTestGen extends TestGen {
        |class ${basename}Doctest
        |    extends $st.FunSpec
        |    with $st.Matchers
-       |    ${TestGen.withCheckers(parsedList)} {
+       |    ${withCheckers(parsedList)} {
        |
        |${StringUtil.indent(TestGen.helperMethods, "  ")}
        |
@@ -26,13 +31,13 @@ object ScalaTestGen extends TestGen {
        |""".stripMargin
   }
 
-  def generateExample(basename: String, parsed: ParsedDoctest): String = {
+  private def generateExample(basename: String, parsed: ParsedDoctest): String = {
     s"""  describe("${escape(basename)}.scala:${parsed.lineNo}: ${parsed.symbol}") {
        |${parsed.components.map(gen(parsed.lineNo, _)).mkString("\n\n")}
        |  }""".stripMargin
   }
 
-  def gen(firstLine: Int, component: DoctestComponent): String =
+  private def gen(firstLine: Int, component: DoctestComponent): String =
     component match {
       case Example(expr, expected, _) =>
         val typeTest = expected.tpe.fold("")(tpe => genTypeTest(expr, tpe))
@@ -49,12 +54,12 @@ object ScalaTestGen extends TestGen {
         StringUtil.indent(code, "    ")
     }
 
-  def genTypeTest(expr: String, expectedType: String): String = {
+  private def genTypeTest(expr: String, expectedType: String): String = {
     s"""
        |      sbtDoctestTypeEquals($expr)(($expr): $expectedType)""".stripMargin
   }
 
-  def componentDescription(comp: DoctestComponent, firstLine: Int): String = {
+  private def componentDescription(comp: DoctestComponent, firstLine: Int): String = {
     def absLine(lineNo: Int): Int = firstLine + lineNo - 1
     def mkStub(s: String): String = escape(StringUtil.truncate(s))
 
@@ -64,6 +69,34 @@ object ScalaTestGen extends TestGen {
       case Property(prop, lineNo) =>
         s"property at line ${absLine(lineNo)}: ${mkStub(prop)}"
       case _ => ""
+    }
+  }
+
+  protected def withCheckersString: String
+
+  private def withCheckers(examples: Seq[ParsedDoctest]): String =
+    if (containsProperty(examples)) withCheckersString else ""
+}
+
+object ScalaTestGen {
+
+  def hasGreaterThanOrEqualTo310(testClasspath: Classpath, scalaVersion: String): Boolean = {
+    val scalaBinVersion = scalaVersion.split('.').take(2).mkString(".")
+
+    testClasspath.exists { entry =>
+      (for {
+        mod <- entry.get(moduleID.key)
+        if mod.organization == "org.scalatest" &&
+          mod.name == s"scalatest_$scalaBinVersion" &&
+          (mod.revision.split('.') match {
+            case Array(majorString, minorString, _*) =>
+              (for {
+                major <- Try(majorString.toInt)
+                minor <- Try(minorString.toInt)
+              } yield major >= 3 && minor >= 1).getOrElse(false)
+            case _ => false
+          })
+      } yield ()).isDefined
     }
   }
 }

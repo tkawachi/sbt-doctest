@@ -1,0 +1,8 @@
+> show libraryDependencies
+> clean
+> + test
+
+$ exists target/scala-2.11/src_managed/test/sbt_doctest/MainDoctest.scala
+$ exists target/scala-2.12/src_managed/test/sbt_doctest/MainDoctest.scala
+> existsInFile "with org.scalatest.check.Checkers" target/scala-2.11/src_managed/test/sbt_doctest/MainDoctest.scala
+> existsInFile "with org.scalatest.check.Checkers" target/scala-2.12/src_managed/test/sbt_doctest/MainDoctest.scala

@@ -49,18 +49,18 @@ object DoctestPlugin extends AutoPlugin {
 
   import autoImport._
 
-  private def doctestScaladocGenTests(sources: Seq[File], framework: DoctestTestFramework, decodeHtml: Boolean, scalacOptions: Seq[String]) = {
+  private def doctestScaladocGenTests(sources: Seq[File], testGen: TestGen, decodeHtml: Boolean, scalacOptions: Seq[String]) = {
     val srcEncoding = ScaladocTestGenerator.findEncoding(scalacOptions).getOrElse("UTF-8")
     sources
       .filter(_.ext == "scala")
-      .flatMap(ScaladocTestGenerator(_, srcEncoding, framework, decodeHtml))
+      .flatMap(ScaladocTestGenerator(_, srcEncoding, testGen, decodeHtml))
   }
 
   private def doctestMarkdownGenTests(
                                        finder: PathFinder,
-                                       framework: DoctestTestFramework) = {
+                                       testGen: TestGen) = {
       finder.filter(!_.isDirectory).get
-        .flatMap(MarkdownTestGenerator(_, framework))
+        .flatMap(MarkdownTestGenerator(_, testGen))
   }
 
 
@@ -79,16 +79,17 @@ object DoctestPlugin extends AutoPlugin {
           streams.value.log.warn("managedSourceDirectories in Test is empty. Failed to generate tests")
           Seq()
         case Some(testDir) =>
+          val testGen = TestGenResolver.resolve(doctestTestFramework.value, Classpaths.managedJars(Test, classpathTypes.value, update.value), scalaVersion.value)
 
           val scaladocTests = doctestScaladocGenTests(
             (unmanagedSources in Compile).value ++ (managedSources in Compile).value,
-            doctestTestFramework.value,
+            testGen,
             doctestDecodeHtmlEntities.value,
             (scalacOptions in Compile).value
           )
 
           val markdownTests = if (doctestMarkdownEnabled.value) {
-            doctestMarkdownGenTests(doctestMarkdownPathFinder.value, doctestTestFramework.value)
+            doctestMarkdownGenTests(doctestMarkdownPathFinder.value, testGen)
           } else {
             Seq()
           }
