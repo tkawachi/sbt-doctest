@@ -66,7 +66,7 @@ libraryDependencies ++= Seq(
 doctestTestFramework := DoctestTestFramework.utest
 ```
 
-### Caveats
+#### Caveats
 
 There are still dependencies from ``ScalaTest`` and/or ``ScalaCheck`` when property checks are employed.
 
