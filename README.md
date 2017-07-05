@@ -63,7 +63,7 @@ libraryDependencies ++= Seq(
   "com.lihaoyi" %% "utest" % "0.4.7" % "test"
 )
 
-doctestTestFramework := DoctestTestFramework.utest
+doctestTestFramework := DoctestTestFramework.UTest
 ```
 
 ### Caveats
@@ -80,7 +80,7 @@ libraryDependencies ++= Seq(
   "org.scalacheck" %% "scalacheck" % "1.13.4" % "test"
 )
       
-doctestTestFramework := DoctestTestFramework.utest
+doctestTestFramework := DoctestTestFramework.UTest
 ```
 
 ## Usage

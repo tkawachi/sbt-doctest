@@ -26,7 +26,7 @@ object DoctestPlugin extends AutoPlugin {
     case object Specs2 extends DoctestTestFramework
     case object ScalaTest extends DoctestTestFramework
     case object ScalaCheck extends DoctestTestFramework
-    case object utest extends DoctestTestFramework
+    case object UTest extends DoctestTestFramework
   }
   import DoctestTestFramework._
 

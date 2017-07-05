@@ -14,7 +14,7 @@ $ exists target/scala-2.12/src_managed/test/READMEDoctest.scala
 # Try with utest
 > reload
 > clean
-> set doctestTestFramework := DoctestTestFramework.utest
+> set doctestTestFramework := DoctestTestFramework.UTest
 > + test
  
 # Try with scalatest

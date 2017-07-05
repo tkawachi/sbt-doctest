@@ -7,7 +7,7 @@ import sbt.Keys.Classpath
 object TestGenResolver {
   def resolve(framework: DoctestTestFramework, testClasspath: Classpath, scalaVersion: String): TestGen = {
     framework match {
-      case `utest` => MicroTestGen
+      case UTest => MicroTestGen
       case ScalaTest =>
         if (ScalaTestGen.hasGreaterThanOrEqualTo310(testClasspath, scalaVersion)) {
           new ScalaTest31Gen
