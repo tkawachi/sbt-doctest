@@ -9,7 +9,7 @@ $ exists target/scala-2.12/src_managed/test/sbt_doctest/MainDoctest.scala
 # Try with utest
 > reload
 > clean
-> set doctestTestFramework := DoctestTestFramework.utest
+> set doctestTestFramework := DoctestTestFramework.MicroTest
 > + test
  
 # Try with scalatest
