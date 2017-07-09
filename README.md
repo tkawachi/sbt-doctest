@@ -60,7 +60,7 @@ doctestTestFramework := DoctestTestFramework.Specs2
 If you are using ``µTest``, add the following lines to your ``build.sbt``:
 ```scala
 libraryDependencies ++= Seq(
-  "com.lihaoyi" %% "utest" % "0.4.7" % "test"
+  "com.lihaoyi" %% "utest" % "0.4.8" % "test"
 )
 
 doctestTestFramework := DoctestTestFramework.MicroTest
@@ -75,7 +75,7 @@ shown in the example below which uses ``uTest`` with property checks, which requ
 
 ```scala
 libraryDependencies ++= Seq(
-  "com.lihaoyi"    %% "utest"      % "0.4.7"  % "test",
+  "com.lihaoyi"    %% "utest"      % "0.4.8"  % "test",
   "org.scalatest"  %% "scalatest"  % "3.0.1"  % "test",
   "org.scalacheck" %% "scalacheck" % "1.13.4" % "test"
 )
