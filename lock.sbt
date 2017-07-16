@@ -3,7 +3,7 @@
 // https://github.com/tkawachi/sbt-lock/
 dependencyOverrides in ThisBuild ++= Set(
   "com.jcraft" % "jsch" % "0.1.50",
-  "com.lihaoyi" % "utest_2.10" % "0.4.7",
+  "com.lihaoyi" % "utest_2.10" % "0.4.8",
   "com.thoughtworks.paranamer" % "paranamer" % "2.6",
   "commons-io" % "commons-io" % "2.4",
   "jline" % "jline" % "2.14.3",
@@ -67,4 +67,4 @@ dependencyOverrides in ThisBuild ++= Set(
   "org.spire-math" % "jawn-parser_2.10" % "0.6.0",
   "org.spire-math" % "json4s-support_2.10" % "0.6.0"
 )
-// LIBRARY_DEPENDENCIES_HASH a82e41f63203af576724e23e641e6ea34e8d06fc
+// LIBRARY_DEPENDENCIES_HASH 56ba80d8c3ed3b4c8a577ff43e495c5a6172becd
