@@ -3,7 +3,6 @@ package com.github.tkawachi.doctest
 import java.io.File
 import scala.io.Source
 import org.apache.commons.io.FilenameUtils
-import com.github.tkawachi.doctest.DoctestPlugin.DoctestTestFramework
 
 object MarkdownTestGenerator {
 

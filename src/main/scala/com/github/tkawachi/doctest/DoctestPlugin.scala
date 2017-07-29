@@ -1,6 +1,7 @@
 package com.github.tkawachi.doctest
 import sbt._, Keys._
 import sbt.plugins.JvmPlugin
+import SbtCompat._
 
 /**
  * Sbt plugin for doctest.
@@ -88,8 +89,9 @@ object DoctestPlugin extends AutoPlugin {
             (scalacOptions in Compile).value
           )
 
+          val pathFinder = doctestMarkdownPathFinder.value
           val markdownTests = if (doctestMarkdownEnabled.value) {
-            doctestMarkdownGenTests(doctestMarkdownPathFinder.value, testGen)
+            doctestMarkdownGenTests(pathFinder, testGen)
           } else {
             Seq()
           }
@@ -111,8 +113,9 @@ object DoctestPlugin extends AutoPlugin {
     },
     sourceGenerators in Test += doctestGenTests.taskValue,
     watchSources ++= {
+      val pathFinder = doctestMarkdownPathFinder.value
       if (doctestMarkdownEnabled.value) {
-        doctestMarkdownPathFinder.value.get
+        pathFinder.get.map(toSource)
       } else {
         Seq.empty
       }

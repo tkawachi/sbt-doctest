@@ -9,6 +9,7 @@ val versions = new {
 
 lazy val root = (project in file(".")).settings(
   sbtPlugin := true,
+  crossSbtVersions := Vector("0.13.16", "1.0.0-RC3"),
   organization := "com.github.tkawachi",
   name := "sbt-doctest",
   licenses := Seq("MIT" -> url("http://opensource.org/licenses/MIT")),
@@ -17,19 +18,17 @@ lazy val root = (project in file(".")).settings(
     "scm:git:github.com:tkawachi/sbt-doctest.git"
   )),
   javacOptions ++= Seq(
-    "-source", "1.6",
-    "-target", "1.6",
     "-encoding", "UTF-8"),
-  scalaVersion := "2.10.6",
   scalacOptions ++= Seq(
-    "-target:jvm-1.6",
     "-deprecation",
     "-encoding", "UTF-8",
     "-feature",
     "-unchecked",
-    "-Xfatal-warnings",
-    "-Xlint"
-  ),
+    "-Xfatal-warnings"
+  ) ++ (if (scalaVersion.value startsWith "2.10.")
+          List("-Xlint", "-target:jvm-1.6")
+        else
+          List("-Xlint:-unused,_")),
   libraryDependencies ++= Seq(
     "org.scala-lang"     %  "scala-compiler"      % scalaVersion.value,
     "commons-io"         %  "commons-io"          % versions.CommonsIO,

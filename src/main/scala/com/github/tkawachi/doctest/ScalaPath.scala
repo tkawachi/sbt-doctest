@@ -11,7 +11,7 @@ object ScalaPath {
   /*
    * For a given FQ classname, trick the resource finder into telling us the containing jar.
    */
-  private def classPathOfClass(className: String) = try {
+  private def classPathOfClass(className: String) = {
     val resource = className.split('.').mkString("/", "/", ".class")
     val path = getClass.getResource(resource).getPath
     if (path.indexOf("file:") >= 0) {
@@ -31,7 +31,7 @@ object ScalaPath {
   }
 
   private lazy val libPath = try {
-    classPathOfClass("scala.ScalaObject")
+    classPathOfClass("scala.Predef")
   } catch {
     case NonFatal(e) =>
       throw new RuntimeException("Unable to load scala base object from classpath (scala-library jar is missing?)", e)
