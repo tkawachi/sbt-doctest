@@ -1,7 +1,7 @@
 language: scala
 
 script:
-  - sbt "++${TRAVIS_SCALA_VERSION}" "^^${SBT_VERSION}" test scripted
+  - sbt "++${TRAVIS_SCALA_VERSION}" "^^${SBT_VERSION}" relock test scripted
 
 jdk: oraclejdk8
 
