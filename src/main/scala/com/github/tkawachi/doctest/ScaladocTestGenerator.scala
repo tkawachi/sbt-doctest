@@ -1,7 +1,6 @@
 package com.github.tkawachi.doctest
 
 import java.io.File
-import DoctestPlugin.DoctestTestFramework
 import scala.io.Source
 import org.apache.commons.io.FilenameUtils
 import org.apache.commons.lang3.StringEscapeUtils.unescapeHtml4
