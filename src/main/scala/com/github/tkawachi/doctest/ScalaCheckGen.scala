@@ -8,7 +8,7 @@ object ScalaCheckGen extends TestGen {
     val pkgLine = pkg.fold("")(p => s"package $p")
     val importProp =
       if (TestGen.containsExample(parsedList) || TestGen.containsProperty(parsedList))
-        "import org.scalacheck.Prop._"
+        "import _root_.org.scalacheck.Prop._"
       else
         ""
 
@@ -18,7 +18,7 @@ object ScalaCheckGen extends TestGen {
        |$importProp
        |
        |object ${basename}Doctest
-       |    extends org.scalacheck.Properties("${escape(basename)}.scala") {
+       |    extends _root_.org.scalacheck.Properties("${escape(basename)}.scala") {
        |
        |${StringUtil.indent(TestGen.helperMethods, "  ")}
        |
@@ -28,7 +28,7 @@ object ScalaCheckGen extends TestGen {
   }
 
   def generateExample(basename: String, parsed: ParsedDoctest): String =
-    s"""  include(new org.scalacheck.Properties("${parsed.symbol}") {
+    s"""  include(new _root_.org.scalacheck.Properties("${parsed.symbol}") {
        |${parsed.components.map(gen(parsed.lineNo, _)).mkString("\n\n")}
        |  })""".stripMargin
 
@@ -37,14 +37,14 @@ object ScalaCheckGen extends TestGen {
     component match {
       case Example(expr, expected, _) =>
         val typeTest = expected.tpe.fold("")(tpe => genTypeTest(expr, tpe))
-        s"""    property("$description") = org.scalacheck.Prop.secure {$typeTest
+        s"""    property("$description") = _root_.org.scalacheck.Prop.secure {$typeTest
            |      val actual = sbtDoctestReplString($expr)
            |      val expected = "${escape(expected.value)}"
            |      (actual == expected) :| s"'$$actual' is not equal to '$$expected'"
            |    }""".stripMargin
 
       case Property(prop, _) =>
-        s"""    property("$description") = org.scalacheck.Prop.forAll {
+        s"""    property("$description") = _root_.org.scalacheck.Prop.forAll {
            |      $prop
            |    }""".stripMargin
 

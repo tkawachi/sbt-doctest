@@ -13,8 +13,8 @@ object Specs2TestGen extends TestGen {
        |${TestGen.importArbitrary(examples)}
        |
        |class ${basename}Doctest
-       |    extends org.specs2.mutable.Specification
-       |    with org.specs2.ScalaCheck {
+       |    extends _root_.org.specs2.mutable.Specification
+       |    with _root_.org.specs2.ScalaCheck {
        |
        |${StringUtil.indent(TestGen.helperMethods, "  ")}
        |

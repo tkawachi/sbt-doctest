@@ -11,7 +11,7 @@ object MicroTestGen extends TestGen {
     val pkgLine = pkg.fold("")(p => s"package $p")
     s"""$pkgLine
        |
-       |import utest._
+       |import _root_.utest._
        |
        |object ${basename}Doctest extends TestSuite {
        |
