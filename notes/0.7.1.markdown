@@ -1,0 +1,3 @@
+### Changes
+
+* Use fully qualified names in generated code to avoid conflict. Contributed by @fthomas #100
