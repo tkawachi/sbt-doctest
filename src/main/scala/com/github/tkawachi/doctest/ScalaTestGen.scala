@@ -12,7 +12,7 @@ import scala.util.Try
  */
 trait ScalaTestGen extends TestGen {
 
-  private val st = "org.scalatest"
+  private val st = "_root_.org.scalatest"
 
   def generate(basename: String, pkg: Option[String], parsedList: Seq[ParsedDoctest]): String = {
     val pkgLine = pkg.fold("")(p => s"package $p")
