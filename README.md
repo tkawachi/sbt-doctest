@@ -191,7 +191,7 @@ Also supports code examples in Markdown documentation. To enable add the followi
 doctestMarkdownEnabled := true
 ```
 
-Any code blocks that start with the ````scala` markdown directive will be parsed.
+Any code blocks that start with the ```` ```scala```` markdown directive will be parsed.
 It searches `*.md` under `baseDirectory` by default. It can be configured by
 `doctestMarkdownPathFinder`.
 
