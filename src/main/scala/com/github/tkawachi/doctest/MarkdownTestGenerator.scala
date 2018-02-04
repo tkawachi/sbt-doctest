@@ -30,6 +30,7 @@ object MarkdownTestGenerator {
   def apply(source: File, relativeTo: Path, testGen: TestGen, disambiguatingSuffix: String): Seq[TestSource] = {
     val contents = Source.fromFile(source).mkString
     val generatedClassName = getPathComponents(relativeTo.relativize(source.toPath))
+      .map(_.capitalize)
       .mkString("")
       .filterNot(_ == '.') // This is for getting rid of periods in extensions that can mess up class names such as ".md"
       .++(disambiguatingSuffix)
