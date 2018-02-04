@@ -99,8 +99,9 @@ object DoctestPlugin extends AutoPlugin {
           )
 
           val pathFinder = doctestMarkdownPathFinder.value
+          val baseDirectoryPath = baseDirectory.value.toPath
           val markdownTests = if (doctestMarkdownEnabled.value) {
-            doctestMarkdownGenTests(pathFinder, baseDirectory.value.toPath, testGen)
+            doctestMarkdownGenTests(pathFinder, baseDirectoryPath, testGen)
           } else {
             Seq()
           }
