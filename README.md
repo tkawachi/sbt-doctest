@@ -66,6 +66,13 @@ libraryDependencies ++= Seq(
 doctestTestFramework := DoctestTestFramework.MicroTest
 ```
 
+In case you are [configuring µTest or using a custom test framework](https://github.com/lihaoyi/utest#configuring-utest), you can do something like this below in your ``build.sbt``:
+```scala
+testFrameworks -= new TestFramework("utest.runner.Framework")
+testFrameworks += new TestFramework("test.utest.MyCustomFramework")
+```
+which means that you are removing ``utest.runner.Framework`` inserted automatically for you by ``sbt-doctest`` and you are inserting your own custom test framework, provided by class _test.utest.MyCustomFramework_, in this example.
+
 #### Caveats
 
 There are still dependencies from ``ScalaTest`` and/or ``ScalaCheck`` when property checks are employed.
