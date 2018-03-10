@@ -8,8 +8,8 @@ $ absent target/scala-2.11/src_managed/test/sbt_doctest/NoDoctestDoctest.scala
 $ absent target/scala-2.12/src_managed/test/sbt_doctest/NoDoctestDoctest.scala
 $ exists target/scala-2.11/src_managed/test/sbt_doctest/VerbatimTestDoctest.scala
 $ exists target/scala-2.12/src_managed/test/sbt_doctest/VerbatimTestDoctest.scala
-$ exists target/scala-2.11/src_managed/test/READMEDoctest.scala
-$ exists target/scala-2.12/src_managed/test/READMEDoctest.scala
+$ exists target/scala-2.11/src_managed/test/READMEmd0Doctest.scala
+$ exists target/scala-2.12/src_managed/test/READMEmd0Doctest.scala
 
 # Try with utest
 > reload

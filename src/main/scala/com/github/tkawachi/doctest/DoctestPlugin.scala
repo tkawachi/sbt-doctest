@@ -1,4 +1,6 @@
 package com.github.tkawachi.doctest
+import java.nio.file.Path
+
 import sbt._, Keys._
 import sbt.plugins.JvmPlugin
 import SbtCompat._
@@ -59,9 +61,16 @@ object DoctestPlugin extends AutoPlugin {
 
   private def doctestMarkdownGenTests(
                                        finder: PathFinder,
+                                       baseDirectoryPath: Path,
                                        testGen: TestGen) = {
-      finder.filter(!_.isDirectory).get
-        .flatMap(MarkdownTestGenerator(_, testGen))
+    finder
+      .filter(!_.isDirectory)
+      .get
+      .zipWithIndex
+      .flatMap{
+        case (file, disambiguatingIdx) =>
+          MarkdownTestGenerator(file, baseDirectoryPath, testGen, disambiguatingIdx.toString)
+      }
   }
 
 
@@ -90,8 +99,9 @@ object DoctestPlugin extends AutoPlugin {
           )
 
           val pathFinder = doctestMarkdownPathFinder.value
+          val baseDirectoryPath = baseDirectory.value.toPath
           val markdownTests = if (doctestMarkdownEnabled.value) {
-            doctestMarkdownGenTests(pathFinder, testGen)
+            doctestMarkdownGenTests(pathFinder, baseDirectoryPath, testGen)
           } else {
             Seq()
           }
