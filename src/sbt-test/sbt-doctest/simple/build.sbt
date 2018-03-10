@@ -30,6 +30,7 @@ libraryDependencies ++= Seq(
 )
 
 doctestMarkdownEnabled    := true
+doctestMarkdownPathFinder := baseDirectory.value ** "*.md"
 
 val existsInFile = inputKey[Unit]("Ensure a given string exists in a file")
 
