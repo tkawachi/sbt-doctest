@@ -1,0 +1,3 @@
+### Changes
+
+* It now allows having same name markdown files in different directories. To avoid class name conflicts, it uses path name and disambiguation suffix internally. Contributed by @changlinli #104.
