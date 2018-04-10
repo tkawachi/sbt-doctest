@@ -39,7 +39,7 @@ object MicroTestGen extends TestGen {
         s"""    "${componentDescription(component, firstLine)}"-{
                   val _actual_   = sbtDoctestReplString($expr)
                   val _expected_ = "${escape(expected.value)}"
-           |      assert( _expected_ == _actual_ ) // $typeTest
+           |      assert( _expected_ == _actual_ ) //$typeTest
            |    }""".stripMargin
       case Property(prop, _) =>
         s"""    "${componentDescription(component, firstLine)}"-{
