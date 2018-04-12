@@ -1,16 +1,16 @@
 val versions = new {
-  val ScalaTest  = "3.0.3"
+  val ScalaTest  = "3.0.5"
   val ScalaCheck = "1.13.5"
-  val Specs2     = "3.9.4"
-  val utest      = "0.4.8"
+  val Specs2     = "3.9.5"
+  val utest      = "0.6.4"
   val Minitest   = "2.1.1"
-  val CommonsIO  = "2.4"
-  val Lang3      = "3.4"
+  val CommonsIO  = "2.6"
+  val Lang3      = "3.7"
 }
 
 lazy val root = (project in file(".")).settings(
   sbtPlugin := true,
-  crossSbtVersions := Vector("0.13.16", "1.0.0"),
+  crossSbtVersions := Vector("0.13.16", "1.1.4"),
   organization := "com.github.tkawachi",
   name := "sbt-doctest",
   licenses := Seq("MIT" -> url("http://opensource.org/licenses/MIT")),

@@ -23,8 +23,8 @@ If you are using [``ScalaTest``](https://github.com/scalatest/scalatest), add th
 
 ```scala
 libraryDependencies ++= Seq(
-  "org.scalatest"  %% "scalatest"  % "3.0.1"  % Test,
-  "org.scalacheck" %% "scalacheck" % "1.13.4" % Test
+  "org.scalatest"  %% "scalatest"  % "3.0.5"  % Test,
+  "org.scalacheck" %% "scalacheck" % "1.13.5" % Test
 )
 
 doctestTestFramework := DoctestTestFramework.ScalaTest
@@ -36,7 +36,7 @@ If you are using [``ScalaCheck``](https://github.com/rickynils/scalacheck), add 
 
 ```scala
 libraryDependencies ++= Seq(
-  "org.scalacheck" %% "scalacheck" % "1.13.4" % Test
+  "org.scalacheck" %% "scalacheck" % "1.13.5" % Test
 )
 
 doctestTestFramework := DoctestTestFramework.ScalaCheck
@@ -48,8 +48,8 @@ If you are using [``Specs2``](https://github.com/etorreborre/specs2), add the fo
 
 ```scala
 libraryDependencies ++= Seq(
-  "org.specs2" %% "specs2-core"       % "3.8.7" % Test,
-  "org.specs2" %% "specs2-scalacheck" % "3.8.7" % Test
+  "org.specs2" %% "specs2-core"       % "3.9.4" % Test,
+  "org.specs2" %% "specs2-scalacheck" % "3.9.4" % Test
 )
 
 doctestTestFramework := DoctestTestFramework.Specs2
@@ -72,7 +72,7 @@ doctestTestFramework := DoctestTestFramework.Minitest
 If you are using [``µTest``](https://github.com/lihaoyi/utest), add the following lines to your ``build.sbt``:
 ```scala
 libraryDependencies ++= Seq(
-  "com.lihaoyi" %% "utest" % "0.4.8" % Test
+  "com.lihaoyi" %% "utest" % "0.6.4" % Test
 )
 
 doctestTestFramework := DoctestTestFramework.MicroTest
@@ -94,9 +94,9 @@ shown in the example below which uses ``uTest`` with property checks, which requ
 
 ```scala
 libraryDependencies ++= Seq(
-  "com.lihaoyi"    %% "utest"      % "0.4.8"  % Test,
-  "org.scalatest"  %% "scalatest"  % "3.0.1"  % Test,
-  "org.scalacheck" %% "scalacheck" % "1.13.4" % Test
+  "com.lihaoyi"    %% "utest"      % "0.6.4"  % Test,
+  "org.scalatest"  %% "scalatest"  % "3.0.5"  % Test,
+  "org.scalacheck" %% "scalacheck" % "1.13.5" % Test
 )
       
 doctestTestFramework := DoctestTestFramework.MicroTest
