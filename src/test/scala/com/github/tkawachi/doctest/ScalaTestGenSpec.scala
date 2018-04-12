@@ -3,10 +3,9 @@ package com.github.tkawachi.doctest
 import sbt.Keys.moduleID
 import sbt._
 import utest._
-import utest.framework.Tree
 
 object ScalaTestGenSpec extends TestSuite {
-  val tests: Tree[framework.Test] = this{
+  val tests = this{
     "hasGreaterThanOrEqualTo310(3.0.0)" - {
       val result = ScalaTestGen.hasGreaterThanOrEqualTo310(
         Seq(

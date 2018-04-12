@@ -4,7 +4,7 @@ import complete.DefaultParsers._
 
 crossScalaVersions := Seq("2.11.11", "2.12.2")
 
-// Declares scalatest, scalacheck and utest dependencies explicitly.
+// Declares scalatest, scalacheck dependencies explicitly.
 libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "3.2.0-SNAP7" % "test",
   "org.scalacheck" %% "scalacheck" % "1.13.4" % "test"

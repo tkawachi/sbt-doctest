@@ -8,11 +8,12 @@ object TestGenResolver {
   def resolve(framework: DoctestTestFramework, testClasspath: Classpath, scalaVersion: String): TestGen = {
     framework match {
       case MicroTest => MicroTestGen
+      case Minitest => MinitestGen
       case ScalaTest =>
         if (ScalaTestGen.hasGreaterThanOrEqualTo310(testClasspath, scalaVersion)) {
-          new ScalaTest31Gen
+          ScalaTest31Gen
         } else {
-          new ScalaTest30Gen
+          ScalaTest30Gen
         }
       case Specs2 => Specs2TestGen
       case ScalaCheck => ScalaCheckGen

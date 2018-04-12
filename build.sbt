@@ -3,6 +3,7 @@ val versions = new {
   val ScalaCheck = "1.13.5"
   val Specs2     = "3.9.4"
   val utest      = "0.4.8"
+  val Minitest   = "2.1.1"
   val CommonsIO  = "2.4"
   val Lang3      = "3.4"
 }
@@ -37,7 +38,9 @@ lazy val root = (project in file(".")).settings(
     "org.scalatest"      %% "scalatest"           % versions.ScalaTest    % Provided,
     "org.scalacheck"     %% "scalacheck"          % versions.ScalaCheck   % Provided,
     "org.specs2"         %% "specs2-core"         % versions.Specs2       % Provided,
-    "org.specs2"         %% "specs2-scalacheck"   % versions.Specs2       % Provided
+    "org.specs2"         %% "specs2-scalacheck"   % versions.Specs2       % Provided,
+    "io.monix"           %% "minitest"            % versions.Minitest     % Provided,
+    "io.monix"           %% "minitest-laws"       % versions.Minitest     % Provided
   ),
 
   // allows this plugin to eat its own dog food
@@ -48,7 +51,9 @@ lazy val root = (project in file(".")).settings(
         "org.scalatest"      %% "scalatest"           % versions.ScalaTest    % Test,
         "org.scalacheck"     %% "scalacheck"          % versions.ScalaCheck   % Test,
         "org.specs2"         %% "specs2-core"         % versions.Specs2       % Test,
-        "org.specs2"         %% "specs2-scalacheck"   % versions.Specs2       % Test
+        "org.specs2"         %% "specs2-scalacheck"   % versions.Specs2       % Test,
+        "io.monix"           %% "minitest"            % versions.Minitest     % Test,
+        "io.monix"           %% "minitest-laws"       % versions.Minitest     % Test
       )
     )
   ),

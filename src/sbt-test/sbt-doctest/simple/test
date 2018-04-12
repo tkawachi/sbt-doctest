@@ -15,12 +15,14 @@ $ exists target/scala-2.12/src_managed/test/READMEmd0Doctest.scala
 > reload
 > clean
 > set doctestTestFramework := DoctestTestFramework.MicroTest
+> doctestTestFramework
 > + test
  
 # Try with scalatest
 > reload
 > clean
 > set doctestTestFramework := DoctestTestFramework.ScalaTest
+> doctestTestFramework
 > + test
 > existsInFile "with _root_.org.scalatest.prop.Checkers" target/scala-2.11/src_managed/test/sbt_doctest/MainDoctest.scala
 
@@ -28,10 +30,19 @@ $ exists target/scala-2.12/src_managed/test/READMEmd0Doctest.scala
 > reload
 > clean
 > set doctestTestFramework := DoctestTestFramework.Specs2
+> doctestTestFramework
 > + test
  
 # Try with scalacheck
 > reload
 > clean
 > set doctestTestFramework := DoctestTestFramework.ScalaCheck
+> doctestTestFramework
+> + test
+
+# Try with minitest
+> reload
+> clean
+> set doctestTestFramework := DoctestTestFramework.Minitest
+> doctestTestFramework
 > + test

@@ -32,22 +32,22 @@ object TestGenSpec extends TestSuite {
             |
             |object MyClassDoctest extends TestSuite {
             |
-            |    val tests = this {
-            |
             |  def sbtDoctestTypeEquals[A](a1: => A)(a2: => A): _root_.scala.Unit = ()
             |  def sbtDoctestReplString(any: _root_.scala.Any): _root_.scala.Predef.String = {
             |    val s = _root_.scala.runtime.ScalaRunTime.replStringOf(any, 1000).init
             |    if (s.headOption == Some('\n')) s.tail else s
             |  }
             |
-            |  "MyClass.scala:37: sumExample"-{
+            |
+            | val tests = this {
+            |  "MyClass.scala:37: sumExample" - {
             |    import scala.util.Random
             |
             |    "example at line 39: List(1,2,3).sum"-{
-            |                  val _actual_   = sbtDoctestReplString(List(1,2,3).sum)
-            |                  val _expected_ = "6"
-            |      assert( _expected_ == _actual_ ) //
             |      sbtDoctestTypeEquals(List(1,2,3).sum)((List(1,2,3).sum): Int)
+            |      val _actual_   =       sbtDoctestReplString(List(1,2,3).sum)
+            |      val _expected_ = "6"
+            |      assert( _expected_ == _actual_ )
             |    }
             |
             |    val i = 17
@@ -58,8 +58,8 @@ object TestGenSpec extends TestSuite {
             |      sbtDoctestReplString((i: Int) => i + i == i * 2)
             |    }
             |  }
+            | }
             |
-            |    }
             |}
             |""".stripMargin
 
@@ -91,8 +91,8 @@ object TestGenSpec extends TestSuite {
             |    import scala.util.Random
             |
             |    it("example at line 39: List(1,2,3).sum") {
-            |      sbtDoctestReplString(List(1,2,3).sum) should equal("6")
             |      sbtDoctestTypeEquals(List(1,2,3).sum)((List(1,2,3).sum): Int)
+            |      sbtDoctestReplString(List(1,2,3).sum) should equal("6")
             |    }
             |
             |    val i = 17
@@ -105,10 +105,11 @@ object TestGenSpec extends TestSuite {
             |      }
             |    }
             |  }
+            |
             |}
             |""".stripMargin
 
-        val generated = new ScalaTest30Gen().generate(baseName, pkg, parsed)
+        val generated = ScalaTest30Gen.generate(baseName, pkg, parsed)
 
         assert(generated == expectedTest)
       }
@@ -137,8 +138,8 @@ object TestGenSpec extends TestSuite {
             |    import scala.util.Random
             |
             |    it("example at line 39: List(1,2,3).sum") {
-            |      sbtDoctestReplString(List(1,2,3).sum) should equal("6")
             |      sbtDoctestTypeEquals(List(1,2,3).sum)((List(1,2,3).sum): Int)
+            |      sbtDoctestReplString(List(1,2,3).sum) should equal("6")
             |    }
             |
             |    val i = 17
@@ -151,10 +152,11 @@ object TestGenSpec extends TestSuite {
             |      }
             |    }
             |  }
+            |
             |}
             |""".stripMargin
 
-        val generated = new ScalaTest31Gen().generate(baseName, pkg, parsed)
+        val generated = ScalaTest31Gen.generate(baseName, pkg, parsed)
 
         assert(generated == expectedTest)
       }
@@ -194,6 +196,7 @@ object TestGenSpec extends TestSuite {
             |      (i: Int) => i + i == i * 2
             |    }
             |  }
+            |
             |}
             |""".stripMargin
 
@@ -221,12 +224,12 @@ object TestGenSpec extends TestSuite {
             |    if (s.headOption == Some('\n')) s.tail else s
             |  }
             |
-            |  include(new _root_.org.scalacheck.Properties("sumExample") {
+            |  include(new _root_.org.scalacheck.Properties("MyClass.scala:37: sumExample") {
             |    import scala.util.Random
             |
             |    property("example at line 39: List(1,2,3).sum") = _root_.org.scalacheck.Prop.secure {
             |      sbtDoctestTypeEquals(List(1,2,3).sum)((List(1,2,3).sum): Int)
-            |      val actual = sbtDoctestReplString(List(1,2,3).sum)
+            |      val actual =       sbtDoctestReplString(List(1,2,3).sum)
             |      val expected = "6"
             |      (actual == expected) :| s"'$actual' is not equal to '$expected'"
             |    }
@@ -239,10 +242,54 @@ object TestGenSpec extends TestSuite {
             |      (i: Int) => i + i == i * 2
             |    }
             |  })
+            |
             |}
             |""".stripMargin
 
         val generated = ScalaCheckGen.generate(baseName, pkg, parsed)
+
+        assert(generated == expectedTest)
+      }
+    }
+
+    "MinitestGen" - {
+      "generates a valid test" - {
+
+        val expectedTest =
+          """package com.example.tests
+            |
+            |import _root_.minitest._
+            |import _root_.minitest.laws.Checkers
+            |import _root_.org.scalacheck.Prop._
+            |import _root_.org.scalacheck.Arbitrary._
+            |
+            |object MyClassDoctest extends SimpleTestSuite with Checkers {
+            |
+            |  def sbtDoctestTypeEquals[A](a1: => A)(a2: => A): _root_.scala.Unit = ()
+            |  def sbtDoctestReplString(any: _root_.scala.Any): _root_.scala.Predef.String = {
+            |    val s = _root_.scala.runtime.ScalaRunTime.replStringOf(any, 1000).init
+            |    if (s.headOption == Some('\n')) s.tail else s
+            |  }
+            |
+            |  test("MyClass.scala:37: sumExample") {
+            |    import scala.util.Random
+            |
+            |    //example at line 39: List(1,2,3).sum
+            |    sbtDoctestTypeEquals(List(1,2,3).sum)((List(1,2,3).sum): Int)
+            |    assertEquals(      sbtDoctestReplString(List(1,2,3).sum), "6")
+            |
+            |    val i = 17
+            |
+            |    val j = 19 + i
+            |
+            |    //property at line 38: (i: Int) => i + i == i * 2
+            |    check(_root_.org.scalacheck.Prop.forAll((i: Int) => i + i == i * 2))
+            |  }
+            |
+            |}
+            |""".stripMargin
+
+        val generated = MinitestGen.generate(baseName, pkg, parsed)
 
         assert(generated == expectedTest)
       }

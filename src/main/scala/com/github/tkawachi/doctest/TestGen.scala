@@ -1,10 +1,66 @@
 package com.github.tkawachi.doctest
 
+import com.github.tkawachi.doctest.StringUtil._
+
 /**
  * Interface of a test generator.
  */
 trait TestGen {
-  def generate(basename: String, pkg: Option[String], examples: Seq[ParsedDoctest]): String
+  def generate(basename: String, pkg: Option[String], parsedList: Seq[ParsedDoctest]): String = {
+    val pkgLine = pkg.fold("")(p => s"package $p")
+    val helperMethodsLine = indent(TestGen.helperMethods, "  ")
+    s"""$pkgLine
+       |
+       |${importsLine(parsedList)}
+       |
+       |${suiteDeclarationLine(basename, parsedList)} {
+       |
+       |$helperMethodsLine
+       |
+       |${testCasesLine(basename, parsedList)}
+       |
+       |}
+       |""".stripMargin
+  }
+
+  protected def importsLine(parsedList: Seq[ParsedDoctest]): String
+
+  protected def suiteDeclarationLine(basename: String, parsedList: Seq[ParsedDoctest]): String
+
+  protected def testCasesLine(basename: String, parsedList: Seq[ParsedDoctest]): String =
+    parsedList.map { doctest =>
+      val testName = s"${escape(basename)}.scala:${doctest.lineNo}: ${doctest.symbol}"
+      val testBody = doctest.components.map(componentLine(doctest.lineNo, _)).mkString("\n\n")
+      generateTestCase(testName, testBody)
+    }.mkString("\n\n")
+
+  private def componentLine(firstLine: Int, component: DoctestComponent): String = {
+    def absLine(lineNo: Int): Int = firstLine + lineNo - 1
+    def mkStub(s: String): String = escape(truncate(s))
+
+    component match {
+      case Example(expr, expected, lineNo) =>
+        val description = s"example at line ${absLine(lineNo)}: ${mkStub(expr)}"
+        val typeTestLine = expected.tpe.fold("")(tpe => s"sbtDoctestTypeEquals($expr)(($expr): $tpe)")
+        val assertTestLine = generateAssert(s"      sbtDoctestReplString($expr)", escape(expected.value))
+        // !!! assertTestLine must be last b/c of Specs2 !!!
+        generateExample(description, s"$typeTestLine\n$assertTestLine")
+      case Property(prop, lineNo) =>
+        val description = s"property at line ${absLine(lineNo)}: ${mkStub(prop)}"
+        generatePropertyExample(description, prop)
+      case Verbatim(code) =>
+        indent(code, "    ")
+    }
+  }
+
+  protected def generateTestCase(caseName: String, caseBody: String): String
+
+  protected def generateExample(description: String, assertions: String): String
+
+  protected def generatePropertyExample(description: String, property: String): String
+
+  protected def generateAssert(actual: String, expected: String): String
+
 }
 
 object TestGen {

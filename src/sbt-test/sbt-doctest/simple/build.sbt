@@ -20,17 +20,21 @@ scalacOptions        ++= (scalaVersion.value match {
   case v if v startsWith "2.10." => Seq("-target:jvm-1.6")
 })
 
-// Declares scalatest, scalacheck and utest dependencies explicitly.
+// Declares scalatest, scalacheck, minitest and utest dependencies explicitly.
 libraryDependencies ++= Seq(
-  "com.lihaoyi"    %% "utest"             % "0.4.8"  % "test",
-  "org.scalatest"  %% "scalatest"         % "3.0.1"  % "test",
-  "org.scalacheck" %% "scalacheck"        % "1.13.4" % "test",
-  "org.specs2"     %% "specs2-core"       % "3.8.7"  % "test",
-  "org.specs2"     %% "specs2-scalacheck" % "3.8.7"  % "test"
+  "com.lihaoyi"    %% "utest"             % "0.4.8"  % Test,
+  "org.scalatest"  %% "scalatest"         % "3.0.1"  % Test,
+  "org.scalacheck" %% "scalacheck"        % "1.13.4" % Test,
+  "org.specs2"     %% "specs2-core"       % "3.8.7"  % Test,
+  "org.specs2"     %% "specs2-scalacheck" % "3.8.7"  % Test,
+  "io.monix"       %% "minitest"          % "2.1.1"  % Test,
+  "io.monix"       %% "minitest-laws"     % "2.1.1"  % Test
 )
 
 doctestMarkdownEnabled    := true
 doctestMarkdownPathFinder := baseDirectory.value ** "*.md"
+
+testFrameworks += new TestFramework("minitest.runner.Framework")
 
 val existsInFile = inputKey[Unit]("Ensure a given string exists in a file")
 

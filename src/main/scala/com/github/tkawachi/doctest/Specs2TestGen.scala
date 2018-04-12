@@ -1,64 +1,34 @@
 package com.github.tkawachi.doctest
 
-import StringUtil.escape
-
 /**
  * Test generator for specs2.
  */
 object Specs2TestGen extends TestGen {
-  override def generate(basename: String, pkg: Option[String], examples: Seq[ParsedDoctest]): String = {
-    val pkgLine = pkg.fold("")(p => s"package $p")
-    s"""$pkgLine
-       |
-       |${TestGen.importArbitrary(examples)}
-       |
-       |class ${basename}Doctest
+
+  override protected def importsLine(parsedList: Seq[ParsedDoctest]): String =
+    TestGen.importArbitrary(parsedList)
+
+  override protected def suiteDeclarationLine(basename: String, parsedList: Seq[ParsedDoctest]): String = {
+    s"""class ${basename}Doctest
        |    extends _root_.org.specs2.mutable.Specification
-       |    with _root_.org.specs2.ScalaCheck {
-       |
-       |${StringUtil.indent(TestGen.helperMethods, "  ")}
-       |
-       |${examples.map(generateExample(basename, _)).mkString("\n\n")}
-       |}
-       |""".stripMargin
+       |    with _root_.org.specs2.ScalaCheck""".stripMargin
   }
 
-  def generateExample(basename: String, parsed: ParsedDoctest): String = {
-    s"""  "${escape(basename)}.scala:${parsed.lineNo}: ${parsed.symbol}" should {
-       |${parsed.components.map(gen(parsed.lineNo, _)).mkString("\n\n")}
+  override protected def generateTestCase(caseName: String, caseBody: String): String =
+    s"""  "$caseName" should {
+       |$caseBody
        |  }""".stripMargin
-  }
 
-  def gen(firstLine: Int, component: DoctestComponent): String =
-    component match {
-      case Example(expr, expected, _) =>
-        val typeTest = expected.tpe.fold("")(tpe => genTypeTest(expr, tpe))
-        s"""    "${componentDescription(component, firstLine)}" in {$typeTest
-           |      sbtDoctestReplString($expr) must_== "${escape(expected.value)}"
-           |    }""".stripMargin
-      case Property(prop, _) =>
-        s"""    "${componentDescription(component, firstLine)}" ! prop {
-           |      $prop
-           |    }""".stripMargin
-      case Verbatim(code) =>
-        StringUtil.indent(code, "    ")
-    }
+  override protected def generateExample(description: String, assertions: String): String =
+    s"""    "$description" in {
+       |      $assertions
+       |    }""".stripMargin
 
-  def genTypeTest(expr: String, expectedType: String): String = {
-    s"""
-       |      sbtDoctestTypeEquals($expr)(($expr): $expectedType)""".stripMargin
-  }
+  override protected def generatePropertyExample(description: String, property: String): String =
+    s"""    "$description" ! prop {
+       |      $property
+       |    }""".stripMargin
 
-  def componentDescription(comp: DoctestComponent, firstLine: Int): String = {
-    def absLine(lineNo: Int): Int = firstLine + lineNo - 1
-    def mkStub(s: String): String = escape(StringUtil.truncate(s))
-
-    comp match {
-      case Example(expr, _, lineNo) =>
-        s"example at line ${absLine(lineNo)}: ${mkStub(expr)}"
-      case Property(prop, lineNo) =>
-        s"property at line ${absLine(lineNo)}: ${mkStub(prop)}"
-      case _ => ""
-    }
-  }
+  override protected def generateAssert(actual: String, expected: String): String =
+    s"""$actual must_== "$expected""""
 }
