@@ -27,7 +27,7 @@ object MicroTestGen extends TestGen {
   }
 
   def generateExample(basename: String, parsed: ParsedDoctest): String = {
-    s"""  "${escape(basename)}.scala:${parsed.lineNo}: ${parsed.symbol}"-{
+    s"""  "${escape(basename)}.scala:${parsed.lineNo}: ${escape(parsed.symbol)}"-{
        |${parsed.components.map(gen(parsed.lineNo, _)).mkString("\n\n")}
        |  }""".stripMargin
   }

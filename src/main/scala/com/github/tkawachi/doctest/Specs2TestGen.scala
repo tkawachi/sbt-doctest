@@ -24,7 +24,7 @@ object Specs2TestGen extends TestGen {
   }
 
   def generateExample(basename: String, parsed: ParsedDoctest): String = {
-    s"""  "${escape(basename)}.scala:${parsed.lineNo}: ${parsed.symbol}" should {
+    s"""  "${escape(basename)}.scala:${parsed.lineNo}:${escape(parsed.symbol)}" should {
        |${parsed.components.map(gen(parsed.lineNo, _)).mkString("\n\n")}
        |  }""".stripMargin
   }

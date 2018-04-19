@@ -18,4 +18,10 @@ class Test {
    * 2
    */
   def +=(x: Int) = x + x
+
+  /** Escape-character method
+   * scala> new Test() \ 1
+   * 2
+   */
+  def \(x: Int) = x + x
 }

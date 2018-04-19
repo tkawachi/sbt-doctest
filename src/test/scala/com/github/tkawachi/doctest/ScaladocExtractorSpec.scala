@@ -29,7 +29,12 @@ object ScaladocExtractorSpec extends TestSuite {
             """/** Ascii method
               |   * scala> new Test() += 1
               |   * 2
-              |   */""".stripMargin, 16)
+              |   */""".stripMargin, 16),
+          ScaladocComment(None, "\\",
+            """/** Escape-character method
+              |   * scala> new Test() \ 1
+              |   * 2
+              |   */""".stripMargin, 22)
         )
       assert(expected == actual)
     }

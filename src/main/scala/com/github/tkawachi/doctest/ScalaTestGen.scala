@@ -33,7 +33,7 @@ trait ScalaTestGen extends TestGen {
   }
 
   private def generateExample(basename: String, parsed: ParsedDoctest): String = {
-    s"""  describe("${escape(basename)}.scala:${parsed.lineNo}: ${parsed.symbol}") {
+    s"""  describe("${escape(basename)}.scala:${parsed.lineNo}: ${escape(parsed.symbol)}") {
        |${parsed.components.map(gen(parsed.lineNo, _)).mkString("\n\n")}
        |  }""".stripMargin
   }
