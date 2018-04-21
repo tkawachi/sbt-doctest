@@ -29,7 +29,7 @@ trait TestGen {
 
   protected def testCasesLine(basename: String, parsedList: Seq[ParsedDoctest]): String =
     parsedList.map { doctest =>
-      val testName = s"${escape(basename)}.scala:${doctest.lineNo}: ${doctest.symbol}"
+      val testName = escape(s"$basename.scala:${doctest.lineNo}: ${doctest.symbol}")
       val testBody = doctest.components.map(componentLine(doctest.lineNo, _)).mkString("\n\n")
       generateTestCase(testName, testBody)
     }.mkString("\n\n")
