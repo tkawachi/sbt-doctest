@@ -131,4 +131,13 @@ object Main {
    */
   val html = "&lt;html&gt;&lt;/html&gt;"
 
+  /**
+   * Escape-character method
+   *
+   * {{{
+   * >>> Main \ 1
+   * 2
+   * }}}
+   */
+  def \(x: Int) = x + x
 }
