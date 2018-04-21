@@ -30,6 +30,7 @@ object DoctestPlugin extends AutoPlugin {
     case object ScalaTest extends DoctestTestFramework
     case object ScalaCheck extends DoctestTestFramework
     case object MicroTest extends DoctestTestFramework
+    case object Minitest extends DoctestTestFramework
   }
   import DoctestTestFramework._
 
@@ -41,7 +42,7 @@ object DoctestPlugin extends AutoPlugin {
   override def projectSettings: Seq[Setting[_]] = doctestSettings
 
   object autoImport {
-    val doctestTestFramework = settingKey[DoctestTestFramework]("Test framework. Specify utest, ScalaTest, ScalaCheck or Specs2.")
+    val doctestTestFramework = settingKey[DoctestTestFramework]("Test framework. Specify MicroTest, Minitest, ScalaTest, ScalaCheck or Specs2.")
     val doctestMarkdownEnabled = settingKey[Boolean]("Whether to compile markdown into doctests.")
     val doctestMarkdownPathFinder = settingKey[PathFinder]("PathFinder to find markdown to test.")
     val doctestGenTests = taskKey[Seq[File]]("Generates test files.")

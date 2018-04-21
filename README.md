@@ -19,12 +19,12 @@ Scala.js is currently not supported (See #52).
 
 ### Using ScalaTest
 
-If you are using ``ScalaTest``, add the following lines to your ``build.sbt``:
+If you are using [``ScalaTest``](https://github.com/scalatest/scalatest), add the following lines to your ``build.sbt``:
 
 ```scala
 libraryDependencies ++= Seq(
-  "org.scalatest"  %% "scalatest"  % "3.0.1"  % "test",
-  "org.scalacheck" %% "scalacheck" % "1.13.4" % "test"
+  "org.scalatest"  %% "scalatest"  % "3.0.5"  % Test,
+  "org.scalacheck" %% "scalacheck" % "1.13.5" % Test
 )
 
 doctestTestFramework := DoctestTestFramework.ScalaTest
@@ -32,11 +32,11 @@ doctestTestFramework := DoctestTestFramework.ScalaTest
 
 ### Using ScalaCheck
 
-If you are using ``ScalaCheck``, add the following lines to your ``build.sbt``:
+If you are using [``ScalaCheck``](https://github.com/rickynils/scalacheck), add the following lines to your ``build.sbt``:
 
 ```scala
 libraryDependencies ++= Seq(
-  "org.scalacheck" %% "scalacheck" % "1.13.4" % "test"
+  "org.scalacheck" %% "scalacheck" % "1.13.5" % Test
 )
 
 doctestTestFramework := DoctestTestFramework.ScalaCheck
@@ -44,23 +44,35 @@ doctestTestFramework := DoctestTestFramework.ScalaCheck
 
 ### Using Specs2
 
-If you are using ``Specs2``, add the following lines to your ``build.sbt``:
+If you are using [``Specs2``](https://github.com/etorreborre/specs2), add the following lines to your ``build.sbt``:
 
 ```scala
 libraryDependencies ++= Seq(
-  "org.specs2" %% "specs2-core"       % "3.8.7" % "test",
-  "org.specs2" %% "specs2-scalacheck" % "3.8.7" % "test"
+  "org.specs2" %% "specs2-core"       % "3.9.4" % Test,
+  "org.specs2" %% "specs2-scalacheck" % "3.9.4" % Test
 )
 
 doctestTestFramework := DoctestTestFramework.Specs2
 ```
 
-### Using µTest
+### Using Minitest
 
-If you are using ``µTest``, add the following lines to your ``build.sbt``:
+If you are using [``Minitest``](https://github.com/monix/minitest), add the following lines to your ``build.sbt``:
 ```scala
 libraryDependencies ++= Seq(
-  "com.lihaoyi" %% "utest" % "0.4.8" % "test"
+  ""io.monix"" %% "minitest" % "2.1.1" % Test,
+  ""io.monix"" %% "minitest-laws" % "2.1.1" % Test
+)
+
+doctestTestFramework := DoctestTestFramework.Minitest
+```
+
+### Using µTest
+
+If you are using [``µTest``](https://github.com/lihaoyi/utest), add the following lines to your ``build.sbt``:
+```scala
+libraryDependencies ++= Seq(
+  "com.lihaoyi" %% "utest" % "0.6.4" % Test
 )
 
 doctestTestFramework := DoctestTestFramework.MicroTest
@@ -82,9 +94,9 @@ shown in the example below which uses ``uTest`` with property checks, which requ
 
 ```scala
 libraryDependencies ++= Seq(
-  "com.lihaoyi"    %% "utest"      % "0.4.8"  % "test",
-  "org.scalatest"  %% "scalatest"  % "3.0.1"  % "test",
-  "org.scalacheck" %% "scalacheck" % "1.13.4" % "test"
+  "com.lihaoyi"    %% "utest"      % "0.6.4"  % Test,
+  "org.scalatest"  %% "scalatest"  % "3.0.5"  % Test,
+  "org.scalacheck" %% "scalacheck" % "1.13.5" % Test
 )
       
 doctestTestFramework := DoctestTestFramework.MicroTest

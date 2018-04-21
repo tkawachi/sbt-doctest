@@ -10,23 +10,33 @@ $ exists target/scala-2.12/src_managed/test/sbt_doctest/MainDoctest.scala
 > reload
 > clean
 > set doctestTestFramework := DoctestTestFramework.MicroTest
+> doctestTestFramework
 > + test
  
 # Try with scalatest
 > reload
 > clean
 > set doctestTestFramework := DoctestTestFramework.ScalaTest
+> doctestTestFramework
 > + test
  
 # Try with specs2
 > reload
 > clean
 > set doctestTestFramework := DoctestTestFramework.Specs2
+> doctestTestFramework
 > + test
  
 # Try with scalacheck
 > reload
 > clean
 > set doctestTestFramework := DoctestTestFramework.ScalaCheck
+> doctestTestFramework
 > + test
 
+# Try with minitest
+> reload
+> clean
+> set doctestTestFramework := DoctestTestFramework.Minitest
+> doctestTestFramework
+> + test
