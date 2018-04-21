@@ -1,0 +1,5 @@
+### Changes
+
+* Minitest support by @jozic. #108
+* Fixed escape '\' of symbol names. #110
+
