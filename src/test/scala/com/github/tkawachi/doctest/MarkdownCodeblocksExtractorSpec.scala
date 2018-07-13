@@ -24,9 +24,7 @@ object MarkdownCodeblocksExtractorSpec extends TestSuite {
             """```scala
               | scala> println("Hello, World!")
               | Hello, World!
-              | ```""".stripMargin, 4
-          )
-        )
+              | ```""".stripMargin, 4))
       assert(expected == actual)
     }
 

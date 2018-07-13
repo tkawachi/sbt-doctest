@@ -61,19 +61,18 @@ object DoctestPlugin extends AutoPlugin {
   }
 
   private def doctestMarkdownGenTests(
-                                       finder: PathFinder,
-                                       baseDirectoryPath: Path,
-                                       testGen: TestGen) = {
+    finder: PathFinder,
+    baseDirectoryPath: Path,
+    testGen: TestGen) = {
     finder
       .filter(!_.isDirectory)
       .get
       .zipWithIndex
-      .flatMap{
+      .flatMap {
         case (file, disambiguatingIdx) =>
           MarkdownTestGenerator(file, baseDirectoryPath, testGen, disambiguatingIdx.toString)
       }
   }
-
 
   /**
    * Settings for test Generation.
@@ -83,7 +82,7 @@ object DoctestPlugin extends AutoPlugin {
     doctestDecodeHtmlEntities := (doctestDecodeHtmlEntities ?? false).value,
     doctestMarkdownEnabled := (doctestMarkdownEnabled ?? false).value,
     doctestMarkdownPathFinder := baseDirectory.value * "*.md",
-    testFrameworks            += new TestFramework("utest.runner.Framework"),
+    testFrameworks += new TestFramework("utest.runner.Framework"),
     doctestGenTests := {
       (managedSourceDirectories in Test).value.headOption match {
         case None =>
@@ -96,8 +95,7 @@ object DoctestPlugin extends AutoPlugin {
             (unmanagedSources in Compile).value ++ (managedSources in Compile).value,
             testGen,
             doctestDecodeHtmlEntities.value,
-            (scalacOptions in Compile).value
-          )
+            (scalacOptions in Compile).value)
 
           val pathFinder = doctestMarkdownPathFinder.value
           val baseDirectoryPath = baseDirectory.value.toPath
@@ -130,8 +128,7 @@ object DoctestPlugin extends AutoPlugin {
       } else {
         Seq.empty
       }
-    }
-  )
+    })
 
   val doctestSettings = doctestGenSettings
 }

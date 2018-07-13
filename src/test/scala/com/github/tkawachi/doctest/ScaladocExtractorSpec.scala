@@ -29,8 +29,7 @@ object ScaladocExtractorSpec extends TestSuite {
             """/** Ascii method
               |   * scala> new Test() += 1
               |   * 2
-              |   */""".stripMargin, 16)
-        )
+              |   */""".stripMargin, 16))
       assert(expected == actual)
     }
 
@@ -45,8 +44,7 @@ object ScaladocExtractorSpec extends TestSuite {
           ScaladocComment(Some("a1.b1"), "B1", "/** B1 */", 11),
           ScaladocComment(None, "Root2", "/** Root2 */", 16),
           ScaladocComment(None, "method2", "/** Method2 comment */", 20),
-          ScaladocComment(None, "IntAlias", "/** Type alias */", 23)
-        )
+          ScaladocComment(None, "IntAlias", "/** Type alias */", 23))
       assert(expected == actual)
     }
 
@@ -59,8 +57,7 @@ object ScaladocExtractorSpec extends TestSuite {
           ScaladocComment(Some("some.pkg"), "method", "/** Method comment */", 5),
           ScaladocComment(Some("some.pkg.a1"), "A1", "/** A1 */", 10),
           ScaladocComment(Some("some.pkg.a1.b1"), "B1", "/** B1 */", 13),
-          ScaladocComment(Some("some.pkg"), "Root2", "/** Root2 */", 18)
-        )
+          ScaladocComment(Some("some.pkg"), "Root2", "/** Root2 */", 18))
       assert(expected == actual)
     }
 
