@@ -4,8 +4,9 @@ import java.nio.file.Path
 import sbt._
 import Keys._
 import sbt.plugins.JvmPlugin
-import SbtCompat._
 import org.apache.commons.io.FilenameUtils
+import sbt.internal.io.Source
+import sbt.io.{ AllPassFilter, NothingFilter }
 
 /**
  * Sbt plugin for doctest.
@@ -145,7 +146,7 @@ object DoctestPlugin extends AutoPlugin {
     watchSources ++= {
       val pathFinder = doctestMarkdownPathFinder.value
       if (doctestMarkdownEnabled.value) {
-        pathFinder.get.map(toSource)
+        pathFinder.get.map(new Source(_, AllPassFilter, NothingFilter))
       } else {
         Seq.empty
       }

@@ -18,4 +18,14 @@ class Test {
    * 2
    */
   def +=(x: Int) = x + x
+
+  /**
+    * Doc on val
+    */
+  val x = 23
+
+  /**
+    * Doc on var
+    */
+  var z = "zzz"
 }

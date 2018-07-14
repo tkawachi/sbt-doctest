@@ -1,31 +1,56 @@
 package com.github.tkawachi.doctest
 
-import scala.tools.nsc.doc.{ DocParser, Settings }
-import java.io.File
+import scala.meta._
+import scala.meta.contrib._
 
 /**
  * Extract examples from scala source.
  */
-class ScaladocExtractor {
+object ScaladocExtractor {
 
-  private val settings = new Settings(Console println _)
-  settings.bootclasspath.value = ScalaPath.pathList.mkString(File.pathSeparator)
-  private val parser = new DocParser(settings)
+  private val meaningfulDocTokenKinds: Set[DocToken.Kind] =
+    Set(DocToken.CodeBlock, DocToken.Description, DocToken.Example)
 
-  def extract(scalaSource: String): List[ScaladocComment] =
-    parser.docDefs(scalaSource).map(toComment)
+  def extract(scalaSource: String): List[ScaladocComment] = {
 
-  private[this] def toComment(parsed: DocParser.Parsed) =
-    ScaladocComment(extractPkg(parsed), parsed.nameChain.lastOption.map(_.decode).getOrElse(""),
-      parsed.docDef.comment.raw, parsed.docDef.comment.pos.line)
+    val code = scalaSource.parse[Source].get
+    val comments = AssociatedComments(code)
 
-  private[this] def extractPkg(parsed: DocParser.Parsed): Option[String] = {
-    val packages = parsed.enclosing
-      .collect { case pkgDef: parser.PackageDef => pkgDef.pid.toString() }
-      .filter(_ != "<empty>")
-    packages match {
-      case Nil => None
-      case lst => Some(lst.mkString("."))
+    object NamedMember {
+      def unapply(t: Tree): Option[String] = t match {
+        case m: Member => Some(m.name.value)
+        case v: Defn.Val => v.pats.collectFirst { case m: Member => m.name.value }
+        case v: Defn.Var => v.pats.collectFirst { case m: Member => m.name.value }
+        case _ => None
+      }
     }
+
+    def pkgOf(t: Tree): Option[String] =
+      t.ancestors.collect { case pkg: Pkg => pkg.ref.toString } match {
+        case Nil => None
+        case names => Some(names.mkString("."))
+      }
+
+    def parsedScalaDocComment(t: Tree): Option[ScaladocComment] =
+      (t, comments.leading(t).filter(_.isScaladoc).toList) match {
+        // take only named members having single scaladoc comment
+        case (NamedMember(name), List(scalaDocComment)) if name.nonEmpty =>
+          scalaDocComment.docTokens.filter(_.map(_.kind).exists(meaningfulDocTokenKinds)).map { _ =>
+            ScaladocComment(
+              pkg = pkgOf(t),
+              symbol = name,
+              text = scalaDocComment.syntax,
+              lineNo = scalaDocComment.pos.startLine + 1 //startLine is 0 based, so compensating here
+            )
+          }
+        case _ => None
+      }
+
+    def extractAllCommentsFrom(t: Tree): List[ScaladocComment] =
+      t.children.foldLeft(parsedScalaDocComment(t).toList) {
+        case (extractedSoFar, childTree) => extractedSoFar ::: extractAllCommentsFrom(childTree)
+      }
+
+    extractAllCommentsFrom(code)
   }
 }
