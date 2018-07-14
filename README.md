@@ -191,6 +191,17 @@ doctestIgnoreRegex := Some(".*SomeClass.scala")
 
 Source files with canonical paths (using UNIX separator - `/`) matching the regex, will not be used for doctest generation.
 
+## Only Code Blocks Mode
+
+If you all you need is to check that code in Scaladoc code blocks (text inside `{{{}}}`) compiles),
+you can enable only code blocks mode by setting `doctestOnlyCodeBlocksMode` to `true`:
+
+```scala
+doctestOnlyCodeBlocksMode := true
+```
+
+Generated tests won't have any assertions, unless they are present in your Scaladocs.
+
 ## HTML Entities
 
 Often when documenting libraries that work with HTML you need to encode HTML entities so that they will be displayed in browsers.

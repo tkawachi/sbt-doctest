@@ -178,7 +178,9 @@ object TestGenSpec extends TestSuite {
             |    if (s.headOption == Some('\n')) s.tail else s
             |  }
             |
-            |  "MyClass.scala:37: sumExample" should {
+            |  implicit def toMatcher[T](t: T): _root_.org.specs2.matcher.Matcher[T] = _root_.org.specs2.matcher.AlwaysMatcher[T]()
+            |
+            |  "MyClass.scala:37: sumExample" must {
             |    import scala.util.Random
             |
             |    "example at line 39: List(1,2,3).sum" in {
@@ -268,6 +270,9 @@ object TestGenSpec extends TestSuite {
             |    val s = _root_.scala.runtime.ScalaRunTime.replStringOf(any, 1000).init
             |    if (s.headOption == Some('\n')) s.tail else s
             |  }
+            |
+            |  implicit def toVoid[A](ref: A)(implicit location: _root_.minitest.api.SourceLocation): _root_.minitest.api.Void =
+            |    _root_.minitest.api.Void.UnitRef
             |
             |  test("MyClass.scala:37: sumExample") {
             |    import scala.util.Random

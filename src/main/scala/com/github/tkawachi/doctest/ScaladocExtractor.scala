@@ -35,14 +35,21 @@ object ScaladocExtractor {
       (t, comments.leading(t).filter(_.isScaladoc).toList) match {
         // take only named members having single scaladoc comment
         case (NamedMember(name), List(scalaDocComment)) if name.nonEmpty =>
-          scalaDocComment.docTokens.filter(_.map(_.kind).exists(meaningfulDocTokenKinds)).map { _ =>
-            ScaladocComment(
-              pkg = pkgOf(t),
-              symbol = name,
-              text = scalaDocComment.syntax,
-              lineNo = scalaDocComment.pos.startLine + 1 //startLine is 0 based, so compensating here
-            )
-          }
+          scalaDocComment.docTokens.flatMap(
+            _.filter(dt => meaningfulDocTokenKinds(dt.kind)) match {
+              case Nil => None
+              case docTokens =>
+                Some(
+                  ScaladocComment(
+                    pkg = pkgOf(t),
+                    symbol = name,
+                    codeBlocks = docTokens.collect {
+                      case DocToken(DocToken.CodeBlock, _, Some(body)) if body.trim.nonEmpty => body
+                    },
+                    text = scalaDocComment.syntax,
+                    lineNo = scalaDocComment.pos.startLine + 1 //startLine is 0 based, so compensating here
+                  ))
+            })
         case _ => None
       }
 

@@ -20,6 +20,14 @@ object MinitestGen extends TestGen {
       else ""
     }""".stripMargin
 
+  override protected def helperMethodsLine: String = {
+    val apiPkg = "_root_.minitest.api"
+    s"""${super.helperMethodsLine}
+       |
+       |  implicit def toVoid[A](ref: A)(implicit location: $apiPkg.SourceLocation): $apiPkg.Void =
+       |    $apiPkg.Void.UnitRef""".stripMargin
+  }
+
   override protected def generateTestCase(caseName: String, caseBody: String): String = {
     s"""  test("$caseName") {
        |$caseBody

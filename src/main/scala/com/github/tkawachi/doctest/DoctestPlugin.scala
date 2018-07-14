@@ -51,17 +51,23 @@ object DoctestPlugin extends AutoPlugin {
     val doctestGenTests = taskKey[Seq[File]]("Generates test files.")
     val doctestDecodeHtmlEntities = settingKey[Boolean]("Whether to decode HTML entities.")
     val doctestIgnoreRegex = settingKey[Option[String]]("All sources that match the regex will not be used for tests generation")
+    val doctestOnlyCodeBlocksMode = settingKey[Boolean]("Whether to treat all code in Scaladocs as pure code blocks.")
 
     val DoctestTestFramework = self.DoctestTestFramework
   }
 
   import autoImport._
 
-  private def doctestScaladocGenTests(sources: Seq[File], testGen: TestGen, decodeHtml: Boolean, scalacOptions: Seq[String]) = {
+  private def doctestScaladocGenTests(
+    sources: Seq[File],
+    testGen: TestGen,
+    decodeHtml: Boolean,
+    onlyCodeBlocksMode: Boolean,
+    scalacOptions: Seq[String]) = {
     val srcEncoding = ScaladocTestGenerator.findEncoding(scalacOptions).getOrElse("UTF-8")
     sources
       .filter(_.ext == "scala")
-      .flatMap(ScaladocTestGenerator(_, srcEncoding, testGen, decodeHtml))
+      .flatMap(ScaladocTestGenerator(_, srcEncoding, testGen, decodeHtml, onlyCodeBlocksMode))
   }
 
   private def doctestMarkdownGenTests(
@@ -84,6 +90,7 @@ object DoctestPlugin extends AutoPlugin {
   val doctestGenSettings = Seq(
     doctestTestFramework := (doctestTestFramework ?? ScalaCheck).value,
     doctestDecodeHtmlEntities := (doctestDecodeHtmlEntities ?? false).value,
+    doctestOnlyCodeBlocksMode := (doctestOnlyCodeBlocksMode ?? false).value,
     doctestMarkdownEnabled := (doctestMarkdownEnabled ?? false).value,
     doctestMarkdownPathFinder := baseDirectory.value * "*.md",
     testFrameworks += new TestFramework("utest.runner.Framework"),
@@ -117,6 +124,7 @@ object DoctestPlugin extends AutoPlugin {
             filteredSourceFiles,
             testGen,
             doctestDecodeHtmlEntities.value,
+            doctestOnlyCodeBlocksMode.value,
             (scalacOptions in Compile).value)
 
           val pathFinder = doctestMarkdownPathFinder.value

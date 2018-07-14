@@ -5,17 +5,26 @@ package com.github.tkawachi.doctest
  */
 object Specs2TestGen extends TestGen {
 
+  val BasePackage = "_root_.org.specs2"
+
   override protected def importsLine(parsedList: Seq[ParsedDoctest]): String =
     TestGen.importArbitrary(parsedList)
 
   override protected def suiteDeclarationLine(basename: String, parsedList: Seq[ParsedDoctest]): String = {
     s"""class ${basename}Doctest
-       |    extends _root_.org.specs2.mutable.Specification
-       |    with _root_.org.specs2.ScalaCheck""".stripMargin
+       |    extends $BasePackage.mutable.Specification
+       |    with $BasePackage.ScalaCheck""".stripMargin
+  }
+
+  override protected def helperMethodsLine: String = {
+    val MatcherPackage = s"$BasePackage.matcher"
+    s"""${super.helperMethodsLine}
+       |
+       |  implicit def toMatcher[T](t: T): $MatcherPackage.Matcher[T] = $MatcherPackage.AlwaysMatcher[T]()""".stripMargin
   }
 
   override protected def generateTestCase(caseName: String, caseBody: String): String =
-    s"""  "$caseName" should {
+    s"""  "$caseName" must {
        |$caseBody
        |  }""".stripMargin
 
