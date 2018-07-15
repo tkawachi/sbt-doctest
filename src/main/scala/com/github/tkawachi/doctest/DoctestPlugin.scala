@@ -1,9 +1,11 @@
 package com.github.tkawachi.doctest
 import java.nio.file.Path
 
-import sbt._, Keys._
+import sbt._
+import Keys._
 import sbt.plugins.JvmPlugin
 import SbtCompat._
+import org.apache.commons.io.FilenameUtils
 
 /**
  * Sbt plugin for doctest.
@@ -47,6 +49,7 @@ object DoctestPlugin extends AutoPlugin {
     val doctestMarkdownPathFinder = settingKey[PathFinder]("PathFinder to find markdown to test.")
     val doctestGenTests = taskKey[Seq[File]]("Generates test files.")
     val doctestDecodeHtmlEntities = settingKey[Boolean]("Whether to decode HTML entities.")
+    val doctestIgnoreRegex = settingKey[Option[String]]("All sources that match the regex will not be used for tests generation")
 
     val DoctestTestFramework = self.DoctestTestFramework
   }
@@ -83,16 +86,34 @@ object DoctestPlugin extends AutoPlugin {
     doctestMarkdownEnabled := (doctestMarkdownEnabled ?? false).value,
     doctestMarkdownPathFinder := baseDirectory.value * "*.md",
     testFrameworks += new TestFramework("utest.runner.Framework"),
+    doctestIgnoreRegex := None,
     doctestGenTests := {
       (managedSourceDirectories in Test).value.headOption match {
         case None =>
-          streams.value.log.warn("managedSourceDirectories in Test is empty. Failed to generate tests")
-          Seq()
+          streams.value.log.warn("DocTest: managedSourceDirectories in Test is empty. Failed to generate tests")
+          Seq.empty
         case Some(testDir) =>
           val testGen = TestGenResolver.resolve(doctestTestFramework.value, Classpaths.managedJars(Test, classpathTypes.value, update.value), scalaVersion.value)
 
+          val sourceFiles = (unmanagedSources in Compile).value ++ (managedSources in Compile).value
+          val log = streams.value.log
+          log.debug(s"DocTest: Applying ignore pattern [${doctestIgnoreRegex.value}] to exclude matching sources...")
+          val filteredSourceFiles =
+            doctestIgnoreRegex.value.fold(sourceFiles) { regex =>
+              val IgnoreRegex = regex.r
+              sourceFiles.filterNot { f =>
+                FilenameUtils.normalize(f.getCanonicalPath, true) match {
+                  case ign @ IgnoreRegex(_*) =>
+                    log.debug(s"DocTest: Excluding source file: $ign")
+                    true
+                  case use =>
+                    log.debug(s"DocTest: Using source file: $use")
+                    false
+                }
+              }
+            }
           val scaladocTests = doctestScaladocGenTests(
-            (unmanagedSources in Compile).value ++ (managedSources in Compile).value,
+            filteredSourceFiles,
             testGen,
             doctestDecodeHtmlEntities.value,
             (scalacOptions in Compile).value)
@@ -102,7 +123,7 @@ object DoctestPlugin extends AutoPlugin {
           val markdownTests = if (doctestMarkdownEnabled.value) {
             doctestMarkdownGenTests(pathFinder, baseDirectoryPath, testGen)
           } else {
-            Seq()
+            Seq.empty
           }
 
           (scaladocTests ++ markdownTests)
