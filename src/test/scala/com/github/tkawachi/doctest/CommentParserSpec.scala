@@ -55,8 +55,7 @@ object CommentParserSpec extends TestSuite {
         val expected =
           List(
             Example("1 + 2", TestResult("3"), 1),
-            Example("\"Hello,\" + \" world\"", TestResult("Hello, world"), 4)
-          )
+            Example("\"Hello,\" + \" world\"", TestResult("Hello, world"), 4))
         assert(expected == actual)
       }
 
@@ -125,8 +124,7 @@ object CommentParserSpec extends TestSuite {
         val expected =
           List(
             Example("\"abc\\ndef\"", TestResult("abc\ndef", None), 1),
-            Example("\" abc\\ndef\"", TestResult("\" abc\ndef\"", None), 5)
-          )
+            Example("\" abc\\ndef\"", TestResult("\" abc\ndef\"", None), 5))
         assert(expected == actual)
       }
 
@@ -279,8 +277,7 @@ object CommentParserSpec extends TestSuite {
         val expected =
           List(
             Example("\"abc\\ndef\"", TestResult("abc\ndef", Some("String")), 1),
-            Example("\" abc\\ndef\"", TestResult("\" abc\ndef\"", Some("String")), 6)
-          )
+            Example("\" abc\\ndef\"", TestResult("\" abc\ndef\"", Some("String")), 6))
         assert(expected == actual)
       }
 
@@ -489,8 +486,7 @@ object CommentParserSpec extends TestSuite {
         val actual = parse(comment).get
         val expected = List(
           Verbatim("import scala.util.Success"),
-          Example("Success(1 + 2)", TestResult("Success(3)", Some("scala.util.Try[Int]")), 5)
-        )
+          Example("Success(1 + 2)", TestResult("Success(3)", Some("scala.util.Try[Int]")), 5))
         assert(expected == actual)
       }
 
