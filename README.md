@@ -180,6 +180,17 @@ Please use `<BLANKLINE>` when an output contains blank lines.
  */
 def helloWorld = "Hello\n\nWorld"
 ```
+
+## Ignoring Some Files
+
+If you don't want to generate doctests for some of your sources, then specify a regex pattern:
+
+```scala
+doctestIgnoreRegex := Some(".*SomeClass.scala")
+```
+
+Source files with canonical paths (using UNIX separator - `/`) matching the regex, will not be used for doctest generation.
+
 ## HTML Entities
 
 Often when documenting libraries that work with HTML you need to encode HTML entities so that they will be displayed in browsers.

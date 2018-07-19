@@ -33,6 +33,7 @@ libraryDependencies ++= Seq(
 
 doctestMarkdownEnabled    := true
 doctestMarkdownPathFinder := baseDirectory.value ** "*.md"
+doctestIgnoreRegex        := Some("(.*)IgnoreMe.scala")
 
 testFrameworks += new TestFramework("minitest.runner.Framework")
 
