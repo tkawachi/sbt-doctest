@@ -25,11 +25,21 @@ libraryDependencies ++= Seq(
   "com.lihaoyi"    %% "utest"             % "0.6.4"  % Test,
   "org.scalatest"  %% "scalatest"         % "3.0.5"  % Test,
   "org.scalacheck" %% "scalacheck"        % "1.14.0" % Test,
-  "org.specs2"     %% "specs2-core"       % "3.10.0"  % Test,
-  "org.specs2"     %% "specs2-scalacheck" % "3.10.0"  % Test,
   "io.monix"       %% "minitest"          % "2.1.1"  % Test,
   "io.monix"       %% "minitest-laws"     % "2.1.1"  % Test
-)
+) ++ (
+  if (scalaVersion.value.startsWith("2.10"))
+    Seq(
+      "org.specs2"     %% "specs2-core"       % "3.10.0"  % Test,
+      "org.specs2"     %% "specs2-scalacheck" % "3.10.0"  % Test
+    )
+  else
+    Seq(
+      "org.specs2"     %% "specs2-core"       % "4.3.2"  % Test,
+      "org.specs2"     %% "specs2-scalacheck" % "4.3.2"  % Test,
+    )
+  )
+
 
 doctestMarkdownEnabled    := true
 doctestMarkdownPathFinder := baseDirectory.value ** "*.md"

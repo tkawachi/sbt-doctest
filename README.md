@@ -48,8 +48,8 @@ If you are using [``Specs2``](https://github.com/etorreborre/specs2), add the fo
 
 ```scala
 libraryDependencies ++= Seq(
-  "org.specs2" %% "specs2-core"       % "3.10.0" % Test,
-  "org.specs2" %% "specs2-scalacheck" % "3.10.0" % Test
+  "org.specs2" %% "specs2-core"       % "4.3.2" % Test,
+  "org.specs2" %% "specs2-scalacheck" % "4.3.2" % Test
 )
 
 doctestTestFramework := DoctestTestFramework.Specs2
