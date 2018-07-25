@@ -1,16 +1,18 @@
 val versions = new {
   val ScalaTest  = "3.0.5"
   val ScalaCheck = "1.14.0"
-  val Specs2     = "3.10.0"
+  val Specs2     = "4.3.2"
   val utest      = "0.6.4"
   val Minitest   = "2.1.1"
   val CommonsIO  = "2.6"
   val Lang3      = "3.7"
+  val ScalaMeta  = "3.7.4"
 }
 
 lazy val root = (project in file(".")).settings(
   sbtPlugin := true,
-  crossSbtVersions := Vector("0.13.17", "1.1.6"),
+  scalaVersion := "2.12.6",
+  crossSbtVersions := Vector("1.1.6"),
   organization := "com.github.tkawachi",
   name := "sbt-doctest",
   licenses := Seq("MIT" -> url("http://opensource.org/licenses/MIT")),
@@ -25,15 +27,14 @@ lazy val root = (project in file(".")).settings(
     "-encoding", "UTF-8",
     "-feature",
     "-unchecked",
-    "-Xfatal-warnings"
-  ) ++ (if (scalaVersion.value startsWith "2.10.")
-          List("-Xlint", "-target:jvm-1.6")
-        else
-          List("-Xlint:-unused,_")),
+    "-Xfatal-warnings",
+    "-Xlint:-unused,_"
+  ),
   libraryDependencies ++= Seq(
-    "org.scala-lang"     %  "scala-compiler"      % scalaVersion.value,
     "commons-io"         %  "commons-io"          % versions.CommonsIO,
     "org.apache.commons" %  "commons-lang3"       % versions.Lang3,
+    "org.scalameta"      %% "scalameta"           % versions.ScalaMeta,
+    "org.scalameta"      %% "contrib"             % versions.ScalaMeta,
     "com.lihaoyi"        %% "utest"               % versions.utest        % Provided,
     "org.scalatest"      %% "scalatest"           % versions.ScalaTest    % Provided,
     "org.scalacheck"     %% "scalacheck"          % versions.ScalaCheck   % Provided,
