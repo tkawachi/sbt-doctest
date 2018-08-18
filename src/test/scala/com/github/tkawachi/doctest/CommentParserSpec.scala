@@ -8,8 +8,6 @@ object CommentParserSpec extends TestSuite {
 
     import CommentParser.parse
 
-    val LS = System.lineSeparator()
-
     "Python style" - {
       "parses a single example" - {
         val comment =
@@ -29,7 +27,7 @@ object CommentParserSpec extends TestSuite {
             | * 15
           """.stripMargin
         val actual = parse(comment).get
-        val expected = List(Example(s"1 + 2 +${LS}3 +${LS}4 + 5", TestResult("15"), 1))
+        val expected = List(Example(s"1 + 2 +\n3 +\n4 + 5", TestResult("15"), 1))
         assert(expected == actual)
       }
 
@@ -154,7 +152,7 @@ object CommentParserSpec extends TestSuite {
             | * ... 3)
           """.stripMargin
         val actual = parse(comment).get
-        val expected = List(Verbatim(s"val xs = List(${LS}1,${LS}2,${LS}3)"))
+        val expected = List(Verbatim(s"val xs = List(\n1,\n2,\n3)"))
         assert(expected == actual)
       }
     }
@@ -178,7 +176,7 @@ object CommentParserSpec extends TestSuite {
             | * res0: Int = 15
           """.stripMargin
         val actual = parse(comment).get
-        val expected = List(Example(s"1 + 2 +${LS}3 +${LS}4 + 5", TestResult("15", Some("Int")), 1))
+        val expected = List(Example(s"1 + 2 +\n3 +\n4 + 5", TestResult("15", Some("Int")), 1))
         assert(expected == actual)
       }
 
@@ -353,7 +351,7 @@ object CommentParserSpec extends TestSuite {
             | *      |   3)
           """.stripMargin
         val actual = parse(comment).get
-        val expected = List(Verbatim(s"var ys = List($LS  1,$LS  2,$LS  3)"))
+        val expected = List(Verbatim(s"var ys = List(\n  1,\n  2,\n  3)"))
         assert(expected == actual)
       }
 
@@ -390,7 +388,7 @@ object CommentParserSpec extends TestSuite {
             | *
           """.stripMargin
         val actual = parse(comment).get
-        val expected = List(Property(s"(i: Int) =>${LS}i + i == (i *${LS}2)", 1))
+        val expected = List(Property(s"(i: Int) =>\ni + i == (i *\n2)", 1))
         assert(expected == actual)
       }
 
@@ -420,7 +418,7 @@ object CommentParserSpec extends TestSuite {
             | *     |    3)
           """.stripMargin
         val actual = parse(comment).get
-        val expected = List(Verbatim(s"var ys = List($LS 1,$LS  2,$LS   3)"))
+        val expected = List(Verbatim(s"var ys = List(\n 1,\n  2,\n   3)"))
         assert(expected == actual)
       }
 
@@ -430,7 +428,7 @@ object CommentParserSpec extends TestSuite {
             | *     | x = 1
           """.stripMargin
         val actual = parse(comment).get
-        val expected = List(Verbatim(s"def${LS}x = 1"))
+        val expected = List(Verbatim(s"def\nx = 1"))
         assert(expected == actual)
       }
     }
