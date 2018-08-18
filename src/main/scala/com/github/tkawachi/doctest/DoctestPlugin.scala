@@ -71,6 +71,7 @@ object DoctestPlugin extends AutoPlugin {
     finder
       .filter(!_.isDirectory)
       .get
+      .sortBy(_.getCanonicalPath)
       .zipWithIndex
       .flatMap {
         case (file, disambiguatingIdx) =>
