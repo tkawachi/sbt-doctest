@@ -47,6 +47,9 @@ doctestIgnoreRegex        := Some("(.*)IgnoreMe.scala")
 
 testFrameworks += new TestFramework("minitest.runner.Framework")
 
+//ignore Failing
+Test / testOptions := Seq(Tests.Filter(s => !s.contains("Failing")))
+
 val existsInFile = inputKey[Unit]("Ensure a given string exists in a file")
 
 existsInFile := {

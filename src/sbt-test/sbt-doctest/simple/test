@@ -24,7 +24,9 @@ $ absent target/scala-2.12/src_managed/test/sbt_doctest/IgnoreMeDoctest.scala
 > set doctestTestFramework := DoctestTestFramework.MicroTest
 > doctestTestFramework
 > + test
- 
+> set Test / testOptions := Seq(Tests.Filter(s => s.contains("Failing")))
+-> +test
+
 # Try with scalatest
 > reload
 > clean
@@ -32,6 +34,8 @@ $ absent target/scala-2.12/src_managed/test/sbt_doctest/IgnoreMeDoctest.scala
 > doctestTestFramework
 > + test
 > existsInFile "with _root_.org.scalatest.prop.Checkers" target/scala-2.11/src_managed/test/sbt_doctest/MainDoctest.scala
+> set Test / testOptions := Seq(Tests.Filter(s => s.contains("Failing")))
+-> +test
 
 # Try with specs2
 > reload
@@ -39,13 +43,17 @@ $ absent target/scala-2.12/src_managed/test/sbt_doctest/IgnoreMeDoctest.scala
 > set doctestTestFramework := DoctestTestFramework.Specs2
 > doctestTestFramework
 > + test
- 
+> set Test / testOptions := Seq(Tests.Filter(s => s.contains("Failing")))
+-> +test
+
 # Try with scalacheck
 > reload
 > clean
 > set doctestTestFramework := DoctestTestFramework.ScalaCheck
 > doctestTestFramework
 > + test
+> set Test / testOptions := Seq(Tests.Filter(s => s.contains("Failing")))
+-> +test
 
 # Try with minitest
 > reload
@@ -53,3 +61,5 @@ $ absent target/scala-2.12/src_managed/test/sbt_doctest/IgnoreMeDoctest.scala
 > set doctestTestFramework := DoctestTestFramework.Minitest
 > doctestTestFramework
 > + test
+> set Test / testOptions := Seq(Tests.Filter(s => s.contains("Failing")))
+-> +test
