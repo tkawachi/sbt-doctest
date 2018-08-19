@@ -4,7 +4,7 @@ Plugin for [sbt](http://www.scala-sbt.org) that generates tests from examples
 in ScalaDoc.
 
 [![Build Status](https://travis-ci.org/tkawachi/sbt-doctest.svg?branch=master)](https://travis-ci.org/tkawachi/sbt-doctest)
-[![Codacy Badge](https://www.codacy.com/project/badge/69a7c0f566464cc38032d10d3b9dab6c)](https://www.codacy.com/app/tkawachi/sbt-doctest)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/69a7c0f566464cc38032d10d3b9dab6c)](https://www.codacy.com/app/tkawachi/sbt-doctest?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=tkawachi/sbt-doctest&amp;utm_campaign=Badge_Grade)
 
 ## Install
 
