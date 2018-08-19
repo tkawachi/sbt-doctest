@@ -1,0 +1,5 @@
+### Changes
+
+* Used Scalameta instead of Scala compiler to extract scaladoc by @jozic #113.
+* Added `doctestIgnoreRegex` to ignore some of source files by @jozic #112.
+* Added `doctestOnlyCodeBlocksMode` to use sbt-doctest without assertions by @jozic #114.

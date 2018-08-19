@@ -11,8 +11,10 @@ in ScalaDoc.
 To use this plugin, add it to your `project/plugins.sbt`.
 
 ```scala
-addSbtPlugin("com.github.tkawachi" % "sbt-doctest" % "0.8.0")
+addSbtPlugin("com.github.tkawachi" % "sbt-doctest" % "0.9.0")
 ```
+
+This plugin supports sbt 1.x.
 
 It's automatically enabled for JVM projects.
 Scala.js is currently not supported (See #52).
