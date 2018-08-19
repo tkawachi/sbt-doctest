@@ -6,9 +6,8 @@ import com.github.tkawachi.doctest.StringUtil._
  * Interface of a test generator.
  */
 trait TestGen {
-  def generate(basename: String, pkg: Option[String], parsedList: Seq[ParsedDoctest]): String = {
+  def generate(basename: String, pkg: Option[String], parsedList: Seq[ParsedDoctest], onlyCodeblocks: Boolean = false): String = {
     val pkgLine = pkg.fold("")(p => s"package $p")
-    val helperMethodsLine = indent(TestGen.helperMethods, "  ")
     s"""$pkgLine
        |
        |${importsLine(parsedList)}
@@ -22,6 +21,8 @@ trait TestGen {
        |}
        |""".stripMargin
   }
+
+  protected def helperMethodsLine: String = indent(TestGen.helperMethods, "  ")
 
   protected def importsLine(parsedList: Seq[ParsedDoctest]): String
 

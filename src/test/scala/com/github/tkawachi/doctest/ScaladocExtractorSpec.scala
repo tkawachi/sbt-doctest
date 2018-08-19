@@ -1,7 +1,8 @@
 package com.github.tkawachi.doctest
 
-import scala.io.Source
 import utest._
+
+import scala.io.Source
 
 object ScaladocExtractorSpec extends TestSuite {
 
@@ -9,15 +10,15 @@ object ScaladocExtractorSpec extends TestSuite {
 
     import ScaladocExtractor.extract
 
-    def extractFromFile(path: String) = extract(Source.fromFile(path).mkString)
+    def extractFromFile(path: String) =
+      extract(Source.fromFile(path).mkString)
 
     "extracts from Test.scala" - {
       val actual = extractFromFile("src/test/resources/Test.scala")
       val expected =
         List(
-          ScaladocComment(None, "Test", "/**\n * Test class\n */", 1),
-          ScaladocComment(None, "f",
-            """/**
+          ScaladocComment(None, "Test", Nil, "/**\n * Test class\n */", 1),
+          ScaladocComment(None, "f", Nil, """/**
               |   * A function.
               |   *
               |   * >>> new Test().f(10)
@@ -26,17 +27,14 @@ object ScaladocExtractorSpec extends TestSuite {
               |   * >>> "hello, " + "world!"
               |   * hello, world!
               |   */""".stripMargin, 5),
-          ScaladocComment(None, "+=",
-            """/** Ascii method
+          ScaladocComment(None, "+=", Nil, """/** Ascii method
               |   * scala> new Test() += 1
               |   * 2
               |   */""".stripMargin, 16),
-          ScaladocComment(None, "x",
-            """/**
+          ScaladocComment(None, "x", Nil, """/**
               |    * Doc on val
               |    */""".stripMargin, 22),
-          ScaladocComment(None, "z",
-            """/**
+          ScaladocComment(None, "z", Nil, """/**
               |    * Doc on var
               |    */""".stripMargin, 27))
       assert(expected == actual)
@@ -46,13 +44,13 @@ object ScaladocExtractorSpec extends TestSuite {
       val actual = extractFromFile("src/test/resources/RootPackage.scala")
       val expected =
         List(
-          ScaladocComment(None, "Root1", "/** Class comment */", 1),
-          ScaladocComment(None, "method", "/** Method comment */", 3),
-          ScaladocComment(Some("a1"), "A1", "/** A1 */", 8),
-          ScaladocComment(Some("a1.b1"), "B1", "/** B1 */", 11),
-          ScaladocComment(None, "Root2", "/** Root2 */", 16),
-          ScaladocComment(None, "method2", "/** Method2 comment */", 20),
-          ScaladocComment(None, "IntAlias", "/** Type alias */", 23))
+          ScaladocComment(None, "Root1", Nil, "/** Class comment */", 1),
+          ScaladocComment(None, "method", Nil, "/** Method comment */", 3),
+          ScaladocComment(Some("a1"), "A1", Nil, "/** A1 */", 8),
+          ScaladocComment(Some("a1.b1"), "B1", Nil, "/** B1 */", 11),
+          ScaladocComment(None, "Root2", Nil, "/** Root2 */", 16),
+          ScaladocComment(None, "method2", Nil, "/** Method2 comment */", 20),
+          ScaladocComment(None, "IntAlias", Nil, "/** Type alias */", 23))
       assert(expected == actual)
     }
 
@@ -60,11 +58,21 @@ object ScaladocExtractorSpec extends TestSuite {
       val actual = extractFromFile("src/test/resources/Package.scala")
       val expected =
         List(
-          ScaladocComment(Some("some.pkg"), "Root1", "/** Class comment */", 3),
-          ScaladocComment(Some("some.pkg"), "method", "/** Method comment */", 5),
-          ScaladocComment(Some("some.pkg.a1"), "A1", "/** A1 */", 10),
-          ScaladocComment(Some("some.pkg.a1.b1"), "B1", "/** B1 */", 13),
-          ScaladocComment(Some("some.pkg"), "Root2", "/** Root2 */", 18))
+          ScaladocComment(
+            Some("some.pkg"),
+            "Root1",
+            Nil,
+            "/** Class comment */",
+            3),
+          ScaladocComment(
+            Some("some.pkg"),
+            "method",
+            Nil,
+            "/** Method comment */",
+            5),
+          ScaladocComment(Some("some.pkg.a1"), "A1", Nil, "/** A1 */", 10),
+          ScaladocComment(Some("some.pkg.a1.b1"), "B1", Nil, "/** B1 */", 13),
+          ScaladocComment(Some("some.pkg"), "Root2", Nil, "/** Root2 */", 18))
       assert(expected == actual)
     }
 
@@ -129,6 +137,66 @@ object ScaladocExtractorSpec extends TestSuite {
       assert(expected == actual)
     }
 
+    "extracts from CodeExamples.scala" - {
+      val actual = extractFromFile("src/test/resources/CodeExamples.scala")
+      val expected =
+        List(
+          ScaladocComment(
+            Some("examples.inda.house"),
+            "ff",
+            List(
+              "val i = ff(5)",
+              "require(i == 5)"),
+            """/**
+            |    * This method is very nifty and can be used like this:
+            |    *
+            |    * {{{
+            |    *   val i = ff(5)
+            |    * }}}
+            |    *
+            |    * `i` should be equal to 5. Let's check
+            |    *
+            |    * {{{
+            |    *   require(i == 5)
+            |    * }}}
+            |    *
+            |    *
+            |    * Works!
+            |    */""".stripMargin,
+            5),
+          ScaladocComment(
+            Some("examples.inda.house"),
+            "fff",
+            List("""val i = fff(5)
+                |i match {
+                |case 10 => "yep!"
+                |case _ => "boo"
+                |}""".stripMargin),
+            """/**
+            |    * Here's a multiline code block
+            |    *
+            |    * {{{
+            |    *   val i = fff(5)
+            |    *   i match {
+            |    *     case 10 => "yep!"
+            |    *     case _ => "boo"
+            |    *   }
+            |    * }}}
+            |    */""".stripMargin,
+            23),
+          ScaladocComment(
+            Some("examples.inda.house"),
+            "i_love_py",
+            Nil,
+            """/**
+            |    * call me twice
+            |    * >>> i_love_py(1 + 2 +
+            |    * ... 3 +
+            |    * ... 4 + 5
+            |    * 15
+            |    */""".stripMargin,
+            36))
+      assert(expected == actual)
+    }
   }
-
 }
