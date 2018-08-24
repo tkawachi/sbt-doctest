@@ -1,0 +1,3 @@
+### Changes
+
+* Modified generated tests not to emit warnings under `-Xwarn-unused:params` by @tomwadeson #119.
