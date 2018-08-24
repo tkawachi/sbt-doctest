@@ -30,7 +30,9 @@ object TestGenSpec extends TestSuite {
             |
             |object MyClassDoctest extends TestSuite {
             |
-            |  def sbtDoctestTypeEquals[A](a1: => A)(a2: => A): _root_.scala.Unit = ()
+            |  def sbtDoctestTypeEquals[A](a1: => A)(a2: => A): _root_.scala.Unit = {
+            |    val _ = () => (a1, a2)
+            |  }
             |  def sbtDoctestReplString(any: _root_.scala.Any): _root_.scala.Predef.String = {
             |    val s = _root_.scala.runtime.ScalaRunTime.replStringOf(any, 1000).init
             |    if (s.headOption == Some('\n')) s.tail else s
@@ -79,7 +81,9 @@ object TestGenSpec extends TestSuite {
             |    with _root_.org.scalatest.Matchers
             |    with _root_.org.scalatest.prop.Checkers {
             |
-            |  def sbtDoctestTypeEquals[A](a1: => A)(a2: => A): _root_.scala.Unit = ()
+            |  def sbtDoctestTypeEquals[A](a1: => A)(a2: => A): _root_.scala.Unit = {
+            |    val _ = () => (a1, a2)
+            |  }
             |  def sbtDoctestReplString(any: _root_.scala.Any): _root_.scala.Predef.String = {
             |    val s = _root_.scala.runtime.ScalaRunTime.replStringOf(any, 1000).init
             |    if (s.headOption == Some('\n')) s.tail else s
@@ -126,7 +130,9 @@ object TestGenSpec extends TestSuite {
             |    with _root_.org.scalatest.Matchers
             |    with _root_.org.scalatest.check.Checkers {
             |
-            |  def sbtDoctestTypeEquals[A](a1: => A)(a2: => A): _root_.scala.Unit = ()
+            |  def sbtDoctestTypeEquals[A](a1: => A)(a2: => A): _root_.scala.Unit = {
+            |    val _ = () => (a1, a2)
+            |  }
             |  def sbtDoctestReplString(any: _root_.scala.Any): _root_.scala.Predef.String = {
             |    val s = _root_.scala.runtime.ScalaRunTime.replStringOf(any, 1000).init
             |    if (s.headOption == Some('\n')) s.tail else s
@@ -172,7 +178,9 @@ object TestGenSpec extends TestSuite {
             |    extends _root_.org.specs2.mutable.Specification
             |    with _root_.org.specs2.ScalaCheck {
             |
-            |  def sbtDoctestTypeEquals[A](a1: => A)(a2: => A): _root_.scala.Unit = ()
+            |  def sbtDoctestTypeEquals[A](a1: => A)(a2: => A): _root_.scala.Unit = {
+            |    val _ = () => (a1, a2)
+            |  }
             |  def sbtDoctestReplString(any: _root_.scala.Any): _root_.scala.Predef.String = {
             |    val s = _root_.scala.runtime.ScalaRunTime.replStringOf(any, 1000).init
             |    if (s.headOption == Some('\n')) s.tail else s
@@ -218,7 +226,9 @@ object TestGenSpec extends TestSuite {
             |object MyClassDoctest
             |    extends _root_.org.scalacheck.Properties("MyClass.scala") {
             |
-            |  def sbtDoctestTypeEquals[A](a1: => A)(a2: => A): _root_.scala.Unit = ()
+            |  def sbtDoctestTypeEquals[A](a1: => A)(a2: => A): _root_.scala.Unit = {
+            |    val _ = () => (a1, a2)
+            |  }
             |  def sbtDoctestReplString(any: _root_.scala.Any): _root_.scala.Predef.String = {
             |    val s = _root_.scala.runtime.ScalaRunTime.replStringOf(any, 1000).init
             |    if (s.headOption == Some('\n')) s.tail else s
@@ -265,7 +275,9 @@ object TestGenSpec extends TestSuite {
             |
             |object MyClassDoctest extends SimpleTestSuite with Checkers {
             |
-            |  def sbtDoctestTypeEquals[A](a1: => A)(a2: => A): _root_.scala.Unit = ()
+            |  def sbtDoctestTypeEquals[A](a1: => A)(a2: => A): _root_.scala.Unit = {
+            |    val _ = () => (a1, a2)
+            |  }
             |  def sbtDoctestReplString(any: _root_.scala.Any): _root_.scala.Predef.String = {
             |    val s = _root_.scala.runtime.ScalaRunTime.replStringOf(any, 1000).init
             |    if (s.headOption == Some('\n')) s.tail else s
