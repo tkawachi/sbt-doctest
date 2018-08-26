@@ -198,5 +198,27 @@ object ScaladocExtractorSpec extends TestSuite {
             36))
       assert(expected == actual)
     }
+
+    "extracts from package.scala" - {
+      val actual = extractFromFile("src/test/resources/package_object/package.scala")
+      val expected = List(
+        ScaladocComment(
+          Some("outer"),
+          "package_object",
+          Nil,
+          """/**
+            |  * Package object scaladocs are important as well
+            |  */""".stripMargin,
+          3),
+        ScaladocComment(
+          Some("outer.package_object"),
+          "five",
+          Nil,
+          """/**
+            |    * package objects should do
+            |    */""".stripMargin,
+          8))
+      assert(expected == actual)
+    }
   }
 }
