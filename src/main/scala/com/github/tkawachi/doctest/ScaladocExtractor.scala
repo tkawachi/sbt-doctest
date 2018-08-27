@@ -26,7 +26,10 @@ object ScaladocExtractor {
     }
 
     def pkgOf(t: Tree): Option[String] =
-      t.ancestors.collect { case pkg: Pkg => pkg.ref.toString } match {
+      t.ancestors.collect {
+        case pkg: Pkg => pkg.ref.toString
+        case pkgObj: Pkg.Object => pkgObj.name.value
+      } match {
         case Nil => None
         case names => Some(names.mkString("."))
       }
