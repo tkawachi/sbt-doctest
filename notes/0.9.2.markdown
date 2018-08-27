@@ -1,0 +1,3 @@
+### Fixes
+
+* Fixed doctest package of package objects by @jozic #120 #121.
