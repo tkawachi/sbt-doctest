@@ -248,6 +248,14 @@ doctestMarkdownPathFinder := baseDirectory.value * "doc" ** "*.md"
 
 See [an example markdown](https://github.com/tkawachi/sbt-doctest/blob/master/src/test/resources/ScalaText.md).
 
+## Compatibility with other sbt plugins
+
+If you happen to have other plugins that use [scalameta](https://github.com/scalameta/scalameta)
+ (e.g. [sbt-scalafmt](https://github.com/scalameta/sbt-scalafmt))
+please make sure those plugins don't bring conflicting version of scalameta.
+
+At this moment sbt-scalafmt need to be of version 1.6.x at least.
+
 ## License
 
 MIT
