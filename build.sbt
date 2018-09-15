@@ -59,4 +59,4 @@ lazy val root = (project in file(".")).settings(
     )
   ),
   testFrameworks += new TestFramework("utest.runner.Framework")
-)
+).enablePlugins(SbtPlugin)
