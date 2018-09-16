@@ -10,7 +10,6 @@ val versions = new {
 }
 
 lazy val root = (project in file(".")).settings(
-  sbtPlugin := true,
   scalaVersion := "2.12.6",
   crossSbtVersions := Vector("1.1.6"),
   organization := "com.github.tkawachi",
@@ -59,4 +58,4 @@ lazy val root = (project in file(".")).settings(
     )
   ),
   testFrameworks += new TestFramework("utest.runner.Framework")
-)
+).enablePlugins(SbtPlugin)
