@@ -1,5 +1,8 @@
 package com.github.tkawachi.doctest
 
+import java.io.File
+import java.nio.file.Files
+import java.nio.file.Path
 import scala.meta._
 import scala.meta.contrib._
 
@@ -12,8 +15,25 @@ object ScaladocExtractor {
     Set(DocToken.CodeBlock, DocToken.Description, DocToken.Example)
 
   def extract(scalaSource: String): List[ScaladocComment] = {
-
-    val code = scalaSource.parse[Source].get
+    extractFromInput(Input.String(scalaSource))
+  }
+  def extractFromFile(file: Path, encoding: String): List[ScaladocComment] = {
+    val text = new String(Files.readAllBytes(file), encoding)
+    // Workaround from https://github.com/scalameta/scalameta/issues/443#issuecomment-314797969
+    val trimmedText = text.replace("\r\n", "\n")
+    val input = Input.VirtualFile(file.toString, trimmedText)
+    extractFromInput(input)
+  }
+  def extractFromInput(scalaSource: Input): List[ScaladocComment] = {
+    scalaSource.parse[Source] match {
+      case Parsed.Success(tree) =>
+        extractFromTree(tree)
+      case error @ Parsed.Error(_, _, _) =>
+        println(error.toString())
+        Nil
+    }
+  }
+  def extractFromTree(code: Tree): List[ScaladocComment] = {
     val comments = AssociatedComments(code)
 
     object NamedMember {
