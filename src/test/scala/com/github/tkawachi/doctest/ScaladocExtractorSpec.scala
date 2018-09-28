@@ -1,17 +1,18 @@
 package com.github.tkawachi.doctest
 
+import java.io.ByteArrayOutputStream
+import java.io.PrintStream
+import java.nio.charset.StandardCharsets
+import java.nio.file.Paths
+import scala.meta.Input
 import utest._
-
-import scala.io.Source
 
 object ScaladocExtractorSpec extends TestSuite {
 
   val tests = this{
 
-    import ScaladocExtractor.extract
-
     def extractFromFile(path: String) =
-      extract(Source.fromFile(path).mkString)
+      ScaladocExtractor.extractFromFile(Paths.get(path), StandardCharsets.UTF_8.name())
 
     "extracts from Test.scala" - {
       val actual = extractFromFile("src/test/resources/Test.scala")
@@ -132,9 +133,26 @@ object ScaladocExtractorSpec extends TestSuite {
           |}
         """.stripMargin
 
-      val actual = extract(source)
+      val actual = ScaladocExtractor.extract(source)
       val expected = Nil
       assert(expected == actual)
+    }
+
+    "parse errors are printed to stdout" - {
+      val input = Input.VirtualFile("filename.scala", "object Main {")
+      val out = new ByteArrayOutputStream()
+      val obtained = Console.withOut(new PrintStream(out)) {
+        ScaladocExtractor.extractFromInput(input)
+      }
+      assert(obtained == Nil)
+      val obtainedOut = out.toString(StandardCharsets.UTF_8.name).trim
+      val expectedOut =
+        """
+          |filename.scala:1: error: } expected but end of file found
+          |object Main {
+          |             ^
+        """.stripMargin.trim
+      assert(obtainedOut == expectedOut)
     }
 
     "extracts from CodeExamples.scala" - {
