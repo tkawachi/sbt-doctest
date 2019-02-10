@@ -60,10 +60,11 @@ trait GenericParser extends RegexParsers {
     }
 
   private val verbatimBegin = {
+    val annotation = ("@" ~ anyStr1) ^^ append
     val keywords = "abstract" | "case" | "class" | "def" | "implicit" | "import" |
       "lazy" | "object" | "sealed" | "trait" | "type" | "val" | "var"
     val whiteSpacePlusAnyStr = horizontalWhiteSpace ~ anyStr ^^ append
-    keywords ~ (whiteSpacePlusAnyStr | emptyStr) ^^ PositionedString.compose(append)
+    (annotation | keywords) ~ (whiteSpacePlusAnyStr | emptyStr) ^^ PositionedString.compose(append)
   }
 
   def verbatim(prompt: Prompt): Parser[Verbatim] =
