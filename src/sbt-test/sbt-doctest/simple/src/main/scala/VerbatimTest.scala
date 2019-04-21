@@ -69,4 +69,11 @@ object VerbatimTest {
    * res0: Int = 4
    */
   type MyInt = Int
+
+  /**
+    * scala> @deprecated("a", "b") case class Foo(x: Int)
+    * scala> Foo(1)
+    * res0: Foo = Foo(1)
+    */
+  case class Foo(x: Int)
 }

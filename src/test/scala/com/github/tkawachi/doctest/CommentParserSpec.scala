@@ -355,6 +355,15 @@ object CommentParserSpec extends TestSuite {
         assert(expected == actual)
       }
 
+      "parses class definitions with annotations" - {
+        val comment =
+          """ * scala> @deprecated("foo", "bar") case class Foo(x: Int)
+          """.stripMargin
+        val actual = parse(comment).get
+        val expected = List(Verbatim("@deprecated(\"foo\", \"bar\") case class Foo(x: Int)"))
+        assert(expected == actual)
+      }
+
       "parses an example that starts with a verbatim keyword" - {
         val comment =
           """ * scala> val value = 1
