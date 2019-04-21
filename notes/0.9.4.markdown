@@ -1,0 +1,3 @@
+### Added
+
+* Parse annotations as verbatim strings #128
