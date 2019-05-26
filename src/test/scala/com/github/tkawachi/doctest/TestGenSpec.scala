@@ -126,7 +126,7 @@ object TestGenSpec extends TestSuite {
             |import _root_.org.scalacheck.Arbitrary._
             |
             |class MyClassDoctest
-            |    extends _root_.org.scalatest.FunSpec
+            |    extends _root_.org.scalatest.funspec.AnyFunSpec
             |    with _root_.org.scalatest.Matchers
             |    with _root_.org.scalatest.check.Checkers {
             |
