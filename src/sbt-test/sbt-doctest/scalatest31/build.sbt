@@ -6,7 +6,7 @@ crossScalaVersions := Seq("2.11.12", "2.12.6")
 
 // Declares scalatest, scalacheck dependencies explicitly.
 libraryDependencies ++= Seq(
-  "org.scalatest" %% "scalatest" % "3.2.0-SNAP7" % "test",
+  "org.scalatest" %% "scalatest" % "3.1.0-SNAP11" % "test",
   "org.scalacheck" %% "scalacheck" % "1.14.0" % "test"
 )
 
