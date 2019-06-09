@@ -128,7 +128,7 @@ object TestGenSpec extends TestSuite {
             |class MyClassDoctest
             |    extends _root_.org.scalatest.funspec.AnyFunSpec
             |    with _root_.org.scalatest.Matchers
-            |    with _root_.org.scalatest.check.Checkers {
+            |    with _root_.org.scalatestplus.scalacheck.Checkers {
             |
             |  def sbtDoctestTypeEquals[A](a1: => A)(a2: => A): _root_.scala.Unit = {
             |    val _ = () => (a1, a2)
