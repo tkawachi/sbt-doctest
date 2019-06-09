@@ -19,7 +19,7 @@ trait ScalaTestGen extends TestGen {
 
     val st = "_root_.org.scalatest"
     s"""class ${basename}Doctest
-       |    extends $st.FunSpec
+       |    extends $funSpecClass
        |    with $st.Matchers
        |    $withCheckers""".stripMargin
   }
@@ -47,6 +47,7 @@ trait ScalaTestGen extends TestGen {
 
   protected def withCheckersString: String
 
+  protected def funSpecClass: String
 }
 
 object ScalaTestGen {
