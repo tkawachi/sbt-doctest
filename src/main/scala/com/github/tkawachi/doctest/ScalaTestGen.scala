@@ -17,10 +17,9 @@ trait ScalaTestGen extends TestGen {
   override protected def suiteDeclarationLine(basename: String, parsedList: Seq[ParsedDoctest]): String = {
     val withCheckers: String = if (containsProperty(parsedList)) withCheckersString else ""
 
-    val st = "_root_.org.scalatest"
     s"""class ${basename}Doctest
        |    extends $funSpecClass
-       |    with $st.Matchers
+       |    with $matchersClass
        |    $withCheckers""".stripMargin
   }
 
@@ -48,6 +47,8 @@ trait ScalaTestGen extends TestGen {
   protected def withCheckersString: String
 
   protected def funSpecClass: String
+
+  protected def matchersClass: String
 }
 
 object ScalaTestGen {

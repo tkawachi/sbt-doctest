@@ -7,4 +7,6 @@ object ScalaTest30Gen extends ScalaTestGen {
   override protected def withCheckersString: String = "with _root_.org.scalatest.prop.Checkers"
 
   override protected def funSpecClass: String = "_root_.org.scalatest.FunSpec"
+
+  override protected def matchersClass: String = "_root_.org.scalatest.Matchers"
 }
