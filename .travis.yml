@@ -3,7 +3,7 @@ language: scala
 script:
   - sbt "++${TRAVIS_SCALA_VERSION}" "^^${SBT_VERSION}" test scripted
 
-jdk: oraclejdk8
+jdk: openjdk8
 
 matrix:
   include:
