@@ -1,0 +1,4 @@
+### Changed
+
+* Update ScalaTest 3.1 Matchers to use relocated package name #132 by @bpholt
+* Exclude Prop.BooleanOperators from import #133 by @travisbrown
