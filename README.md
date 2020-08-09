@@ -19,18 +19,9 @@ This plugin supports sbt 1.x.
 It's automatically enabled for JVM projects.
 Scala.js is currently not supported (See #52).
 
-### Using ScalaTest
-
-If you are using [``ScalaTest``](https://github.com/scalatest/scalatest), add the following lines to your ``build.sbt``:
-
-```scala
-libraryDependencies ++= Seq(
-  "org.scalatest"  %% "scalatest"  % "3.0.5"  % Test,
-  "org.scalacheck" %% "scalacheck" % "1.14.0" % Test
-)
-
-doctestTestFramework := DoctestTestFramework.ScalaTest
-```
+sbt-doctest allows you to choose which test library to use by `doctestTestFramework`.
+By default, the tests are generated for ScalaCheck.
+The test libraries need to be added separately to libraryDependencies.
 
 ### Using ScalaCheck
 
@@ -41,7 +32,43 @@ libraryDependencies ++= Seq(
   "org.scalacheck" %% "scalacheck" % "1.14.0" % Test
 )
 
-doctestTestFramework := DoctestTestFramework.ScalaCheck
+doctestTestFramework := DoctestTestFramework.ScalaCheck // Default value for doctestTestFramework
+```
+
+### Using ScalaTest
+
+If you are using [``ScalaTest``](https://github.com/scalatest/scalatest), add the following lines to your ``build.sbt``:
+
+```scala
+// ScalaTest 3.2
+// ScalaTest 3.2 has been modularized. sbt-doctest generates tests using FunSpec.
+libraryDependencies ++= Seq(
+  "org.scalatest" %% "scalatest-funspec" % "3.2.1" % Test,
+  "org.scalatestplus" %% "scalacheck-1-14" % "3.2.1.0" % Test
+)
+
+// ScalaTest 3.1
+libraryDependencies ++= Seq(
+  "org.scalatest" %% "scalatest" % "3.1.2" % Test,
+  "org.scalatestplus" %% "scalacheck-1-14" % "3.1.2.0" % Test
+)
+
+// ScalaTest 3.0
+libraryDependencies ++= Seq(
+  "org.scalatest"  %% "scalatest"  % "3.0.5"  % Test,
+  "org.scalacheck" %% "scalacheck" % "1.14.0" % Test
+)
+
+doctestTestFramework := DoctestTestFramework.ScalaTest
+```
+
+Due to changes in the ScalaTest API, the test code generated will be slightly different depending on the version of
+ScalaTest. sbt-doctest automatically determines which test code to generate by looking at `libraryDependencies`.
+
+If you want to explicitly specify the version of ScalaTest to be generated, you can specify `doctestScalaTestVersion`.
+
+```scala
+doctestScalaTestVersion := Some("3.2.1")
 ```
 
 ### Using Specs2

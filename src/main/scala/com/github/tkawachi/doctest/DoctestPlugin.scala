@@ -1,12 +1,13 @@
 package com.github.tkawachi.doctest
+
 import java.nio.file.Path
 
-import sbt._
-import Keys._
-import sbt.plugins.JvmPlugin
 import org.apache.commons.io.FilenameUtils
+import sbt.Keys._
+import sbt._
 import sbt.internal.io.Source
-import sbt.io.{ AllPassFilter, NothingFilter }
+import sbt.io.{AllPassFilter, NothingFilter}
+import sbt.plugins.JvmPlugin
 
 /**
  * Sbt plugin for doctest.
@@ -40,12 +41,13 @@ object DoctestPlugin extends AutoPlugin {
   override def trigger: PluginTrigger = allRequirements
 
   // Currently not working with ScalaJS. See #52.
-  override def requires = JvmPlugin
+  override def requires: Plugins = JvmPlugin
 
   override def projectSettings: Seq[Setting[_]] = doctestSettings
 
   object autoImport {
     val doctestTestFramework = settingKey[DoctestTestFramework]("Test framework. Specify MicroTest, Minitest, ScalaTest, ScalaCheck or Specs2.")
+    val doctestScalaTestVersion = settingKey[Option[String]]("Explicitly specify ScalaTest version to generate test files (ex. Some(\"3.2.0\")).")
     val doctestMarkdownEnabled = settingKey[Boolean]("Whether to compile markdown into doctests.")
     val doctestMarkdownPathFinder = settingKey[PathFinder]("PathFinder to find markdown to test.")
     val doctestGenTests = taskKey[Seq[File]]("Generates test files.")
@@ -90,6 +92,7 @@ object DoctestPlugin extends AutoPlugin {
    */
   val doctestGenSettings = Seq(
     doctestTestFramework := (doctestTestFramework ?? ScalaCheck).value,
+    doctestScalaTestVersion := (doctestScalaTestVersion ?? None).value,
     doctestDecodeHtmlEntities := (doctestDecodeHtmlEntities ?? false).value,
     doctestOnlyCodeBlocksMode := (doctestOnlyCodeBlocksMode ?? false).value,
     doctestMarkdownEnabled := (doctestMarkdownEnabled ?? false).value,
@@ -102,7 +105,10 @@ object DoctestPlugin extends AutoPlugin {
           streams.value.log.warn("DocTest: managedSourceDirectories in Test is empty. Failed to generate tests")
           Seq.empty
         case Some(testDir) =>
-          val testGen = TestGenResolver.resolve(doctestTestFramework.value, Classpaths.managedJars(Test, classpathTypes.value, update.value), scalaVersion.value)
+          val scalaTestVersion = doctestScalaTestVersion.value
+            .orElse(
+              TestGenResolver.findScalaTestVersion(Classpaths.managedJars(Test, classpathTypes.value, update.value), scalaVersion.value))
+          val testGen = TestGenResolver.resolve(doctestTestFramework.value, scalaTestVersion)
 
           val sourceFiles = (unmanagedSources in Compile).value ++ (managedSources in Compile).value
           val log = streams.value.log

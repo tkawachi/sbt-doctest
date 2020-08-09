@@ -78,7 +78,6 @@ object TestGenSpec extends TestSuite {
             |
             |class MyClassDoctest
             |    extends _root_.org.scalatest.FunSpec
-            |    with _root_.org.scalatest.Matchers
             |    with _root_.org.scalatest.prop.Checkers {
             |
             |  def sbtDoctestTypeEquals[A](a1: => A)(a2: => A): _root_.scala.Unit = {
@@ -94,7 +93,7 @@ object TestGenSpec extends TestSuite {
             |
             |    it("example at line 39: List(1,2,3).sum") {
             |      sbtDoctestTypeEquals(List(1,2,3).sum)((List(1,2,3).sum): Int)
-            |      sbtDoctestReplString(List(1,2,3).sum) should equal("6")
+            |      assert(sbtDoctestReplString(List(1,2,3).sum) == "6")
             |    }
             |
             |    val i = 17
@@ -127,7 +126,6 @@ object TestGenSpec extends TestSuite {
             |
             |class MyClassDoctest
             |    extends _root_.org.scalatest.funspec.AnyFunSpec
-            |    with _root_.org.scalatest.matchers.should.Matchers
             |    with _root_.org.scalatestplus.scalacheck.Checkers {
             |
             |  def sbtDoctestTypeEquals[A](a1: => A)(a2: => A): _root_.scala.Unit = {
@@ -143,7 +141,7 @@ object TestGenSpec extends TestSuite {
             |
             |    it("example at line 39: List(1,2,3).sum") {
             |      sbtDoctestTypeEquals(List(1,2,3).sum)((List(1,2,3).sum): Int)
-            |      sbtDoctestReplString(List(1,2,3).sum) should equal("6")
+            |      assert(sbtDoctestReplString(List(1,2,3).sum) == "6")
             |    }
             |
             |    val i = 17

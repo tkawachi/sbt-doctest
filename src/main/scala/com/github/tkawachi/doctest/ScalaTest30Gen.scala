@@ -8,5 +8,4 @@ object ScalaTest30Gen extends ScalaTestGen {
 
   override protected def funSpecClass: String = "_root_.org.scalatest.FunSpec"
 
-  override protected def matchersClass: String = "_root_.org.scalatest.Matchers"
 }
