@@ -6,7 +6,7 @@ import org.apache.commons.io.FilenameUtils
 import sbt.Keys._
 import sbt._
 import sbt.internal.io.Source
-import sbt.io.{AllPassFilter, NothingFilter}
+import sbt.io.{ AllPassFilter, NothingFilter }
 import sbt.plugins.JvmPlugin
 
 /**
