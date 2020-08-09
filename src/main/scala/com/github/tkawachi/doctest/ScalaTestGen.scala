@@ -4,8 +4,6 @@ import com.github.tkawachi.doctest.TestGen.containsProperty
 import sbt.Keys.{ Classpath, moduleID }
 import sbt.ModuleID
 
-import scala.util.Try
-
 /**
  * Test generator for ScalaTest.
  */
@@ -19,7 +17,6 @@ trait ScalaTestGen extends TestGen {
 
     s"""class ${basename}Doctest
        |    extends $funSpecClass
-       |    with $matchersClass
        |    $withCheckers""".stripMargin
   }
 
@@ -41,36 +38,16 @@ trait ScalaTestGen extends TestGen {
        |      }
        |    }""".stripMargin
 
-  override protected def generateAssert(actual: String, expected: String): String =
-    s"""$actual should equal("$expected")"""
+  override protected def generateAssert(actual: String, expected: String): String = {
+    val indent = actual.takeWhile(_.isWhitespace)
+    s"""${indent}assert(${actual.trim} == "$expected")"""
+  }
 
   protected def withCheckersString: String
 
   protected def funSpecClass: String
-
-  protected def matchersClass: String
 }
 
 object ScalaTestGen {
 
-  def hasGreaterThanOrEqualTo310(testClasspath: Classpath, scalaVersion: String): Boolean = {
-    val scalaBinVersion = scalaVersion.split('.').take(2).mkString(".")
-    testClasspath.exists { entry =>
-      val maybeModuleId = entry.get(moduleID.key)
-      maybeModuleId.exists(mod => isGreaterThanOrEqualTo310(mod, scalaBinVersion))
-    }
-  }
-
-  private def isGreaterThanOrEqualTo310(moduleID: ModuleID, scalaBinVersion: String): Boolean = {
-    moduleID.organization == "org.scalatest" &&
-      moduleID.name == s"scalatest_$scalaBinVersion" &&
-      (moduleID.revision.split('.') match {
-        case Array(majorString, minorString, _*) =>
-          (for {
-            major <- Try(majorString.toInt)
-            minor <- Try(minorString.toInt)
-          } yield major >= 3 && minor >= 1).getOrElse(false)
-        case _ => false
-      })
-  }
 }
