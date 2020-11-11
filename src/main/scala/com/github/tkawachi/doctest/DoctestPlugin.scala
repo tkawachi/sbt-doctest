@@ -107,7 +107,7 @@ object DoctestPlugin extends AutoPlugin {
         case Some(testDir) =>
           val scalaTestVersion = doctestScalaTestVersion.value
             .orElse(
-              TestGenResolver.findScalaTestVersion(Classpaths.managedJars(Test, classpathTypes.value, update.value), scalaVersion.value))
+              TestGenResolver.findScalaTestVersionFromScalaBinaryVersion(Classpaths.managedJars(Test, classpathTypes.value, update.value), scalaBinaryVersion.value))
           val testGen = TestGenResolver.resolve(doctestTestFramework.value, scalaTestVersion)
 
           val sourceFiles = (unmanagedSources in Compile).value ++ (managedSources in Compile).value
