@@ -5,6 +5,7 @@ import com.github.tkawachi.doctest.DoctestPlugin.DoctestTestFramework._
 import sbt.Keys.{ Classpath, moduleID }
 import sbt.internal.util.MessageOnlyException
 import sbt.librarymanagement.ModuleID
+import sbt.librarymanagement.CrossVersion
 
 import scala.util.Try
 
@@ -31,10 +32,15 @@ object TestGenResolver {
     }
   }
 
+  @deprecated(message = "use findScalaTestVersionFromScalaBinaryVersion", since = "0.9.8")
   def findScalaTestVersion(testClasspath: Classpath, scalaVersion: String): Option[String] = {
-    val scalaBinVersion = scalaVersion.split('.').take(2).mkString(".")
+    val scalaBinaryVersion = CrossVersion.binaryScalaVersion(scalaVersion)
+    findScalaTestVersionFromScalaBinaryVersion(testClasspath, scalaBinaryVersion)
+  }
+
+  def findScalaTestVersionFromScalaBinaryVersion(testClasspath: Classpath, scalaBinaryVersion: String): Option[String] = {
     testClasspath.flatMap { entry =>
-      entry.get(moduleID.key).flatMap(detectScalaTestVersion(_, scalaBinVersion))
+      entry.get(moduleID.key).flatMap(detectScalaTestVersion(_, scalaBinaryVersion))
     }.headOption
   }
 

@@ -26,7 +26,6 @@ lazy val root = (project in file(".")).settings(
     "-encoding", "UTF-8",
     "-feature",
     "-unchecked",
-    "-Xfatal-warnings",
     "-Xlint:-unused,_"
   ),
   libraryDependencies ++= Seq(
