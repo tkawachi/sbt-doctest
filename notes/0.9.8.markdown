@@ -1,0 +1,3 @@
+### Fixed
+
+* Fixed an issue to find matching ScalaTest version when using milestone scalaVersion. #138
