@@ -16,7 +16,7 @@ addSbtPlugin("com.github.tkawachi" % "sbt-doctest" % "0.9.8")
 This plugin supports sbt 1.x.
 
 It's automatically enabled for JVM projects.
-Scala.js is currently not supported (See #52).
+Scala.js is currently not supported (See [#52](https://github.com/tkawachi/sbt-doctest/issues/52)).
 
 sbt-doctest allows you to choose which test library to use by `doctestTestFramework`.
 By default, the tests are generated for ScalaCheck.
