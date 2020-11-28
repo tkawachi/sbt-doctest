@@ -6,7 +6,7 @@ val versions = new {
   val Minitest   = "2.1.1"
   val CommonsIO  = "2.6"
   val Lang3      = "3.7"
-  val ScalaMeta  = "4.0.0"
+  val ScalaMeta  = "4.4.0"
 }
 
 lazy val root = (project in file(".")).settings(
@@ -31,7 +31,6 @@ lazy val root = (project in file(".")).settings(
     "commons-io"         %  "commons-io"          % versions.CommonsIO,
     "org.apache.commons" %  "commons-lang3"       % versions.Lang3,
     "org.scalameta"      %% "scalameta"           % versions.ScalaMeta,
-    "org.scalameta"      %% "contrib"             % versions.ScalaMeta,
     "com.lihaoyi"        %% "utest"               % versions.utest        % Provided,
     "org.scalatest"      %% "scalatest"           % versions.ScalaTest    % Provided,
     "org.scalacheck"     %% "scalacheck"          % versions.ScalaCheck   % Provided,
