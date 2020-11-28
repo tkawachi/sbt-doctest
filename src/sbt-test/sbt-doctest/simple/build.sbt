@@ -35,8 +35,8 @@ libraryDependencies ++= Seq(
     )
   else
     Seq(
-      "org.specs2"     %% "specs2-core"       % "4.3.2"  % Test,
-      "org.specs2"     %% "specs2-scalacheck" % "4.3.2"  % Test,
+      "org.specs2"     %% "specs2-core"       % "4.3.6"  % Test,
+      "org.specs2"     %% "specs2-scalacheck" % "4.3.6"  % Test,
     )
   )
 
