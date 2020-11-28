@@ -21,8 +21,8 @@ libraryDependencies ++= Seq(
   "org.scalacheck" %% "scalacheck"        % "1.14.0" % Test,
   "io.monix"       %% "minitest"          % "2.1.1"  % Test,
   "io.monix"       %% "minitest-laws"     % "2.1.1"  % Test,
-  "org.specs2"     %% "specs2-core"       % "4.3.6"  % Test,
-  "org.specs2"     %% "specs2-scalacheck" % "4.3.6"  % Test
+  "org.specs2"     %% "specs2-core"       % "4.10.5" % Test,
+  "org.specs2"     %% "specs2-scalacheck" % "4.10.5" % Test
 )
 
 testFrameworks += new TestFramework("minitest.runner.Framework")
