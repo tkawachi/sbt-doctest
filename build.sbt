@@ -10,8 +10,7 @@ val versions = new {
 }
 
 lazy val root = (project in file(".")).settings(
-  scalaVersion := "2.12.6",
-  crossSbtVersions := Vector("1.1.6"),
+  crossSbtVersions := Vector("1.2.8"), // Don't update https://github.com/sbt/sbt/issues/5049
   organization := "com.github.tkawachi",
   name := "sbt-doctest",
   licenses := Seq("MIT" -> url("http://opensource.org/licenses/MIT")),
