@@ -24,7 +24,7 @@ The test libraries need to be added separately to libraryDependencies.
 
 ### Using ScalaCheck
 
-If you are using [``ScalaCheck``](https://github.com/rickynils/scalacheck), add the following lines to your ``build.sbt``:
+If you are using [``ScalaCheck``](https://github.com/typelevel/scalacheck), add the following lines to your ``build.sbt``:
 
 ```scala
 libraryDependencies ++= Seq(
