@@ -1,5 +1,5 @@
 val versions = new {
-  val ScalaTest  = "3.0.5"
+  val ScalaTest  = "3.0.9"
   val ScalaCheck = "1.14.0"
   val Specs2     = "4.3.2"
   val utest      = "0.6.4"
