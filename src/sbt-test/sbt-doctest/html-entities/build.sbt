@@ -1,4 +1,4 @@
-crossScalaVersions := Seq("2.10.7", "2.11.12", "2.12.6")
+crossScalaVersions := Seq("2.10.7", "2.11.12", "2.12.12")
 
 javacOptions ++= (scalaVersion.value match {
   case v if v startsWith "2.13." => Seq("-source", "1.8", "-target", "1.8")
