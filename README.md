@@ -42,7 +42,7 @@ If you are using [``ScalaTest``](https://github.com/scalatest/scalatest), add th
 // ScalaTest 3.2
 // ScalaTest 3.2 has been modularized. sbt-doctest generates tests using FunSpec.
 libraryDependencies ++= Seq(
-  "org.scalatest" %% "scalatest-funspec" % "3.2.1" % Test,
+  "org.scalatest" %% "scalatest-funspec" % "3.2.3" % Test,
   "org.scalatestplus" %% "scalacheck-1-14" % "3.2.1.0" % Test
 )
 
@@ -67,7 +67,7 @@ ScalaTest. sbt-doctest automatically determines which test code to generate by l
 If you want to explicitly specify the version of ScalaTest to be generated, you can specify `doctestScalaTestVersion`.
 
 ```scala
-doctestScalaTestVersion := Some("3.2.1")
+doctestScalaTestVersion := Some("3.2.3")
 ```
 
 ### Using Specs2
