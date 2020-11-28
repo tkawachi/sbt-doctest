@@ -4,9 +4,9 @@ val versions = new {
   val Specs2     = "4.3.2"
   val utest      = "0.6.4"
   val Minitest   = "2.1.1"
-  val CommonsIO  = "2.6"
-  val Lang3      = "3.7"
-  val ScalaMeta  = "4.4.0"
+  val CommonsIO  = "2.8.0"
+  val Lang3      = "3.11"
+  val ScalaMeta  = "4.0.0"
 }
 
 lazy val root = (project in file(".")).settings(
