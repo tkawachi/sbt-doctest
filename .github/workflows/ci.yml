@@ -17,8 +17,7 @@ jobs:
           - java: 8
             sbt_version: "1.2.8"
           - java: 8
-          # TODO
-          # - java: 11
+          - java: 11
     steps:
     - uses: actions/checkout@v1
     - uses: olafurpg/setup-scala@v10
