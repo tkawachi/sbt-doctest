@@ -28,7 +28,7 @@ If you are using [``ScalaCheck``](https://github.com/typelevel/scalacheck), add 
 
 ```scala
 libraryDependencies ++= Seq(
-  "org.scalacheck" %% "scalacheck" % "1.15.1" % Test
+  "org.scalacheck" %% "scalacheck" % "1.15.2" % Test
 )
 
 doctestTestFramework := DoctestTestFramework.ScalaCheck // Default value for doctestTestFramework
@@ -124,7 +124,7 @@ shown in the example below which uses ``uTest`` with property checks, which requ
 libraryDependencies ++= Seq(
   "com.lihaoyi"    %% "utest"      % "0.6.4"  % Test,
   "org.scalatest"  %% "scalatest"  % "3.0.9"  % Test,
-  "org.scalacheck" %% "scalacheck" % "1.15.1" % Test
+  "org.scalacheck" %% "scalacheck" % "1.15.2" % Test
 )
       
 doctestTestFramework := DoctestTestFramework.MicroTest
