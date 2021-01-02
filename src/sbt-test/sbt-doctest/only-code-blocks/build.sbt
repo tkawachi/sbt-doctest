@@ -25,8 +25,8 @@ libraryDependencies ++= Seq(
   "org.scalacheck" %% "scalacheck"        % "1.15.2" % Test,
   "org.specs2"     %% "specs2-core"       % "4.10.5" % Test,
   "org.specs2"     %% "specs2-scalacheck" % "4.10.5" % Test,
-  "io.monix"       %% "minitest"          % "2.8.2"  % Test,
-  "io.monix"       %% "minitest-laws"     % "2.8.2"  % Test
+  "io.monix"       %% "minitest"          % "2.9.2"  % Test,
+  "io.monix"       %% "minitest-laws"     % "2.9.2"  % Test
 )
 
 doctestMarkdownEnabled    := true
