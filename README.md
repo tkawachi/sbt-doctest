@@ -106,6 +106,18 @@ libraryDependencies ++= Seq(
 doctestTestFramework := DoctestTestFramework.MicroTest
 ```
 
+### Using MUnit
+
+If you are using [``MUnit``](https://scalameta.org/munit/), add the following lines to your ``build.sbt``:
+```scala
+libraryDependencies ++= Seq(
+  "org.scalameta" %% "munit" % "0.7.20" % Test
+)
+
+doctestTestFramework := DoctestTestFramework.Munit
+testFrameworks += new TestFramework("munit.Framework")
+```
+
 In case you are [configuring µTest or using a custom test framework](https://github.com/lihaoyi/utest#configuring-utest), you can do something like this below in your ``build.sbt``:
 ```scala
 testFrameworks -= new TestFramework("utest.runner.Framework")

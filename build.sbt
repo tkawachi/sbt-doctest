@@ -7,6 +7,7 @@ val versions = new {
   val CommonsIO  = "2.8.0"
   val Lang3      = "3.11"
   val ScalaMeta  = "4.4.5"
+  val Munit      = "0.7.20"
 }
 
 lazy val root = (project in file(".")).settings(
@@ -50,9 +51,12 @@ lazy val root = (project in file(".")).settings(
         "org.specs2"         %% "specs2-core"         % versions.Specs2       % Test,
         "org.specs2"         %% "specs2-scalacheck"   % versions.Specs2       % Test,
         "io.monix"           %% "minitest"            % versions.Minitest     % Test,
-        "io.monix"           %% "minitest-laws"       % versions.Minitest     % Test
+        "io.monix"           %% "minitest-laws"       % versions.Minitest     % Test,
+        "org.scalameta"      %% "munit"               % versions.Munit        % Test,
+        "org.scalameta"      %% "munit-scalacheck"    % versions.Munit        % Test,
       )
     )
   ),
-  testFrameworks += new TestFramework("utest.runner.Framework")
+  testFrameworks += new TestFramework("utest.runner.Framework"),
+  testFrameworks += new TestFramework("munit.Framework")
 ).enablePlugins(SbtPlugin)

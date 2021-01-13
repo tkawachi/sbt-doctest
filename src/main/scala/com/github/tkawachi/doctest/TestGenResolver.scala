@@ -29,6 +29,7 @@ object TestGenResolver {
         }.getOrElse(throw new MessageOnlyException(s"Unexpected doctestScalaTestVersion version: $scalaTestVersion"))
       case Specs2 => Specs2TestGen
       case ScalaCheck => ScalaCheckGen
+      case Munit => MunitGen
     }
   }
 

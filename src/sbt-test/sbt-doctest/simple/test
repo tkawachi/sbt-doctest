@@ -58,3 +58,12 @@ $ absent target/scala-2.12/src_managed/test/sbt_doctest/IgnoreMeDoctest.scala
 > + test
 > set Test / testOptions := Seq(Tests.Filter(s => s.contains("Failing")))
 -> +test
+
+# Try with munit
+> reload
+> clean
+> set doctestTestFramework := DoctestTestFramework.Munit
+> doctestTestFramework
+> + test
+> set Test / testOptions := Seq(Tests.Filter(s => s.contains("Failing")))
+-> +test

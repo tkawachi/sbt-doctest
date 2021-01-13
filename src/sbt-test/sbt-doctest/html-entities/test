@@ -39,3 +39,10 @@ $ exists target/scala-2.12/src_managed/test/sbt_doctest/MainDoctest.scala
 > set doctestTestFramework := DoctestTestFramework.Minitest
 > doctestTestFramework
 > + test
+
+# Try with munit
+> reload
+> clean
+> set doctestTestFramework := DoctestTestFramework.Munit
+> doctestTestFramework
+> + test

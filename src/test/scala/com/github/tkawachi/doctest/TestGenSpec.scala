@@ -307,5 +307,47 @@ object TestGenSpec extends TestSuite {
         assert(generated == expectedTest)
       }
     }
+
+    "MunitGen" - {
+      "generates a valid test" - {
+        val expectedTest = """package com.example.tests
+                             |
+                             |import _root_.munit._
+                             |import _root_.org.scalacheck.Prop._
+                             |
+                             |
+                             |class MyClassDoctest extends ScalaCheckSuite {
+                             |
+                             |  def sbtDoctestTypeEquals[A](a1: => A)(a2: => A): _root_.scala.Unit = {
+                             |    val _ = () => (a1, a2)
+                             |  }
+                             |  def sbtDoctestReplString(any: _root_.scala.Any): _root_.scala.Predef.String = {
+                             |    val s = _root_.scala.runtime.ScalaRunTime.replStringOf(any, 1000).init
+                             |    if (s.headOption == Some('\n')) s.tail else s
+                             |  }
+                             |
+                             |  test("MyClass.scala:37: sumExample") {
+                             |    import scala.util.Random
+                             |
+                             |    //example at line 39: List(1,2,3).sum
+                             |    sbtDoctestTypeEquals(List(1,2,3).sum)((List(1,2,3).sum): Int)
+                             |      assertEquals(sbtDoctestReplString(List(1,2,3).sum), "6")
+                             |
+                             |    val i = 17
+                             |
+                             |    val j = 19 + i
+                             |
+                             |  property("property at line 38: (i: Int) => i + i == i * 2") {
+                             |    forAll((i: Int) => i + i == i * 2)
+                             |  }
+                             |
+                             |  }
+                             |
+                             |}
+                             |""".stripMargin
+        val generated = MunitGen.generate(baseName, pkg, parsed)
+        assert(generated == expectedTest)
+      }
+    }
   }
 }

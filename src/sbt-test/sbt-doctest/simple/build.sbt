@@ -26,7 +26,9 @@ libraryDependencies ++= Seq(
   "io.monix"       %% "minitest"          % "2.8.2"  % Test,
   "io.monix"       %% "minitest-laws"     % "2.8.2"  % Test,
   "org.specs2"     %% "specs2-core"       % "4.10.5"  % Test,
-  "org.specs2"     %% "specs2-scalacheck" % "4.10.5"  % Test
+  "org.specs2"     %% "specs2-scalacheck" % "4.10.5"  % Test,
+  "org.scalameta"  %% "munit"             % "0.7.20"  % Test,
+  "org.scalameta"  %% "munit-scalacheck"  % "0.7.20"  % Test
 )
 
 doctestMarkdownEnabled    := true
@@ -34,6 +36,7 @@ doctestMarkdownPathFinder := baseDirectory.value ** "*.md"
 doctestIgnoreRegex        := Some("(.*)IgnoreMe.scala")
 
 testFrameworks += new TestFramework("minitest.runner.Framework")
+testFrameworks += new TestFramework("munit.Framework")
 
 //ignore Failing
 Test / testOptions := Seq(Tests.Filter(s => !s.contains("Failing")))
