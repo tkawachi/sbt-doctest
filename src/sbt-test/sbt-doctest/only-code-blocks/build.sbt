@@ -26,7 +26,8 @@ libraryDependencies ++= Seq(
   "org.specs2"     %% "specs2-core"       % "4.10.5" % Test,
   "org.specs2"     %% "specs2-scalacheck" % "4.10.5" % Test,
   "io.monix"       %% "minitest"          % "2.8.2"  % Test,
-  "io.monix"       %% "minitest-laws"     % "2.8.2"  % Test
+  "io.monix"       %% "minitest-laws"     % "2.8.2"  % Test,
+  "org.scalameta"  %% "munit-scalacheck"  % "0.7.20"  % Test
 )
 
 doctestMarkdownEnabled    := true
@@ -34,6 +35,7 @@ doctestOnlyCodeBlocksMode := true
 doctestMarkdownPathFinder := baseDirectory.value ** "*.md"
 
 testFrameworks += new TestFramework("minitest.runner.Framework")
+testFrameworks += new TestFramework("munit.Framework")
 
 val existsInFile = inputKey[Unit]("Ensure a given string exists in a file")
 
