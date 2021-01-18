@@ -1,7 +1,7 @@
 val versions = new {
   val ScalaTest  = "3.0.9"
   val ScalaCheck = "1.15.2"
-  val Specs2     = "4.10.5"
+  val Specs2     = "4.10.6"
   val utest      = "0.6.4"
   val Minitest   = "2.8.2"
   val CommonsIO  = "2.8.0"
