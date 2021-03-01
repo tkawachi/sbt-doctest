@@ -5,7 +5,7 @@ val versions = new {
   val utest      = "0.6.4"
   val Minitest   = "2.8.2"
   val CommonsIO  = "2.8.0"
-  val Lang3      = "3.11"
+  val Lang3      = "3.12.0"
   val ScalaMeta  = "4.4.10"
   val Munit      = "0.7.20"
 }
