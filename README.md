@@ -88,8 +88,8 @@ doctestTestFramework := DoctestTestFramework.Specs2
 If you are using [``Minitest``](https://github.com/monix/minitest), add the following lines to your ``build.sbt``:
 ```scala
 libraryDependencies ++= Seq(
-  "io.monix" %% "minitest" % "2.8.2" % Test,
-  "io.monix" %% "minitest-laws" % "2.8.2" % Test
+  "io.monix" %% "minitest" % "2.9.4" % Test,
+  "io.monix" %% "minitest-laws" % "2.9.4" % Test
 )
 
 doctestTestFramework := DoctestTestFramework.Minitest
