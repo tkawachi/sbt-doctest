@@ -26,3 +26,4 @@ jobs:
     - uses: coursier/cache-action@v6
     - run: sbt -v $(if [[ "${{matrix.sbt_version}}" != "" ]] ; then echo "^^${{matrix.sbt_version}}" ; fi) test scripted
     - run: git diff --exit-code # check scalariform
+    - run: rm -rf "$HOME/.ivy2/local"
