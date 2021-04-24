@@ -18,8 +18,8 @@ libraryDependencies ++= Seq(
   "com.lihaoyi"    %% "utest"             % "0.7.9"  % Test,
   "org.scalatest"  %% "scalatest"         % "3.0.9"  % Test,
   "org.scalacheck" %% "scalacheck"        % "1.15.2" % Test,
-  "org.specs2"     %% "specs2-core"       % "4.10.6" % Test,
-  "org.specs2"     %% "specs2-scalacheck" % "4.10.6" % Test,
+  "org.specs2"     %% "specs2-core"       % "4.11.0" % Test,
+  "org.specs2"     %% "specs2-scalacheck" % "4.11.0" % Test,
   "io.monix"       %% "minitest"          % "2.9.5"  % Test,
   "io.monix"       %% "minitest-laws"     % "2.9.5"  % Test,
   "org.scalameta"  %% "munit-scalacheck"  % "0.7.20" % Test
