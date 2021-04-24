@@ -1,15 +1,3 @@
-val versions = new {
-  val ScalaTest  = "3.0.9"
-  val ScalaCheck = "1.15.2"
-  val Specs2     = "4.11.0"
-  val utest      = "0.7.9"
-  val Minitest   = "2.9.5"
-  val CommonsIO  = "2.8.0"
-  val Lang3      = "3.12.0"
-  val ScalaMeta  = "4.4.14"
-  val Munit      = "0.7.20"
-}
-
 lazy val root = (project in file(".")).settings(
   crossSbtVersions := Vector("1.2.8"), // Don't update https://github.com/sbt/sbt/issues/5049
   organization := "com.github.tkawachi",
@@ -29,33 +17,13 @@ lazy val root = (project in file(".")).settings(
     "-Xlint:-unused,_"
   ),
   libraryDependencies ++= Seq(
-    "commons-io"         %  "commons-io"          % versions.CommonsIO,
-    "org.apache.commons" %  "commons-lang3"       % versions.Lang3,
-    "org.scalameta"      %% "scalameta"           % versions.ScalaMeta,
-    "com.lihaoyi"        %% "utest"               % versions.utest        % Provided,
-    "org.scalatest"      %% "scalatest"           % versions.ScalaTest    % Provided,
-    "org.scalacheck"     %% "scalacheck"          % versions.ScalaCheck   % Provided,
-    "org.specs2"         %% "specs2-core"         % versions.Specs2       % Provided,
-    "org.specs2"         %% "specs2-scalacheck"   % versions.Specs2       % Provided,
-    "io.monix"           %% "minitest"            % versions.Minitest     % Provided,
-    "io.monix"           %% "minitest-laws"       % versions.Minitest     % Provided
-  ),
-
-  // allows this plugin to eat its own dog food
-  inConfig(Compile)(
-    Seq(
-      libraryDependencies ++= Seq(
-        "com.lihaoyi"        %% "utest"               % versions.utest        % Test,
-        "org.scalatest"      %% "scalatest"           % versions.ScalaTest    % Test,
-        "org.scalacheck"     %% "scalacheck"          % versions.ScalaCheck   % Test,
-        "org.specs2"         %% "specs2-core"         % versions.Specs2       % Test,
-        "org.specs2"         %% "specs2-scalacheck"   % versions.Specs2       % Test,
-        "io.monix"           %% "minitest"            % versions.Minitest     % Test,
-        "io.monix"           %% "minitest-laws"       % versions.Minitest     % Test,
-        "org.scalameta"      %% "munit"               % versions.Munit        % Test,
-        "org.scalameta"      %% "munit-scalacheck"    % versions.Munit        % Test,
-      )
-    )
+    "commons-io"         %  "commons-io"          % "2.8.0",
+    "org.apache.commons" %  "commons-lang3"       % "3.12.0",
+    "org.scalameta"      %% "scalameta"           % "4.4.14",
+    "com.lihaoyi"        %% "utest"               % "0.7.9"     % Test,
+    "org.scalatest"      %% "scalatest"           % "3.0.9"     % Test,
+    "org.specs2"         %% "specs2-scalacheck"   % "4.11.0"    % Test,
+    "io.monix"           %% "minitest-laws"       % "2.9.5"     % Test
   ),
   testFrameworks += new TestFramework("utest.runner.Framework"),
   testFrameworks += new TestFramework("munit.Framework")
