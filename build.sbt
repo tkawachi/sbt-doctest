@@ -23,7 +23,7 @@ lazy val root = (project in file(".")).settings(
     "com.lihaoyi"        %% "utest"               % "0.7.10"     % Test,
     "org.scalatest"      %% "scalatest"           % "3.0.9"     % Test,
     "org.specs2"         %% "specs2-scalacheck"   % "4.11.0"    % Test,
-    "io.monix"           %% "minitest-laws"       % "2.9.5"     % Test
+    "io.monix"           %% "minitest-laws"       % "2.9.6"     % Test
   ),
   testFrameworks += new TestFramework("utest.runner.Framework"),
   testFrameworks += new TestFramework("munit.Framework")

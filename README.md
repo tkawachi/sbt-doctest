@@ -89,7 +89,7 @@ If you are using [``Minitest``](https://github.com/monix/minitest), add the foll
 ```scala
 libraryDependencies ++= Seq(
   "io.monix" %% "minitest" % "2.9.5" % Test,
-  "io.monix" %% "minitest-laws" % "2.9.5" % Test
+  "io.monix" %% "minitest-laws" % "2.9.6" % Test
 )
 
 doctestTestFramework := DoctestTestFramework.Minitest
