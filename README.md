@@ -96,7 +96,7 @@ doctestTestFramework := DoctestTestFramework.Minitest
 
 ### Using µTest
 
-If you are using [``µTest``](https://github.com/lihaoyi/utest), add the following lines to your ``build.sbt``:
+If you are using [``µTest``](https://github.com/com-lihaoyi/utest), add the following lines to your ``build.sbt``:
 ```scala
 libraryDependencies ++= Seq(
   "com.lihaoyi" %% "utest" % "0.7.10" % Test
@@ -117,7 +117,7 @@ doctestTestFramework := DoctestTestFramework.Munit
 testFrameworks += new TestFramework("munit.Framework")
 ```
 
-In case you are [configuring µTest or using a custom test framework](https://github.com/lihaoyi/utest#configuring-utest), you can do something like this below in your ``build.sbt``:
+In case you are [configuring µTest or using a custom test framework](https://github.com/com-lihaoyi/utest#configuring-utest), you can do something like this below in your ``build.sbt``:
 ```scala
 testFrameworks -= new TestFramework("utest.runner.Framework")
 testFrameworks += new TestFramework("test.utest.MyCustomFramework")
