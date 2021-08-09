@@ -1,10 +1,8 @@
 package com.github.tkawachi.doctest
 
 import java.io.File
-import java.nio.file.Files
 import org.apache.commons.io.FilenameUtils
 import org.apache.commons.lang3.StringEscapeUtils.unescapeHtml4
-import scala.meta.Input
 
 object ScaladocTestGenerator {
 

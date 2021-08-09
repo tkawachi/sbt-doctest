@@ -1,8 +1,6 @@
 package com.github.tkawachi.doctest
 
 import com.github.tkawachi.doctest.TestGen.containsProperty
-import sbt.Keys.{ Classpath, moduleID }
-import sbt.ModuleID
 
 /**
  * Test generator for ScalaTest.
