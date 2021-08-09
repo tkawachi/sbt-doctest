@@ -101,7 +101,7 @@ object DoctestPlugin extends AutoPlugin {
     testFrameworks += new TestFramework("utest.runner.Framework"),
     doctestIgnoreRegex := None,
     doctestGenTests := {
-      (managedSourceDirectories in Test).value.headOption match {
+      (Test / managedSourceDirectories).value.headOption match {
         case None =>
           streams.value.log.warn("DocTest: managedSourceDirectories in Test is empty. Failed to generate tests")
           Seq.empty
@@ -111,7 +111,7 @@ object DoctestPlugin extends AutoPlugin {
               TestGenResolver.findScalaTestVersionFromScalaBinaryVersion(Classpaths.managedJars(Test, classpathTypes.value, update.value), scalaBinaryVersion.value))
           val testGen = TestGenResolver.resolve(doctestTestFramework.value, scalaTestVersion)
 
-          val sourceFiles = (unmanagedSources in Compile).value ++ (managedSources in Compile).value
+          val sourceFiles = (Compile / unmanagedSources).value ++ (Compile / managedSources).value
           val log = streams.value.log
           log.debug(s"DocTest: Applying ignore pattern [${doctestIgnoreRegex.value}] to exclude matching sources...")
           val filteredSourceFiles =
@@ -133,7 +133,7 @@ object DoctestPlugin extends AutoPlugin {
             testGen,
             doctestDecodeHtmlEntities.value,
             doctestOnlyCodeBlocksMode.value,
-            (scalacOptions in Compile).value)
+            (Compile / scalacOptions).value)
 
           val pathFinder = doctestMarkdownPathFinder.value
           val baseDirectoryPath = baseDirectory.value.toPath
@@ -158,7 +158,7 @@ object DoctestPlugin extends AutoPlugin {
             }.toSeq
       }
     },
-    sourceGenerators in Test += doctestGenTests.taskValue,
+    Test / sourceGenerators += doctestGenTests.taskValue,
     watchSources ++= {
       val pathFinder = doctestMarkdownPathFinder.value
       if (doctestMarkdownEnabled.value) {
