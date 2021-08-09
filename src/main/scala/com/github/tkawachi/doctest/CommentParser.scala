@@ -51,7 +51,7 @@ trait GenericParser extends RegexParsers {
     headPromptLine(prompt.head, begin) >> {
       case leading ~ first =>
         tailPromptLine(leading, prompt.tail).* ^^ {
-          case rest =>
+          rest =>
             val code = (first.str :: rest).mkString(LINE_SEP)
             val posCode = PositionedString(code)
             posCode.pos = first.pos
