@@ -15,7 +15,7 @@ scalacOptions        ++= (scalaVersion.value match {
 
 // Declares scalatest, scalacheck, minitest and utest dependencies explicitly.
 libraryDependencies ++= Seq(
-  "com.lihaoyi"    %% "utest"             % "0.7.10" % Test,
+  "com.lihaoyi"    %% "utest"             % "0.7.11" % Test,
   "org.scalatest"  %% "scalatest"         % "3.0.9"  % Test,
   "org.scalacheck" %% "scalacheck"        % "1.15.3" % Test,
   "org.specs2"     %% "specs2-scalacheck" % "4.13.2" % Test,
