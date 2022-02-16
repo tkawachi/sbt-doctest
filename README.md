@@ -76,7 +76,7 @@ If you are using [``Specs2``](https://github.com/etorreborre/specs2), add the fo
 
 ```scala
 libraryDependencies ++= Seq(
-  "org.specs2" %% "specs2-scalacheck" % "4.13.3" % Test
+  "org.specs2" %% "specs2-scalacheck" % "4.14.0" % Test
 )
 
 doctestTestFramework := DoctestTestFramework.Specs2
