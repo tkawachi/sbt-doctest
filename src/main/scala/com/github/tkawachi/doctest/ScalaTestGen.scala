@@ -13,7 +13,7 @@ trait ScalaTestGen extends TestGen {
   override protected def suiteDeclarationLine(basename: String, parsedList: Seq[ParsedDoctest]): String = {
     val withCheckers: String = if (containsProperty(parsedList)) withCheckersString else ""
 
-    s"""class ${basename}Doctest
+    s"""class `${basename}Doctest`
        |    extends $funSpecClass
        |    $withCheckers""".stripMargin
   }

@@ -9,7 +9,7 @@ object MicroTestGen extends TestGen {
     "import _root_.utest._"
 
   override protected def suiteDeclarationLine(basename: String, parsedList: Seq[ParsedDoctest]): String =
-    s"object ${basename}Doctest extends TestSuite"
+    s"object `${basename}Doctest` extends TestSuite"
 
   override protected def testCasesLine(basename: String, parsedList: Seq[ParsedDoctest]): String =
     s"""
