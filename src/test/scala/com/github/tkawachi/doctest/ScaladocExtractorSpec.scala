@@ -6,13 +6,14 @@ import java.nio.charset.StandardCharsets
 import java.nio.file.Paths
 import scala.meta.Input
 import utest._
+import scala.meta.dialects
 
 object ScaladocExtractorSpec extends TestSuite {
 
   val tests = this{
 
     def extractFromFile(path: String) =
-      ScaladocExtractor.extractFromFile(Paths.get(path), StandardCharsets.UTF_8.name())
+      ScaladocExtractor.extractFromFile(Paths.get(path), StandardCharsets.UTF_8.name(), dialects.Scala213Source3)
 
     "extracts from Test.scala" - {
       val actual = extractFromFile("src/test/resources/Test.scala")
@@ -133,7 +134,7 @@ object ScaladocExtractorSpec extends TestSuite {
           |}
         """.stripMargin
 
-      val actual = ScaladocExtractor.extract(source)
+      val actual = ScaladocExtractor.extract(source, dialects.Scala213Source3)
       val expected = Nil
       assert(expected == actual)
     }
@@ -142,7 +143,7 @@ object ScaladocExtractorSpec extends TestSuite {
       val input = Input.VirtualFile("filename.scala", "object Main {")
       val out = new ByteArrayOutputStream()
       val obtained = Console.withOut(new PrintStream(out)) {
-        ScaladocExtractor.extractFromInput(input)
+        ScaladocExtractor.extractFromInput(input, dialects.Scala213Source3)
       }
       assert(obtained == Nil)
       val obtainedOut = out.toString(StandardCharsets.UTF_8.name).trim
