@@ -8,8 +8,8 @@ object MunitGen extends TestGen {
   } else "import _root_.munit._"
 
   override protected def suiteDeclarationLine(basename: String, parsedList: Seq[ParsedDoctest]): String =
-    if (TestGen.containsProperty(parsedList)) s"class ${basename}Doctest extends ScalaCheckSuite"
-    else s"class ${basename}Doctest extends FunSuite"
+    if (TestGen.containsProperty(parsedList)) s"class `${basename}Doctest` extends ScalaCheckSuite"
+    else s"class `${basename}Doctest` extends FunSuite"
 
   override protected def generateTestCase(caseName: String, caseBody: String): String = {
     s"""  test("$caseName") {

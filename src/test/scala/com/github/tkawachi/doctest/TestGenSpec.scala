@@ -28,7 +28,7 @@ object TestGenSpec extends TestSuite {
             |
             |import _root_.utest._
             |
-            |object MyClassDoctest extends TestSuite {
+            |object `MyClassDoctest` extends TestSuite {
             |
             |  def sbtDoctestTypeEquals[A](a1: => A)(a2: => A): _root_.scala.Unit = {
             |    val _ = () => (a1, a2)
@@ -76,7 +76,7 @@ object TestGenSpec extends TestSuite {
             |
             |import _root_.org.scalacheck.Arbitrary._
             |
-            |class MyClassDoctest
+            |class `MyClassDoctest`
             |    extends _root_.org.scalatest.FunSpec
             |    with _root_.org.scalatest.prop.Checkers {
             |
@@ -124,7 +124,7 @@ object TestGenSpec extends TestSuite {
             |
             |import _root_.org.scalacheck.Arbitrary._
             |
-            |class MyClassDoctest
+            |class `MyClassDoctest`
             |    extends _root_.org.scalatest.funspec.AnyFunSpec
             |    with _root_.org.scalatestplus.scalacheck.Checkers {
             |
@@ -172,7 +172,7 @@ object TestGenSpec extends TestSuite {
             |
             |import _root_.org.scalacheck.Arbitrary._
             |
-            |class MyClassDoctest
+            |class `MyClassDoctest`
             |    extends _root_.org.specs2.mutable.Specification
             |    with _root_.org.specs2.ScalaCheck {
             |
@@ -221,7 +221,7 @@ object TestGenSpec extends TestSuite {
             |import _root_.org.scalacheck.Arbitrary._
             |import _root_.org.scalacheck.Prop.{BooleanOperators => _, _}
             |
-            |object MyClassDoctest
+            |object `MyClassDoctest`
             |    extends _root_.org.scalacheck.Properties("MyClass.scala") {
             |
             |  def sbtDoctestTypeEquals[A](a1: => A)(a2: => A): _root_.scala.Unit = {
@@ -271,7 +271,7 @@ object TestGenSpec extends TestSuite {
             |import _root_.org.scalacheck.Prop.{BooleanOperators => _, _}
             |import _root_.org.scalacheck.Arbitrary._
             |
-            |object MyClassDoctest extends SimpleTestSuite with Checkers {
+            |object `MyClassDoctest` extends SimpleTestSuite with Checkers {
             |
             |  def sbtDoctestTypeEquals[A](a1: => A)(a2: => A): _root_.scala.Unit = {
             |    val _ = () => (a1, a2)
@@ -316,7 +316,7 @@ object TestGenSpec extends TestSuite {
                              |import _root_.org.scalacheck.Prop._
                              |
                              |
-                             |class MyClassDoctest extends ScalaCheckSuite {
+                             |class `MyClassDoctest` extends ScalaCheckSuite {
                              |
                              |  def sbtDoctestTypeEquals[A](a1: => A)(a2: => A): _root_.scala.Unit = {
                              |    val _ = () => (a1, a2)
