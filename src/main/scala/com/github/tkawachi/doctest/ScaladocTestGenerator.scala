@@ -3,6 +3,7 @@ package com.github.tkawachi.doctest
 import java.io.File
 import org.apache.commons.io.FilenameUtils
 import org.apache.commons.lang3.StringEscapeUtils.unescapeHtml4
+import scala.meta.Dialect
 
 object ScaladocTestGenerator {
 
@@ -14,9 +15,9 @@ object ScaladocTestGenerator {
   /**
    * Generates test source code from scala source file.
    */
-  def apply(srcFile: File, srcEncoding: String, testGen: TestGen, decodeHtmlEnabled: Boolean, onlyCodeBlocksMode: Boolean): Seq[TestSource] = {
+  def apply(srcFile: File, srcEncoding: String, testGen: TestGen, decodeHtmlEnabled: Boolean, onlyCodeBlocksMode: Boolean, dialect: Dialect): Seq[TestSource] = {
     val basename = FilenameUtils.getBaseName(srcFile.getName)
-    ScaladocExtractor.extractFromFile(srcFile.toPath, srcEncoding)
+    ScaladocExtractor.extractFromFile(srcFile.toPath, srcEncoding, dialect)
       .map(comment => if (decodeHtmlEnabled) decodeHtml(comment) else comment)
       .flatMap { comment =>
         val docTest = if (onlyCodeBlocksMode)

@@ -8,6 +8,8 @@ import sbt._
 import sbt.internal.io.Source
 import sbt.io.{ AllPassFilter, NothingFilter }
 import sbt.plugins.JvmPlugin
+import scala.meta.Dialect
+import scala.meta.dialects
 
 /**
  * Sbt plugin for doctest.
@@ -55,6 +57,7 @@ object DoctestPlugin extends AutoPlugin {
     val doctestDecodeHtmlEntities = settingKey[Boolean]("Whether to decode HTML entities.")
     val doctestIgnoreRegex = settingKey[Option[String]]("All sources that match the regex will not be used for tests generation")
     val doctestOnlyCodeBlocksMode = settingKey[Boolean]("Whether to treat all code in Scaladocs as pure code blocks.")
+    val doctestDialect = settingKey[Dialect]("dialect")
 
     val DoctestTestFramework = self.DoctestTestFramework
   }
@@ -66,11 +69,12 @@ object DoctestPlugin extends AutoPlugin {
     testGen: TestGen,
     decodeHtml: Boolean,
     onlyCodeBlocksMode: Boolean,
-    scalacOptions: Seq[String]) = {
+    scalacOptions: Seq[String],
+    dialect: Dialect) = {
     val srcEncoding = ScaladocTestGenerator.findEncoding(scalacOptions).getOrElse("UTF-8")
     sources
       .filter(_.ext == "scala")
-      .flatMap(ScaladocTestGenerator(_, srcEncoding, testGen, decodeHtml, onlyCodeBlocksMode))
+      .flatMap(ScaladocTestGenerator(_, srcEncoding, testGen, decodeHtml, onlyCodeBlocksMode, dialect))
   }
 
   private def doctestMarkdownGenTests(
@@ -100,6 +104,22 @@ object DoctestPlugin extends AutoPlugin {
     doctestMarkdownPathFinder := baseDirectory.value * "*.md",
     testFrameworks += new TestFramework("utest.runner.Framework"),
     doctestIgnoreRegex := None,
+    doctestDialect := {
+      scalaBinaryVersion.value match {
+        case "2.10" =>
+          dialects.Scala210
+        case "2.11" =>
+          dialects.Scala211
+        case "2.12" =>
+          dialects.Scala212Source3
+        case "2.13" =>
+          dialects.Scala213Source3
+        case "3" =>
+          dialects.Scala3
+        case _ =>
+          dialects.Scala213Source3
+      }
+    },
     doctestGenTests := {
       (Test / managedSourceDirectories).value.headOption match {
         case None =>
@@ -133,7 +153,8 @@ object DoctestPlugin extends AutoPlugin {
             testGen,
             doctestDecodeHtmlEntities.value,
             doctestOnlyCodeBlocksMode.value,
-            (Compile / scalacOptions).value)
+            (Compile / scalacOptions).value,
+            doctestDialect.value)
 
           val pathFinder = doctestMarkdownPathFinder.value
           val baseDirectoryPath = baseDirectory.value.toPath

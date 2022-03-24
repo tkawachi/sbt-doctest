@@ -5,6 +5,7 @@ import java.nio.file.Files
 import java.nio.file.Path
 import scala.meta._
 import scala.meta.contrib._
+import scala.meta.parsers.Parse
 
 /**
  * Extract examples from scala source.
@@ -14,18 +15,18 @@ object ScaladocExtractor {
   private val meaningfulDocTokenKinds: Set[DocToken.Kind] =
     Set(DocToken.CodeBlock, DocToken.Description, DocToken.Example)
 
-  def extract(scalaSource: String): List[ScaladocComment] = {
-    extractFromInput(Input.String(scalaSource))
+  def extract(scalaSource: String, dialect: Dialect): List[ScaladocComment] = {
+    extractFromInput(Input.String(scalaSource), dialect)
   }
-  def extractFromFile(file: Path, encoding: String): List[ScaladocComment] = {
+  def extractFromFile(file: Path, encoding: String, dialect: Dialect): List[ScaladocComment] = {
     val text = new String(Files.readAllBytes(file), encoding)
     // Workaround from https://github.com/scalameta/scalameta/issues/443#issuecomment-314797969
     val trimmedText = text.replace("\r\n", "\n")
     val input = Input.VirtualFile(file.toString, trimmedText)
-    extractFromInput(input)
+    extractFromInput(input, dialect)
   }
-  def extractFromInput(scalaSource: Input): List[ScaladocComment] = {
-    scalaSource.parse[Source] match {
+  def extractFromInput(scalaSource: Input, dialect: Dialect): List[ScaladocComment] = {
+    implicitly[Parse[Source]].apply(scalaSource, dialect) match {
       case Parsed.Success(tree) =>
         extractFromTree(tree)
       case error @ Parsed.Error(_, _, _) =>
