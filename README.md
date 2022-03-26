@@ -10,7 +10,7 @@ in ScalaDoc.
 To use this plugin, add it to your `project/plugins.sbt`.
 
 ```scala
-addSbtPlugin("com.github.tkawachi" % "sbt-doctest" % "0.9.9")
+addSbtPlugin("com.github.tkawachi" % "sbt-doctest" % "0.10.0")
 ```
 
 This plugin supports sbt 1.x.
