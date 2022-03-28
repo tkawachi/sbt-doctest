@@ -11,7 +11,7 @@ object Specs2TestGen extends TestGen {
     TestGen.importArbitrary(parsedList)
 
   override protected def suiteDeclarationLine(basename: String, parsedList: Seq[ParsedDoctest]): String = {
-    s"""class ${basename}Doctest
+    s"""class `${basename}Doctest`
        |    extends $BasePackage.mutable.Specification
        |    with $BasePackage.ScalaCheck""".stripMargin
   }

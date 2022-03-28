@@ -5,7 +5,7 @@ import com.github.tkawachi.doctest.StringUtil.escape
 object ScalaCheckGen extends TestGen {
 
   override protected def suiteDeclarationLine(basename: String, parsedList: Seq[ParsedDoctest]): String = {
-    s"""object ${basename}Doctest
+    s"""object `${basename}Doctest`
        |    extends _root_.org.scalacheck.Properties("${escape(basename)}.scala")""".stripMargin
   }
 

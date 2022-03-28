@@ -7,7 +7,7 @@ object MinitestGen extends TestGen {
 
   override protected def suiteDeclarationLine(basename: String, parsedList: Seq[ParsedDoctest]): String = {
     val withCheckers = if (TestGen.containsProperty(parsedList)) "with Checkers" else ""
-    s"object ${basename}Doctest extends SimpleTestSuite $withCheckers"
+    s"object `${basename}Doctest` extends SimpleTestSuite $withCheckers"
   }
 
   override protected def importsLine(parsedList: Seq[ParsedDoctest]): String =

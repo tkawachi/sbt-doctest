@@ -10,7 +10,7 @@ in ScalaDoc.
 To use this plugin, add it to your `project/plugins.sbt`.
 
 ```scala
-addSbtPlugin("com.github.tkawachi" % "sbt-doctest" % "0.9.9")
+addSbtPlugin("com.github.tkawachi" % "sbt-doctest" % "0.10.0")
 ```
 
 This plugin supports sbt 1.x.
@@ -76,7 +76,7 @@ If you are using [``Specs2``](https://github.com/etorreborre/specs2), add the fo
 
 ```scala
 libraryDependencies ++= Seq(
-  "org.specs2" %% "specs2-scalacheck" % "4.14.1" % Test
+  "org.specs2" %% "specs2-scalacheck" % "4.15.0" % Test
 )
 
 doctestTestFramework := DoctestTestFramework.Specs2
