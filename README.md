@@ -28,7 +28,7 @@ If you are using [``ScalaCheck``](https://github.com/typelevel/scalacheck), add 
 
 ```scala
 libraryDependencies ++= Seq(
-  "org.scalacheck" %% "scalacheck" % "1.15.3" % Test
+  "org.scalacheck" %% "scalacheck" % "1.16.0" % Test
 )
 
 doctestTestFramework := DoctestTestFramework.ScalaCheck // Default value for doctestTestFramework
@@ -42,8 +42,8 @@ If you are using [``ScalaTest``](https://github.com/scalatest/scalatest), add th
 // ScalaTest 3.2
 // ScalaTest 3.2 has been modularized. sbt-doctest generates tests using FunSpec.
 libraryDependencies ++= Seq(
-  "org.scalatest" %% "scalatest-funspec" % "3.2.8" % Test,
-  "org.scalatestplus" %% "scalacheck-1-15" % "3.2.8.0" % Test
+  "org.scalatest" %% "scalatest-funspec" % "3.2.12" % Test,
+  "org.scalatestplus" %% "scalacheck-1-16" % "3.2.12.0" % Test
 )
 
 // ScalaTest 3.1
@@ -67,7 +67,7 @@ ScalaTest. sbt-doctest automatically determines which test code to generate by l
 If you want to explicitly specify the version of ScalaTest to be generated, you can specify `doctestScalaTestVersion`.
 
 ```scala
-doctestScalaTestVersion := Some("3.2.8")
+doctestScalaTestVersion := Some("3.2.12")
 ```
 
 ### Using Specs2
@@ -135,7 +135,7 @@ shown in the example below which uses ``uTest`` with property checks, which requ
 libraryDependencies ++= Seq(
   "com.lihaoyi"    %% "utest"      % "0.7.11"  % Test,
   "org.scalatest"  %% "scalatest"  % "3.0.9"  % Test,
-  "org.scalacheck" %% "scalacheck" % "1.15.3" % Test
+  "org.scalacheck" %% "scalacheck" % "1.16.0" % Test
 )
       
 doctestTestFramework := DoctestTestFramework.MicroTest
