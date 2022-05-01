@@ -3,8 +3,6 @@
 Plugin for [sbt](http://www.scala-sbt.org) that generates tests from examples
 in ScalaDoc.
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/69a7c0f566464cc38032d10d3b9dab6c)](https://www.codacy.com/app/tkawachi/sbt-doctest?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=tkawachi/sbt-doctest&amp;utm_campaign=Badge_Grade)
-
 ## Install
 
 To use this plugin, add it to your `project/plugins.sbt`.
