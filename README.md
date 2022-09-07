@@ -52,7 +52,7 @@ libraryDependencies ++= Seq(
 
 // ScalaTest 3.0
 libraryDependencies ++= Seq(
-  "org.scalatest"  %% "scalatest"  % "3.2.13"  % Test,
+  "org.scalatest"  %% "scalatest"  % "3.0.9"  % Test,
   "org.scalacheck" %% "scalacheck" % "1.14.0" % Test
 )
 
@@ -132,7 +132,7 @@ shown in the example below which uses ``uTest`` with property checks, which requ
 ```scala
 libraryDependencies ++= Seq(
   "com.lihaoyi"    %% "utest"      % "0.8.0"  % Test,
-  "org.scalatest"  %% "scalatest"  % "3.2.13"  % Test,
+  "org.scalatest"  %% "scalatest"  % "3.0.9"  % Test,
   "org.scalacheck" %% "scalacheck" % "1.16.0" % Test
 )
       
