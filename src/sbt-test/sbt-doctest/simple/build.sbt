@@ -2,7 +2,7 @@ import java.nio.charset.StandardCharsets
 
 import complete.DefaultParsers._
 
-crossScalaVersions := Seq("2.13.8", "2.12.16")
+crossScalaVersions := Seq("2.13.8", "2.12.17")
 
 javacOptions ++= Seq("-source", "1.8", "-target", "1.8")
 
@@ -19,7 +19,7 @@ libraryDependencies ++= Seq(
   "org.scalatest"  %% "scalatest"         % "3.0.9"  % Test,
   "org.scalacheck" %% "scalacheck"        % "1.15.3" % Test,
   "io.monix"       %% "minitest-laws"     % "2.9.6"  % Test,
-  "org.specs2"     %% "specs2-scalacheck" % "4.16.1" % Test,
+  "org.specs2"     %% "specs2-scalacheck" % "4.17.0" % Test,
   "org.scalameta"  %% "munit-scalacheck"  % "0.7.20" % Test
 )
 
