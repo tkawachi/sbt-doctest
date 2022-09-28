@@ -1,6 +1,6 @@
 # sbt-doctest
 
-Plugin for [sbt](http://www.scala-sbt.org) that generates tests from examples
+Plugin for [sbt](https://www.scala-sbt.org) that generates tests from examples
 in ScalaDoc.
 
 ## Install
