@@ -31,7 +31,7 @@ object VerbatimTest {
   class C2
 
   /**
-   * >>> implicit val y = 23
+   * >>> implicit val y: Int = 23
    * >>> def f(implicit ev: Int) = ev
    * >>> f
    * 23
