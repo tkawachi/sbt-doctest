@@ -112,7 +112,6 @@ libraryDependencies ++= Seq(
 )
 
 doctestTestFramework := DoctestTestFramework.Munit
-testFrameworks += new TestFramework("munit.Framework")
 ```
 
 In case you are [configuring µTest or using a custom test framework](https://github.com/com-lihaoyi/utest#configuring-utest), you can do something like this below in your ``build.sbt``:

@@ -26,5 +26,4 @@ lazy val root = (project in file(".")).settings(
     "io.monix"           %% "minitest-laws"       % "2.9.6"     % Test
   ),
   testFrameworks += new TestFramework("utest.runner.Framework"),
-  testFrameworks += new TestFramework("munit.Framework")
 ).enablePlugins(SbtPlugin)

@@ -16,6 +16,5 @@ libraryDependencies ++= Seq(
 )
 
 testFrameworks += new TestFramework("minitest.runner.Framework")
-testFrameworks += new TestFramework("munit.Framework")
 
 doctestDecodeHtmlEntities := true
