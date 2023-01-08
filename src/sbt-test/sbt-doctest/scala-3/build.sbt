@@ -1,3 +1,3 @@
-scalaVersion := "3.1.1"
+scalaVersion := "3.2.1"
 
-libraryDependencies += "org.scalacheck" %% "scalacheck" % "1.15.4" % Test
+libraryDependencies += "org.scalacheck" %% "scalacheck" % "1.17.0" % Test
