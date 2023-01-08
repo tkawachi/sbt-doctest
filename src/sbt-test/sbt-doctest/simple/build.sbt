@@ -7,7 +7,7 @@ crossScalaVersions := Seq("2.13.10", "2.12.17")
 javacOptions ++= Seq("-source", "1.8", "-target", "1.8")
 
 scalacOptions         := Seq("-Ywarn-dead-code")
-scalacOptions in Test -= "-Ywarn-dead-code"
+Test / scalacOptions  -= "-Ywarn-dead-code"
 scalacOptions        ++= (scalaVersion.value match {
   case v if v startsWith "2.13." => Seq("-target:jvm-1.8")
   case v if v startsWith "2.12." => Seq("-target:jvm-1.8", "-opt:l:method")

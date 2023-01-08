@@ -123,7 +123,7 @@ object DoctestPlugin extends AutoPlugin {
     doctestGenTests := {
       (Test / managedSourceDirectories).value.headOption match {
         case None =>
-          streams.value.log.warn("DocTest: managedSourceDirectories in Test is empty. Failed to generate tests")
+          streams.value.log.warn("DocTest: `Test/managedSourceDirectories` is empty. Failed to generate tests")
           Seq.empty
         case Some(testDir) =>
           val scalaTestVersion = doctestScalaTestVersion.value
