@@ -13,10 +13,6 @@ jobs:
       matrix:
         include:
           - java: 8
-            sbt_version: "1.3.13"
-          - java: 8
-            sbt_version: "1.2.8"
-          - java: 8
           - java: 11
     steps:
     - uses: actions/checkout@v3
@@ -24,6 +20,6 @@ jobs:
       with:
         java-version: "adopt@1.${{ matrix.java }}"
     - uses: coursier/cache-action@v6
-    - run: sbt -v $(if [[ "${{matrix.sbt_version}}" != "" ]] ; then echo "^^${{matrix.sbt_version}}" ; fi) test scripted
+    - run: sbt -v test scripted
     - run: git diff --exit-code # check scalariform
     - run: rm -rf "$HOME/.ivy2/local"
