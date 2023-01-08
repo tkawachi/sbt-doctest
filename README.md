@@ -108,7 +108,7 @@ doctestTestFramework := DoctestTestFramework.MicroTest
 If you are using [``MUnit``](https://scalameta.org/munit/), add the following lines to your ``build.sbt``:
 ```scala
 libraryDependencies ++= Seq(
-  "org.scalameta" %% "munit" % "0.7.20" % Test
+  "org.scalameta" %% "munit" % "0.7.29" % Test
 )
 
 doctestTestFramework := DoctestTestFramework.Munit
