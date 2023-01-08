@@ -24,7 +24,6 @@ doctestMarkdownPathFinder := baseDirectory.value ** "*.md"
 doctestIgnoreRegex        := Some("(.*)IgnoreMe.scala")
 
 testFrameworks += new TestFramework("minitest.runner.Framework")
-testFrameworks += new TestFramework("munit.Framework")
 
 //ignore Failing
 Test / testOptions := Seq(Tests.Filter(s => !s.contains("Failing")))
