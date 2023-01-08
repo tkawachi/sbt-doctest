@@ -28,7 +28,7 @@ $ absent target/scala-2.12/src_managed/test/sbt_doctest/IgnoreMeDoctest.scala
 > set doctestTestFramework := DoctestTestFramework.ScalaTest
 > doctestTestFramework
 > + test
-> existsInFile "with _root_.org.scalatest.prop.Checkers" target/scala-2.13/src_managed/test/sbt_doctest/MainDoctest.scala
+> existsInFile "with _root_.org.scalatestplus.scalacheck.Checkers" target/scala-2.13/src_managed/test/sbt_doctest/MainDoctest.scala
 > set Test / testOptions := Seq(Tests.Filter(s => s.contains("Failing")))
 -> +test
 

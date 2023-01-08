@@ -2,12 +2,12 @@ import java.nio.charset.StandardCharsets
 
 import complete.DefaultParsers._
 
-crossScalaVersions := Seq("2.12.17", "2.13.10", "3.1.2")
+crossScalaVersions := Seq("2.12.17", "2.13.10")
 
 // Declares scalatest, scalacheck dependencies explicitly.
 libraryDependencies ++= Seq(
-  "org.scalatest" %% "scalatest-funspec" % "3.2.15" % Test,
-  "org.scalatestplus" %% "scalacheck-1-17" % "3.2.15.0" % Test
+  "org.scalatest"  %% "scalatest"         % "3.0.9"  % Test,
+  "org.scalacheck" %% "scalacheck"        % "1.15.3" % Test,
 )
 
 doctestTestFramework := DoctestTestFramework.ScalaTest
