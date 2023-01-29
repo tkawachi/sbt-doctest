@@ -1,2 +1,2 @@
 > test
-$ exists target/scala-3.2.1/src_managed/test/sbt_doctest/MainDoctest.scala
+$ exists target/scala-3.2.2/src_managed/test/sbt_doctest/MainDoctest.scala
