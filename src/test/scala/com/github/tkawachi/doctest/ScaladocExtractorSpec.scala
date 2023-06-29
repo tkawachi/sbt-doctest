@@ -86,6 +86,7 @@ object ScaladocExtractorSpec extends TestSuite {
           |/**
           | * @version 123
           | * @since 1953
+          | * @constructor aaa
           | */
           |class GotNothing {
           |
@@ -128,8 +129,8 @@ object ScaladocExtractorSpec extends TestSuite {
           |  def g = 0
           |
           |  /**
-          |  * @constructor
-          |  */
+          |   *
+          |   */
           |  def this(i: Int) = this()
           |}
         """.stripMargin
