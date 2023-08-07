@@ -2,7 +2,7 @@ import java.nio.charset.StandardCharsets
 
 import complete.DefaultParsers._
 
-crossScalaVersions := Seq("3.2.2", "2.13.10", "2.12.18")
+crossScalaVersions := Seq("3.3.0", "2.13.11", "2.12.18")
 
 javacOptions ++= Seq("-source", "1.8", "-target", "1.8")
 
