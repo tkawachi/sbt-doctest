@@ -2,7 +2,7 @@ import java.nio.charset.StandardCharsets
 
 import complete.DefaultParsers._
 
-crossScalaVersions := Seq("2.12.18", "2.13.10")
+crossScalaVersions := Seq("2.12.18", "2.13.11")
 
 // Declares scalatest, scalacheck dependencies explicitly.
 libraryDependencies ++= Seq(
