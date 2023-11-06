@@ -7,7 +7,7 @@ Test / scalacOptions  -= "-Ywarn-dead-code"
 
 // Declares scalatest, scalacheck, minitest and utest dependencies explicitly.
 libraryDependencies ++= Seq(
-  "com.lihaoyi"       %% "utest"             % "0.8.1"    % Test,
+  "com.lihaoyi"       %% "utest"             % "0.8.2"    % Test,
   "org.scalatest"     %% "scalatest-funspec" % "3.2.17"   % Test,
   "org.scalatestplus" %% "scalacheck-1-17"   % "3.2.17.0" % Test,
   "org.scalacheck"    %% "scalacheck"        % "1.17.0"   % Test,
