@@ -18,7 +18,7 @@ lazy val root = (project in file(".")).settings(
   ),
   libraryDependencies ++= Seq(
     "commons-io"         %  "commons-io"          % "2.15.0",
-    "org.apache.commons" %  "commons-lang3"       % "3.13.0",
+    "org.apache.commons" %  "commons-lang3"       % "3.14.0",
     "org.scalameta"      %% "scalameta"           % "4.8.14",
     "com.lihaoyi"        %% "utest"               % "0.8.2"     % Test,
     "org.scalatest"      %% "scalatest-funspec"   % "3.2.17"    % Test,
