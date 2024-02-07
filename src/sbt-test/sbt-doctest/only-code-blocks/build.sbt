@@ -13,7 +13,7 @@ Test / scalacOptions  -= "-Ywarn-dead-code"
 libraryDependencies ++= Seq(
   "com.lihaoyi"       %% "utest"             % "0.8.2"    % Test,
   "org.scalatest"     %% "scalatest-funspec" % "3.2.18"   % Test,
-  "org.scalatestplus" %% "scalacheck-1-17"   % "3.2.17.0" % Test,
+  "org.scalatestplus" %% "scalacheck-1-17"   % "3.2.18.0" % Test,
   "org.scalacheck"    %% "scalacheck"        % "1.17.0"   % Test,
   "org.specs2"        %% "specs2-scalacheck" % "4.20.5"   % Test,
   "io.monix"          %% "minitest-laws"     % "2.9.6"    % Test,
