@@ -113,7 +113,7 @@ object ScaladocExtractorSpec extends TestSuite {
           |
           |  /**
           |   * @param i an Int
-          |   * @returns an Int
+          |   * @return an Int
           |   */
           |  def e(i: Int) = 0
           |
@@ -150,7 +150,7 @@ object ScaladocExtractorSpec extends TestSuite {
       val obtainedOut = out.toString(StandardCharsets.UTF_8.name).trim
       val expectedOut =
         """
-          |filename.scala:1: error: } expected but end of file found
+          |filename.scala:1: error: `}` expected but `end of file` found
           |object Main {
           |             ^
         """.stripMargin.trim
