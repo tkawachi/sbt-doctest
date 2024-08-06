@@ -26,7 +26,7 @@ If you are using [``ScalaCheck``](https://github.com/typelevel/scalacheck), add 
 
 ```scala
 libraryDependencies ++= Seq(
-  "org.scalacheck" %% "scalacheck" % "1.17.0" % Test
+  "org.scalacheck" %% "scalacheck" % "1.18.0" % Test
 )
 
 doctestTestFramework := DoctestTestFramework.ScalaCheck // Default value for doctestTestFramework
@@ -40,8 +40,8 @@ If you are using [``ScalaTest``](https://github.com/scalatest/scalatest), add th
 // ScalaTest 3.2
 // ScalaTest 3.2 has been modularized. sbt-doctest generates tests using FunSpec.
 libraryDependencies ++= Seq(
-  "org.scalatest" %% "scalatest-funspec" % "3.2.18" % Test,
-  "org.scalatestplus" %% "scalacheck-1-17" % "3.2.18.0" % Test
+  "org.scalatest" %% "scalatest-funspec" % "3.2.19" % Test,
+  "org.scalatestplus" %% "scalacheck-1-18" % "3.2.19.0" % Test
 )
 
 // ScalaTest 3.1
@@ -132,7 +132,7 @@ shown in the example below which uses ``uTest`` with property checks, which requ
 libraryDependencies ++= Seq(
   "com.lihaoyi"    %% "utest"      % "0.8.4"  % Test,
   "org.scalatest"  %% "scalatest"  % "3.0.9"  % Test,
-  "org.scalacheck" %% "scalacheck" % "1.17.0" % Test
+  "org.scalacheck" %% "scalacheck" % "1.18.0" % Test
 )
       
 doctestTestFramework := DoctestTestFramework.MicroTest
