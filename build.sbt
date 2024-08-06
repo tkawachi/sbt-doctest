@@ -20,7 +20,7 @@ lazy val root = (project in file(".")).settings(
     "commons-io"         %  "commons-io"          % "2.16.1",
     "org.apache.commons" %  "commons-lang3"       % "3.15.0",
     "org.scalameta"      %% "scalameta"           % "4.9.7",
-    "com.lihaoyi"        %% "utest"               % "0.8.3"     % Test,
+    "com.lihaoyi"        %% "utest"               % "0.8.4"     % Test,
     "org.scalatest"      %% "scalatest-funspec"   % "3.2.18"    % Test,
     "org.scalatestplus"  %% "scalacheck-1-17"     % "3.2.18.0"  % Test,
     "org.specs2"         %% "specs2-scalacheck"   % "4.20.8"    % Test,
