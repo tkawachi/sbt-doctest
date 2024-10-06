@@ -4,7 +4,7 @@ import java.nio.file.Path
 
 import org.apache.commons.io.FilenameUtils
 import sbt.Keys._
-import sbt._
+import sbt.{ _, given }
 import sbt.internal.io.Source
 import sbt.io.{ AllPassFilter, NothingFilter }
 import sbt.plugins.JvmPlugin
@@ -83,7 +83,7 @@ object DoctestPlugin extends AutoPlugin {
     testGen: TestGen) = {
     finder
       .filter(!_.isDirectory)
-      .get
+      .get()
       .sortBy(_.getCanonicalPath)
       .zipWithIndex
       .flatMap {
@@ -183,7 +183,7 @@ object DoctestPlugin extends AutoPlugin {
     watchSources ++= {
       val pathFinder = doctestMarkdownPathFinder.value
       if (doctestMarkdownEnabled.value) {
-        pathFinder.get.map(new Source(_, AllPassFilter, NothingFilter))
+        pathFinder.get().map(new Source(_, AllPassFilter, NothingFilter))
       } else {
         Seq.empty
       }
