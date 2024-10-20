@@ -1,4 +1,4 @@
-crossScalaVersions := Seq("3.3.3", "2.13.14", "2.12.20")
+crossScalaVersions := Seq("3.3.3", "2.13.14", "2.13.15")
 
 javacOptions ++= Seq("-source", "1.8", "-target", "1.8")
 
