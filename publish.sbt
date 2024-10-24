@@ -4,19 +4,19 @@ releaseProcess := Seq[ReleaseStep](
   checkSnapshotDependencies,
   inquireVersions,
   runClean,
-  releaseStepCommandAndRemaining("^ test"),
-  releaseStepCommandAndRemaining("^ scripted"),
   setReleaseVersion,
   commitReleaseVersion,
   tagRelease,
   releaseStepCommandAndRemaining("^ publishSigned"),
+  releaseStepCommandAndRemaining("sonatypeBundleRelease"),
   setNextVersion,
   commitNextVersion,
-  releaseStepCommand("sonatypeReleaseAll"),
   pushChanges
 )
 
-publishTo := sonatypePublishTo.value
+publishTo := sonatypePublishToBundle.value
+
+ThisBuild / sonatypeCredentialHost := Sonatype.sonatypeCentralHost
 
 pomExtra := {
   <url>https://github.com/sbt-doctest/sbt-doctest/</url>
@@ -38,3 +38,5 @@ pomExtra := {
     </developer>
   </developers>
 }
+
+sbtPluginPublishLegacyMavenStyle := false
