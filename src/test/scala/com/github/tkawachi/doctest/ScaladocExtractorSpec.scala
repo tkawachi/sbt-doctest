@@ -10,7 +10,7 @@ import scala.meta.dialects
 
 object ScaladocExtractorSpec extends TestSuite {
 
-  val tests = this{
+  val tests = this {
 
     def extractFromFile(path: String) =
       ScaladocExtractor.extractFromFile(Paths.get(path), StandardCharsets.UTF_8.name(), dialects.Scala213Source3)
@@ -20,7 +20,11 @@ object ScaladocExtractorSpec extends TestSuite {
       val expected =
         List(
           ScaladocComment(None, "Test", Nil, "/**\n * Test class\n */", 1),
-          ScaladocComment(None, "f", Nil, """/**
+          ScaladocComment(
+            None,
+            "f",
+            Nil,
+            """/**
               |   * A function.
               |   *
               |   * >>> new Test().f(10)
@@ -28,17 +32,38 @@ object ScaladocExtractorSpec extends TestSuite {
               |   *
               |   * >>> "hello, " + "world!"
               |   * hello, world!
-              |   */""".stripMargin, 5),
-          ScaladocComment(None, "+=", Nil, """/** Ascii method
+              |   */""".stripMargin,
+            5
+          ),
+          ScaladocComment(
+            None,
+            "+=",
+            Nil,
+            """/** Ascii method
               |   * scala> new Test() += 1
               |   * 2
-              |   */""".stripMargin, 16),
-          ScaladocComment(None, "x", Nil, """/**
+              |   */""".stripMargin,
+            16
+          ),
+          ScaladocComment(
+            None,
+            "x",
+            Nil,
+            """/**
               |    * Doc on val
-              |    */""".stripMargin, 22),
-          ScaladocComment(None, "z", Nil, """/**
+              |    */""".stripMargin,
+            22
+          ),
+          ScaladocComment(
+            None,
+            "z",
+            Nil,
+            """/**
               |    * Doc on var
-              |    */""".stripMargin, 27))
+              |    */""".stripMargin,
+            27
+          )
+        )
       assert(expected == actual)
     }
 
@@ -52,7 +77,8 @@ object ScaladocExtractorSpec extends TestSuite {
           ScaladocComment(Some("a1.b1"), "B1", Nil, "/** B1 */", 11),
           ScaladocComment(None, "Root2", Nil, "/** Root2 */", 16),
           ScaladocComment(None, "method2", Nil, "/** Method2 comment */", 20),
-          ScaladocComment(None, "IntAlias", Nil, "/** Type alias */", 23))
+          ScaladocComment(None, "IntAlias", Nil, "/** Type alias */", 23)
+        )
       assert(expected == actual)
     }
 
@@ -60,21 +86,12 @@ object ScaladocExtractorSpec extends TestSuite {
       val actual = extractFromFile("src/test/resources/Package.scala")
       val expected =
         List(
-          ScaladocComment(
-            Some("some.pkg"),
-            "Root1",
-            Nil,
-            "/** Class comment */",
-            3),
-          ScaladocComment(
-            Some("some.pkg"),
-            "method",
-            Nil,
-            "/** Method comment */",
-            5),
+          ScaladocComment(Some("some.pkg"), "Root1", Nil, "/** Class comment */", 3),
+          ScaladocComment(Some("some.pkg"), "method", Nil, "/** Method comment */", 5),
           ScaladocComment(Some("some.pkg.a1"), "A1", Nil, "/** A1 */", 10),
           ScaladocComment(Some("some.pkg.a1.b1"), "B1", Nil, "/** B1 */", 13),
-          ScaladocComment(Some("some.pkg"), "Root2", Nil, "/** Root2 */", 18))
+          ScaladocComment(Some("some.pkg"), "Root2", Nil, "/** Root2 */", 18)
+        )
       assert(expected == actual)
     }
 
@@ -164,9 +181,7 @@ object ScaladocExtractorSpec extends TestSuite {
           ScaladocComment(
             Some("examples.inda.house"),
             "ff",
-            List(
-              "val i = ff(5)",
-              "require(i == 5)"),
+            List("val i = ff(5)", "require(i == 5)"),
             """/**
             |    * This method is very nifty and can be used like this:
             |    *
@@ -183,7 +198,8 @@ object ScaladocExtractorSpec extends TestSuite {
             |    *
             |    * Works!
             |    */""".stripMargin,
-            5),
+            5
+          ),
           ScaladocComment(
             Some("examples.inda.house"),
             "fff",
@@ -203,7 +219,8 @@ object ScaladocExtractorSpec extends TestSuite {
             |    *   }
             |    * }}}
             |    */""".stripMargin,
-            23),
+            23
+          ),
           ScaladocComment(
             Some("examples.inda.house"),
             "i_love_py",
@@ -215,7 +232,9 @@ object ScaladocExtractorSpec extends TestSuite {
             |    * ... 4 + 5
             |    * 15
             |    */""".stripMargin,
-            36))
+            36
+          )
+        )
       assert(expected == actual)
     }
 
@@ -229,7 +248,8 @@ object ScaladocExtractorSpec extends TestSuite {
           """/**
             |  * Package object scaladocs are important as well
             |  */""".stripMargin,
-          3),
+          3
+        ),
         ScaladocComment(
           Some("outer.package_object"),
           "five",
@@ -237,7 +257,9 @@ object ScaladocExtractorSpec extends TestSuite {
           """/**
             |    * package objects should do
             |    */""".stripMargin,
-          8))
+          8
+        )
+      )
       assert(expected == actual)
     }
   }

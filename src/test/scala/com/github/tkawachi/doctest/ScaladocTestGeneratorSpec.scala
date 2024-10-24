@@ -6,7 +6,7 @@ object ScaladocTestGeneratorSpec extends TestSuite {
 
   import ScaladocTestGenerator.findEncoding
 
-  val tests = this{
+  val tests = this {
 
     "findEncoding should work" - {
       assert(
@@ -15,12 +15,14 @@ object ScaladocTestGeneratorSpec extends TestSuite {
         findEncoding(Seq("x", "y")).isEmpty,
         findEncoding(Seq("-encoding")).isEmpty,
         findEncoding(Seq("x", "-encoding")).isEmpty,
-        findEncoding(Seq("x", "y", "-encoding")).isEmpty)
+        findEncoding(Seq("x", "y", "-encoding")).isEmpty
+      )
 
       assert(
         findEncoding(Seq("-encoding", "utf-8")).contains("utf-8"),
         findEncoding(Seq("-encoding", "utf-8", "x")).contains("utf-8"),
-        findEncoding(Seq("-encoding", "utf-8", "x", "y")).contains("utf-8"))
+        findEncoding(Seq("-encoding", "utf-8", "x", "y")).contains("utf-8")
+      )
     }
 
   }

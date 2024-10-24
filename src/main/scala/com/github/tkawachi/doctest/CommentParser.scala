@@ -50,15 +50,13 @@ trait GenericParser extends RegexParsers {
     leading ~> prompt ~> anyStr <~ eol
 
   def multiLine(prompt: Prompt, begin: Parser[PositionedString]): Parser[(String, PositionedString)] =
-    headPromptLine(prompt.head, begin) >> {
-      case leading ~ first =>
-        tailPromptLine(leading, prompt.tail).* ^^ {
-          rest =>
-            val code = (first.str :: rest).mkString(LINE_SEP)
-            val posCode = PositionedString(code)
-            posCode.pos = first.pos
-            (leading, posCode)
-        }
+    headPromptLine(prompt.head, begin) >> { case leading ~ first =>
+      tailPromptLine(leading, prompt.tail).* ^^ { rest =>
+        val code = (first.str :: rest).mkString(LINE_SEP)
+        val posCode = PositionedString(code)
+        posCode.pos = first.pos
+        (leading, posCode)
+      }
     }
 
   private val verbatimBegin = {
@@ -73,43 +71,38 @@ trait GenericParser extends RegexParsers {
     multiLine(prompt, verbatimBegin) ^^ { case (_, code) => Verbatim(code.str) }
 
   def example(prompt: Prompt, resultLine: String => Parser[TestResult]): Parser[Example] =
-    multiLine(prompt, anyPosStr1) >> {
-      case (leading, expr) =>
-        resultLine(leading) ^^ (Example(expr.str, _, expr.pos.line))
+    multiLine(prompt, anyPosStr1) >> { case (leading, expr) =>
+      resultLine(leading) ^^ (Example(expr.str, _, expr.pos.line))
     }
 }
 
 trait PythonStyleParser extends GenericParser {
-  val pyPrompt = Prompt(
-    ">>> ",
-    "... ")
+  val pyPrompt = Prompt(">>> ", "... ")
 
   def pyResultLines(leading: String) =
-    (leading ~> guard(not(endCodeBlock)) ~> (blankLine | anyStr1) <~ eol).+ ^^ {
-      lines => TestResult(lines.mkString(LINE_SEP))
+    (leading ~> guard(not(endCodeBlock)) ~> (blankLine | anyStr1) <~ eol).+ ^^ { lines =>
+      TestResult(lines.mkString(LINE_SEP))
     }
 
   val pyComponents = verbatim(pyPrompt) | example(pyPrompt, pyResultLines)
 }
 
 trait ReplStyleParser extends GenericParser {
-  val replPrompt = Prompt(
-    "scala> ",
-    "     | ")
+  val replPrompt = Prompt("scala> ", "     | ")
 
   private val res: Parser[String] = "res\\d+".r
   private val tpe: Parser[String] = "((?! =)[^\\n\\r])+".r
 
   def replResultLine(leading: String): Parser[TestResult] = {
-    (leading ~> res ~> ": " ~> tpe <~ " = ") ~ (anyStr1 <~ eol) ^^ {
-      case parsedType ~ value => TestResult(value, Some(parsedType.trim))
+    (leading ~> res ~> ": " ~> tpe <~ " = ") ~ (anyStr1 <~ eol) ^^ { case parsedType ~ value =>
+      TestResult(value, Some(parsedType.trim))
     }
   }
 
   def replMultiResultLines(leading: String): Parser[TestResult] = {
     (leading ~> res ~> ": " ~> tpe <~ " =" <~ eol) ~
-      (leading ~> guard(not(endCodeBlock)) ~> (blankLine | anyStr1) <~ eol).+ ^^ {
-        case parsedType ~ lines => TestResult(lines.mkString(LINE_SEP), Some(parsedType.trim))
+      (leading ~> guard(not(endCodeBlock)) ~> (blankLine | anyStr1) <~ eol).+ ^^ { case parsedType ~ lines =>
+        TestResult(lines.mkString(LINE_SEP), Some(parsedType.trim))
       }
   }
 
@@ -119,12 +112,10 @@ trait ReplStyleParser extends GenericParser {
 }
 
 trait PropertyStyleParser extends GenericParser {
-  val propPrompt = Prompt(
-    "prop> ",
-    "    | ")
+  val propPrompt = Prompt("prop> ", "    | ")
 
-  val property = multiLine(propPrompt, anyPosStr1) ^^ {
-    case (_, expr) => Property(expr.str, expr.pos.line)
+  val property = multiLine(propPrompt, anyPosStr1) ^^ { case (_, expr) =>
+    Property(expr.str, expr.pos.line)
   }
 
   val propComponents = verbatim(propPrompt) | property

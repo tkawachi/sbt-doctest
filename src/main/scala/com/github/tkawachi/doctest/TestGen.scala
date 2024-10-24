@@ -6,7 +6,12 @@ import com.github.tkawachi.doctest.StringUtil._
  * Interface of a test generator.
  */
 trait TestGen {
-  def generate(basename: String, pkg: Option[String], parsedList: Seq[ParsedDoctest], onlyCodeblocks: Boolean = false): String = {
+  def generate(
+      basename: String,
+      pkg: Option[String],
+      parsedList: Seq[ParsedDoctest],
+      onlyCodeblocks: Boolean = false
+  ): String = {
     val pkgLine = pkg.fold("")(p => s"package $p")
     s"""$pkgLine
        |
@@ -29,11 +34,13 @@ trait TestGen {
   protected def suiteDeclarationLine(basename: String, parsedList: Seq[ParsedDoctest]): String
 
   protected def testCasesLine(basename: String, parsedList: Seq[ParsedDoctest]): String =
-    parsedList.map { doctest =>
-      val testName = escape(s"$basename.scala:${doctest.lineNo}: ${doctest.symbol}")
-      val testBody = doctest.components.map(componentLine(doctest.lineNo, _)).mkString("\n\n")
-      generateTestCase(testName, testBody)
-    }.mkString("\n\n")
+    parsedList
+      .map { doctest =>
+        val testName = escape(s"$basename.scala:${doctest.lineNo}: ${doctest.symbol}")
+        val testBody = doctest.components.map(componentLine(doctest.lineNo, _)).mkString("\n\n")
+        generateTestCase(testName, testBody)
+      }
+      .mkString("\n\n")
 
   private def componentLine(firstLine: Int, component: DoctestComponent): String = {
     def absLine(lineNo: Int): Int = firstLine + lineNo - 1
@@ -65,6 +72,7 @@ trait TestGen {
 }
 
 object TestGen {
+
   /**
    * Helper methods which will be embedded in generated tests.
    */

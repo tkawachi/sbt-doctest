@@ -1,6 +1,7 @@
 package com.github.tkawachi.doctest
 
 object StringUtil {
+
   /**
    * Escape a string.
    *

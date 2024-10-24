@@ -4,7 +4,7 @@ import utest._
 
 object MarkdownCodeblocksExtractorSpec extends TestSuite {
 
-  val tests = this{
+  val tests = this {
 
     val extractor = new MarkdownCodeblocksExtractor
 
@@ -24,7 +24,10 @@ object MarkdownCodeblocksExtractorSpec extends TestSuite {
             """```scala
               | scala> println("Hello, World!")
               | Hello, World!
-              | ```""".stripMargin, 4))
+              | ```""".stripMargin,
+            4
+          )
+        )
       assert(expected == actual)
     }
 
