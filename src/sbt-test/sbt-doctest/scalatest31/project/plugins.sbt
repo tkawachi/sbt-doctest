@@ -1,1 +1,1 @@
-addSbtPlugin("com.github.tkawachi" % "sbt-doctest" % System.getProperty("plugin.version"))
+addSbtPlugin("io.github.sbt-doctest" % "sbt-doctest" % System.getProperty("plugin.version"))

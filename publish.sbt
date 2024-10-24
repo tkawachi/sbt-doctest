@@ -19,7 +19,7 @@ releaseProcess := Seq[ReleaseStep](
 publishTo := sonatypePublishTo.value
 
 pomExtra := {
-  <url>https://github.com/tkawachi/sbt-doctest/</url>
+  <url>https://github.com/sbt-doctest/sbt-doctest/</url>
   <developers>
     <developer>
       <id>kawachi</id>
