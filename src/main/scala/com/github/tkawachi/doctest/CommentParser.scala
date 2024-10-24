@@ -10,6 +10,8 @@ trait GenericParser extends RegexParsers {
 
   case class PositionedString(str: String) extends Positional
 
+  object PositionedString extends scala.runtime.AbstractFunction1[String, PositionedString]
+
   def append(s: String ~ String): String = {
     val lhs ~ rhs = s
     lhs + rhs
