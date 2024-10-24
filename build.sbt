@@ -1,5 +1,4 @@
 lazy val root = (project in file(".")).settings(
-  crossSbtVersions := Vector("1.2.8"), // Don't update https://github.com/sbt/sbt/issues/5049
   organization := "io.github.sbt-doctest",
   name := "sbt-doctest",
   licenses := Seq("MIT" -> url("https://opensource.org/licenses/MIT")),
