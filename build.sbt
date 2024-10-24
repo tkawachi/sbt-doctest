@@ -10,6 +10,7 @@ lazy val root = (project in file(".")).settings(
   javacOptions ++= Seq(
     "-encoding", "UTF-8"),
   scalacOptions ++= Seq(
+    "-release:8",
     "-deprecation",
     "-encoding", "UTF-8",
     "-feature",
