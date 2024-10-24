@@ -46,6 +46,4 @@ trait ScalaTestGen extends TestGen {
   protected def funSpecClass: String
 }
 
-object ScalaTestGen {
-
-}
+object ScalaTestGen {}

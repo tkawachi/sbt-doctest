@@ -12,13 +12,11 @@ object MinitestGen extends TestGen {
 
   override protected def importsLine(parsedList: Seq[ParsedDoctest]): String =
     s"""import _root_.minitest._
-       |${
-      if (TestGen.containsProperty(parsedList))
+       |${if (TestGen.containsProperty(parsedList))
         s"""import _root_.minitest.laws.Checkers
            |import _root_.org.scalacheck.Prop.{BooleanOperators => _, _}
            |${TestGen.importArbitrary(parsedList)}""".stripMargin
-      else ""
-    }""".stripMargin
+      else ""}""".stripMargin
 
   override protected def helperMethodsLine: String = {
     val apiPkg = "_root_.minitest.api"

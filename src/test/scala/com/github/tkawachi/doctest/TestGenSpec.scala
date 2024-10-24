@@ -4,7 +4,7 @@ import utest._
 
 object TestGenSpec extends TestSuite {
 
-  val tests = this{
+  val tests = this {
 
     val baseName = "MyClass"
     val pkg = Some("com.example.tests")
@@ -17,8 +17,11 @@ object TestGenSpec extends TestSuite {
           Example("List(1,2,3).sum", TestResult("6", Some("Int")), 3),
           Verbatim("val i = 17"),
           Verbatim("val j = 19 + i"),
-          Property("""(i: Int) => i + i == i * 2""", 2)),
-        37))
+          Property("""(i: Int) => i + i == i * 2""", 2)
+        ),
+        37
+      )
+    )
 
     "MicroTestGen" - {
       "generates a valid test" - {

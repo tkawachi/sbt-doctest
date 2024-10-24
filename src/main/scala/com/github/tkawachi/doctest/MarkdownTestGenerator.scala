@@ -32,12 +32,16 @@ object MarkdownTestGenerator {
     val generatedClassName = getPathComponents(relativeTo.relativize(source.toPath))
       .map(_.capitalize)
       .mkString("")
-      .filterNot(_ == '.') // This is for getting rid of periods in extensions that can mess up class names such as ".md"
+      .filterNot(
+        _ == '.'
+      ) // This is for getting rid of periods in extensions that can mess up class names such as ".md"
       .++(disambiguatingSuffix)
-    extractor.extract(contents)
+    extractor
+      .extract(contents)
       .flatMap(codeblock => CodeblockParser(codeblock).right.toOption.filter(_.components.nonEmpty))
-      .groupBy(_.pkg).map {
-        case (pkg, examples) => TestSource(pkg, generatedClassName, testGen.generate(generatedClassName, pkg, examples))
+      .groupBy(_.pkg)
+      .map { case (pkg, examples) =>
+        TestSource(pkg, generatedClassName, testGen.generate(generatedClassName, pkg, examples))
       }
       .toSeq
   }

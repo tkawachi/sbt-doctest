@@ -4,9 +4,9 @@ import java.nio.file.Path
 
 import org.apache.commons.io.FilenameUtils
 import sbt.Keys._
-import sbt.{ _, given }
+import sbt.{given, _}
 import sbt.internal.io.Source
-import sbt.io.{ AllPassFilter, NothingFilter }
+import sbt.io.{AllPassFilter, NothingFilter}
 import sbt.plugins.JvmPlugin
 import scala.meta.Dialect
 import scala.meta.dialects
@@ -49,13 +49,17 @@ object DoctestPlugin extends AutoPlugin {
   override def projectSettings: Seq[Setting[_]] = doctestSettings
 
   object autoImport {
-    val doctestTestFramework = settingKey[DoctestTestFramework]("Test framework. Specify MicroTest, Minitest, Munit, ScalaTest, ScalaCheck or Specs2.")
-    val doctestScalaTestVersion = settingKey[Option[String]]("Explicitly specify ScalaTest version to generate test files (ex. Some(\"3.2.0\")).")
+    val doctestTestFramework = settingKey[DoctestTestFramework](
+      "Test framework. Specify MicroTest, Minitest, Munit, ScalaTest, ScalaCheck or Specs2."
+    )
+    val doctestScalaTestVersion =
+      settingKey[Option[String]]("Explicitly specify ScalaTest version to generate test files (ex. Some(\"3.2.0\")).")
     val doctestMarkdownEnabled = settingKey[Boolean]("Whether to compile markdown into doctests.")
     val doctestMarkdownPathFinder = settingKey[PathFinder]("PathFinder to find markdown to test.")
     val doctestGenTests = taskKey[Seq[File]]("Generates test files.")
     val doctestDecodeHtmlEntities = settingKey[Boolean]("Whether to decode HTML entities.")
-    val doctestIgnoreRegex = settingKey[Option[String]]("All sources that match the regex will not be used for tests generation")
+    val doctestIgnoreRegex =
+      settingKey[Option[String]]("All sources that match the regex will not be used for tests generation")
     val doctestOnlyCodeBlocksMode = settingKey[Boolean]("Whether to treat all code in Scaladocs as pure code blocks.")
     val doctestDialect = settingKey[Dialect]("dialect")
 
@@ -65,30 +69,27 @@ object DoctestPlugin extends AutoPlugin {
   import autoImport._
 
   private def doctestScaladocGenTests(
-    sources: Seq[File],
-    testGen: TestGen,
-    decodeHtml: Boolean,
-    onlyCodeBlocksMode: Boolean,
-    scalacOptions: Seq[String],
-    dialect: Dialect) = {
+      sources: Seq[File],
+      testGen: TestGen,
+      decodeHtml: Boolean,
+      onlyCodeBlocksMode: Boolean,
+      scalacOptions: Seq[String],
+      dialect: Dialect
+  ) = {
     val srcEncoding = ScaladocTestGenerator.findEncoding(scalacOptions).getOrElse("UTF-8")
     sources
       .filter(_.ext == "scala")
       .flatMap(ScaladocTestGenerator(_, srcEncoding, testGen, decodeHtml, onlyCodeBlocksMode, dialect))
   }
 
-  private def doctestMarkdownGenTests(
-    finder: PathFinder,
-    baseDirectoryPath: Path,
-    testGen: TestGen) = {
+  private def doctestMarkdownGenTests(finder: PathFinder, baseDirectoryPath: Path, testGen: TestGen) = {
     finder
       .filter(!_.isDirectory)
       .get()
       .sortBy(_.getCanonicalPath)
       .zipWithIndex
-      .flatMap {
-        case (file, disambiguatingIdx) =>
-          MarkdownTestGenerator(file, baseDirectoryPath, testGen, disambiguatingIdx.toString)
+      .flatMap { case (file, disambiguatingIdx) =>
+        MarkdownTestGenerator(file, baseDirectoryPath, testGen, disambiguatingIdx.toString)
       }
   }
 
@@ -128,7 +129,11 @@ object DoctestPlugin extends AutoPlugin {
         case Some(testDir) =>
           val scalaTestVersion = doctestScalaTestVersion.value
             .orElse(
-              TestGenResolver.findScalaTestVersionFromScalaBinaryVersion(Classpaths.managedJars(Test, classpathTypes.value, update.value), scalaBinaryVersion.value))
+              TestGenResolver.findScalaTestVersionFromScalaBinaryVersion(
+                Classpaths.managedJars(Test, classpathTypes.value, update.value),
+                scalaBinaryVersion.value
+              )
+            )
           val testGen = TestGenResolver.resolve(doctestTestFramework.value, scalaTestVersion)
 
           val sourceFiles = (Compile / unmanagedSources).value ++ (Compile / managedSources).value
@@ -154,7 +159,8 @@ object DoctestPlugin extends AutoPlugin {
             doctestDecodeHtmlEntities.value,
             doctestOnlyCodeBlocksMode.value,
             (Compile / scalacOptions).value,
-            doctestDialect.value)
+            doctestDialect.value
+          )
 
           val pathFinder = doctestMarkdownPathFinder.value
           val baseDirectoryPath = baseDirectory.value.toPath
@@ -166,17 +172,18 @@ object DoctestPlugin extends AutoPlugin {
 
           (scaladocTests ++ markdownTests)
             .groupBy(r => r.pkg -> r.basename)
-            .flatMap {
-              case ((pkg, basename), results) =>
-                results.zipWithIndex.map {
-                  case (result, idx) =>
-                    val writeBasename = if (idx == 0) basename else basename + idx
-                    val writeDir = pkg.fold(testDir)(_.split("\\.").foldLeft(testDir) { (a: File, e: String) => new File(a, e) })
-                    val writeFile = new File(writeDir, writeBasename + "Doctest.scala")
-                    IO.write(writeFile, result.testSource)
-                    writeFile
-                }
-            }.toSeq
+            .flatMap { case ((pkg, basename), results) =>
+              results.zipWithIndex.map { case (result, idx) =>
+                val writeBasename = if (idx == 0) basename else basename + idx
+                val writeDir = pkg.fold(testDir)(_.split("\\.").foldLeft(testDir) { (a: File, e: String) =>
+                  new File(a, e)
+                })
+                val writeFile = new File(writeDir, writeBasename + "Doctest.scala")
+                IO.write(writeFile, result.testSource)
+                writeFile
+              }
+            }
+            .toSeq
       }
     },
     Test / sourceGenerators += doctestGenTests.taskValue,
@@ -187,7 +194,8 @@ object DoctestPlugin extends AutoPlugin {
       } else {
         Seq.empty
       }
-    })
+    }
+  )
 
   val doctestSettings = doctestGenSettings
 }

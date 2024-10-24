@@ -1,7 +1,9 @@
 package com.github.tkawachi.doctest
 
 object MunitGen extends TestGen {
-  override protected def importsLine(parsedList: Seq[ParsedDoctest]): String = if (TestGen.containsProperty(parsedList)) {
+  override protected def importsLine(parsedList: Seq[ParsedDoctest]): String = if (
+    TestGen.containsProperty(parsedList)
+  ) {
     s"""import _root_.munit._
        |import _root_.org.scalacheck.Prop._
        |""".stripMargin

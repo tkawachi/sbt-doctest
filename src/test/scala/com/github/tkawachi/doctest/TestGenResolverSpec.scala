@@ -6,12 +6,16 @@ import sbt._
 import utest._
 
 object TestGenResolverSpec extends TestSuite {
-  val tests = this{
+  val tests = this {
     "findScalaTestVersion()" - {
       val result = TestGenResolver.findScalaTestVersion(
         Seq(
           Attributed(file("."))(
-            AttributeMap(AttributeEntry(moduleID.key, ModuleID("org.scalatest", "scalatest_2.11", "3.0.0"))))), "2.11.12")
+            AttributeMap(AttributeEntry(moduleID.key, ModuleID("org.scalatest", "scalatest_2.11", "3.0.0")))
+          )
+        ),
+        "2.11.12"
+      )
       assert(result.contains("3.0.0"))
     }
 
@@ -19,7 +23,11 @@ object TestGenResolverSpec extends TestSuite {
       val result = TestGenResolver.findScalaTestVersion(
         Seq(
           Attributed(file("."))(
-            AttributeMap(AttributeEntry(moduleID.key, ModuleID("org.scalatest", "scalatest_2.11", "3.1.0"))))), "2.12.5")
+            AttributeMap(AttributeEntry(moduleID.key, ModuleID("org.scalatest", "scalatest_2.11", "3.1.0")))
+          )
+        ),
+        "2.12.5"
+      )
       assert(result.isEmpty)
     }
 
