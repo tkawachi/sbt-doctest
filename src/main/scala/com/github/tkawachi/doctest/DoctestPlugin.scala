@@ -26,7 +26,7 @@ import scala.meta.dialects
  * res0: Int = 11
  * }}}
  */
-object DoctestPlugin extends AutoPlugin {
+object DoctestPlugin extends AutoPlugin with DoctestCompat {
   self =>
 
   sealed abstract class DoctestTestFramework
@@ -130,7 +130,7 @@ object DoctestPlugin extends AutoPlugin {
           val scalaTestVersion = doctestScalaTestVersion.value
             .orElse(
               TestGenResolver.findScalaTestVersionFromScalaBinaryVersion(
-                Classpaths.managedJars(Test, classpathTypes.value, update.value),
+                managedJars(Test, classpathTypes.value, update.value, fileConverter.value),
                 scalaBinaryVersion.value
               )
             )

@@ -1,6 +1,15 @@
 lazy val root = (project in file("."))
   .settings(
     organization := "io.github.sbt-doctest",
+    crossScalaVersions += "3.3.4",
+    pluginCrossBuild / sbtVersion := {
+      scalaBinaryVersion.value match {
+        case "2.12" =>
+          sbtVersion.value
+        case _ =>
+          "2.0.0-M2"
+      }
+    },
     name := "sbt-doctest",
     licenses := Seq("MIT" -> url("https://opensource.org/licenses/MIT")),
     scmInfo := Some(
