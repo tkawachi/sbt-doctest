@@ -6,7 +6,7 @@ import sbt._
 import utest._
 
 object TestGenResolverSpec extends TestSuite {
-  val tests = this {
+  val tests = utest.Tests {
     "findScalaTestVersion()" - {
       val result = TestGenResolver.findScalaTestVersion(
         Seq(

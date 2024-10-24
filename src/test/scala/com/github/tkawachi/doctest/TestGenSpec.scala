@@ -4,7 +4,7 @@ import utest._
 
 object TestGenSpec extends TestSuite {
 
-  val tests = this {
+  val tests = utest.Tests {
 
     val baseName = "MyClass"
     val pkg = Some("com.example.tests")

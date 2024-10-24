@@ -6,7 +6,7 @@ object ScaladocTestGeneratorSpec extends TestSuite {
 
   import ScaladocTestGenerator.findEncoding
 
-  val tests = this {
+  val tests = utest.Tests {
 
     "findEncoding should work" - {
       assert(
