@@ -4,7 +4,7 @@ import utest._
 
 object MarkdownCodeblocksExtractorSpec extends TestSuite {
 
-  val tests = this {
+  val tests = utest.Tests {
 
     val extractor = new MarkdownCodeblocksExtractor
 

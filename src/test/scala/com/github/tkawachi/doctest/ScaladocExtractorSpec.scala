@@ -10,7 +10,7 @@ import scala.meta.dialects
 
 object ScaladocExtractorSpec extends TestSuite {
 
-  val tests = this {
+  val tests = utest.Tests {
 
     def extractFromFile(path: String) =
       ScaladocExtractor.extractFromFile(Paths.get(path), StandardCharsets.UTF_8.name(), dialects.Scala213Source3)

@@ -4,7 +4,7 @@ import utest._
 
 object CommentParserSpec extends TestSuite {
 
-  val tests = this {
+  val tests = utest.Tests {
 
     import CommentParser.parse
 
