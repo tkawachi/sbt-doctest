@@ -44,13 +44,13 @@ object TestGenResolver {
   def findScalaTestVersionFromScalaBinaryVersion(
       testClasspath: Classpath,
       scalaBinaryVersion: String
-  ): Option[String] = {
-    testClasspath.flatMap { entry =>
-      entry.get(moduleID.key).flatMap(detectScalaTestVersion(_, scalaBinaryVersion))
-    }.headOption
-  }
+  ): Option[String] =
+    DoctestPlugin.findScalaTestVersionFromScalaBinaryVersion(
+      testClasspath = testClasspath,
+      scalaBinaryVersion = scalaBinaryVersion
+    )
 
-  private def detectScalaTestVersion(moduleID: ModuleID, scalaBinVersion: String): Option[String] = {
+  private[doctest] def detectScalaTestVersion(moduleID: ModuleID, scalaBinVersion: String): Option[String] = {
     // From ScalaTest 3.2, scalatest-core is used.
     if (
       moduleID.organization == "org.scalatest" &&
