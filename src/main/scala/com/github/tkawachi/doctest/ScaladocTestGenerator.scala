@@ -28,8 +28,10 @@ object ScaladocTestGenerator {
       .flatMap { comment =>
         val docTest =
           if (onlyCodeBlocksMode)
-            if (comment.codeBlocks.isEmpty) None
-            else Some(ParsedDoctest(comment.pkg, comment.symbol, comment.codeBlocks.map(Verbatim), comment.lineNo))
+            if (comment.codeBlocks.isEmpty)
+              None
+            else
+              Some(ParsedDoctest(comment.pkg, comment.symbol, comment.codeBlocks.map(Verbatim.apply), comment.lineNo))
           else
             CommentParser(comment).right.toOption
         docTest.filter(_.components.nonEmpty)
