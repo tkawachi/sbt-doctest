@@ -46,7 +46,7 @@ object DoctestPlugin extends AutoPlugin with DoctestCompat {
   // Currently not working with ScalaJS. See #52.
   override def requires: Plugins = JvmPlugin
 
-  override def projectSettings: Seq[Setting[_]] = doctestSettings
+  override def projectSettings: Seq[Setting[?]] = doctestSettings
 
   object autoImport {
     val doctestTestFramework = settingKey[DoctestTestFramework](
