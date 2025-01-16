@@ -2,6 +2,7 @@
  * Test class
  */
 class Test {
+
   /**
    * A function.
    *

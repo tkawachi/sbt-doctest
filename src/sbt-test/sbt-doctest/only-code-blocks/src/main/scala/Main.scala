@@ -1,6 +1,7 @@
 package sbt_doctest
 
 object Main {
+
   /**
    * A function.
    *
