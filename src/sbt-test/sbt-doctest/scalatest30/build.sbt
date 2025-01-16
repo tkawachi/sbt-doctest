@@ -6,8 +6,8 @@ crossScalaVersions := Seq("2.12.20", "2.13.15")
 
 // Declares scalatest, scalacheck dependencies explicitly.
 libraryDependencies ++= Seq(
-  "org.scalatest"  %% "scalatest"         % "3.0.9"  % Test,
-  "org.scalacheck" %% "scalacheck"        % "1.15.3" % Test,
+  "org.scalatest" %% "scalatest" % "3.0.9" % Test,
+  "org.scalacheck" %% "scalacheck" % "1.15.3" % Test
 )
 
 doctestTestFramework := DoctestTestFramework.ScalaTest
